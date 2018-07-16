@@ -78,10 +78,8 @@
 ;; set theme solarized background
 (set-frame-parameter nil 'background-mode 'dark)
 (set-terminal-parameter nil 'background-mode 'dark)
-
 ;; Let the terminal decide the background color cause Emacs 24 has several color related bugs.
 ;(custom-set-faces (if (not window-system) '(default ((t (:background "nil"))))))
-
 (defun set-solarized-light ()
   (interactive)
   (customize-set-variable 'frame-background-mode 'light)
@@ -90,9 +88,6 @@
   (interactive)
   (customize-set-variable 'frame-background-mode 'dark)
   (load-theme 'solarized t))
-
-(global-set-key (kbd "C-c l") 'set-solarized-light)
-(global-set-key (kbd "C-c d") 'set-solarized-dark)
 
 ;; set terminal emacs clipboard
 ;; The results are:
@@ -273,6 +268,7 @@
   :ensure t
   :config
   (general-evil-setup t)
+  ;; define emacs leader key
   (general-define-key
    :states '(normal visual emacs)
    :prefix "SPC"
@@ -292,13 +288,16 @@
    "1" '(delete-other-windows :which-key "delete-other-windows")
    "2" '(split-window-below :which-key "split-window-below")
    "3" '(split-window-right :which-key "split-window-right")
+   "l" '(set-solarized-light :which-key "set bg light")
+   "d" '(set-solarized-dark :which-key "set bg dark")
  )
-
+  ;; define my leader key
   (general-define-key
    :states '(normal)
    :prefix ","
    "p" '(run-python :which-key "run-python")
    "cc" '(python-shell-send-buffer :which-key "python-shell-send-buffer"))
+
   )
 
 
