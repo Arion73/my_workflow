@@ -21,8 +21,9 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-
+;;-----------------------------------------------------
 ;; 1. Editor configuration
+;;-----------------------------------------------------
 
 ;; solution to that <Backspace> fails to delete
 (normal-erase-is-backspace-mode 0)
@@ -77,6 +78,10 @@
 ;; set theme solarized background
 (set-frame-parameter nil 'background-mode 'dark)
 (set-terminal-parameter nil 'background-mode 'dark)
+
+;; Let the terminal decide the background color cause Emacs 24 has several color related bugs.
+;(custom-set-faces (if (not window-system) '(default ((t (:background "nil"))))))
+
 (defun set-solarized-light ()
   (interactive)
   (customize-set-variable 'frame-background-mode 'light)
@@ -96,11 +101,6 @@
 ;; 3. copy from Emacs to other apps: mouse selection is now on X Selection, so right-click and copy shall copy the text into the Selection. Note that 'M-w" now won't copy anything into Selection or system clipboard.
 (setq x-select-enable-clipboard t)
 
-;; indent-tabs
-(add-hook 'python-mode-hook
-		  (lambda()
-			(setq-default tab-width 4)))
-
 ;; Unicode 
 (setenv "LC_CTYPE" "UTF-8")
 (setenv "LC_ALL" "en_US.UTF-8")
@@ -109,7 +109,14 @@
 ;;
 (setq default-fill-column 80)
 
+;; server
+(require 'server)
+(unless (server-running-p) (server-start))
+
+
+;;-----------------------------------------------------
 ;;; 2. public packages' configuration, e.g. which-key
+;;-----------------------------------------------------
 
 ;; which-key
 (use-package which-key
@@ -163,7 +170,9 @@
 (use-package counsel
   :ensure t)
 
+;;-----------------------------------------------------
 ;;; 3. specific mode packages' configuration, e.g. evil, markdown
+;;-----------------------------------------------------
 
 ;; markdown-mode
 (use-package markdown-mode
@@ -193,6 +202,13 @@
 
   (use-package evil-indent-textobject
     :ensure t))
+
+;; indent-tabs
+(add-hook 'python-mode-hook
+		  (lambda()
+			(setq tab-width 4)
+			(set-variable 'python-indent-offset 4)
+			))
 
 ;; apply the Evil h,j,k,l bindings to occur-mode-map when Emacs state
 (add-hook 'occur-mode-hook
@@ -261,26 +277,34 @@
    :states '(normal visual emacs)
    :prefix "SPC"
    "SPC" '(execute-extended-command :which-key "M-x")
-   "bk" '(kill-buffer :which-key "kill-buffer")
-   "be" '(eval-buffer :which-key "eval-buffer")
-   "bsk" '(save-buffers-kill-emacs :which-key "C-x C-c")
-   "TAB" 'ivy-switch-buffer
+   "TAB" 'evil-switch-to-windows-last-buffer
+   "bd" '(kill-buffer :which-key "kill-buffer")
+   "bq" '(save-buffers-kill-emacs :which-key "C-x C-c")
+   "eb" '(eval-buffer :which-key "eval-buffer")
    "ff" '(counsel-find-file :which-key "find file")
    "fr" '(counsel-recentf :which-key "recent files")
    "g" '(:igonre t :which-key "Git")
    "gs" '(magit-status :which-key "git status")
+   "hf" '(describe-function :which-key "describe-function")
    "hk" '(describe-key :which-key "describe-key")
-   "hv" '(describe-variable :which-key "describe-variable"))
+   "hv" '(describe-variable :which-key "describe-variable")
+   "o" '(evil-window-next :which-key "evil-window-next")
+   "1" '(delete-other-windows :which-key "delete-other-windows")
+   "2" '(split-window-below :which-key "split-window-below")
+   "3" '(split-window-right :which-key "split-window-right")
+ )
 
   (general-define-key
    :states '(normal)
-   :prefix "\\"
-   "b" '(run-python :which-key "run-python")
-   "c" '(python-shell-send-buffer :which-key "python-shell-send-buffer"))
+   :prefix ","
+   "p" '(run-python :which-key "run-python")
+   "cc" '(python-shell-send-buffer :which-key "python-shell-send-buffer"))
   )
 
 
+;;-----------------------------------------------------
 ;;; 4. package.el produced configuration automatically.
+;;-----------------------------------------------------
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
