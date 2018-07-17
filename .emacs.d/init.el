@@ -239,18 +239,28 @@
 (use-package powerline
   :ensure
   :config
-  (custom-set-faces
-	;'(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
-	'(mode-line ((t (:foreground "DarkOrange" :background "Black" :box nil))))
+    (custom-set-faces
+	'(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
 	'(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
-  (setq ns-use-srgb-colorspace nil)
-	(setq evil-emacs-state-cursor '("HotPink1" box))
-	(setq evil-normal-state-cursor '("orange" box))
-	(setq evil-visual-state-cursor '("gray" box))
-	(setq evil-insert-state-cursor '("red" bar))
-	(setq evil-replace-state-cursor '("cyan" bar))
-	(setq evil-operator-state-cursor '("gold" hollow))
-  (powerline-default-theme))
+  
+    (setq ns-use-srgb-colorspace nil)
+    (setq evil-normal-state-cursor '("orange" box))
+    (setq evil-insert-state-cursor '("red" bar))
+    (setq evil-visual-state-cursor '("gray" box))
+    (setq evil-replace-state-cursor '("cyan" bar))
+    (setq evil-operator-state-cursor '("gold" hollow))
+    (setq evil-emacs-state-cursor '("purple" box))
+
+  (powerline-center-evil-theme))
+
+    (setq evil-normal-state-tag (propertize "NORMAL" 'face '((:foreground "DarkOrange" :background "#brown" :weight bold)))
+	  evil-insert-state-tag (propertize "INSERT" 'face '((:foreground "red" :background "#666666" :weight bold)))
+	  evil-visual-state-tag (propertize "VISUAL" 'face '((:foreground "gray" :background "#f9f9f9" :weight bold)))
+	  evil-replace-state-tag (propertize "REPLACE" 'face '((:foreground "cyan" :background "#f9f9f9" :weight bold)))
+	  evil-operator-state-tag (propertize "OPERATOR" 'face '((:foreground "gold" :background "#f9f9f9" :weight bold)))
+	  evil-emacs-state-tag (propertize "EMACS" 'face '((:foreground "purple" :background "#f9f9f9" :weight bold))))
+(cons 'evil-mode-line-tag mode-line-format)
+(setq evil-mode-line-format '(before . mode-line-front-space))
 
 ;; Emacs Ipython Notebook
 (use-package ein

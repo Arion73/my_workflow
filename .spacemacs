@@ -10,7 +10,7 @@ values."
    ;; Base distribution to use. This is a layer contained in the directory
    ;; `+distribution'. For now available distributions are `spacemacs-base'
    ;; or `spacemacs'. (default 'spacemacs)
-   dotspacemacs-distribution 'spacemacs-base
+   dotspacemacs-distribution 'spacemacs
    ;; Lazy installation of layers (i.e. layers are installed only when a file
    ;; with a supported type is opened). Possible values are `all', `unused'
    ;; and `nil'. `unused' will lazy install only unused layers (i.e. layers
@@ -36,31 +36,28 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     theming
-     python
-     ivy
+     helm
      auto-completion
-     ;; better-defaults
+     better-defaults
      emacs-lisp
      git
      markdown
-     ;; org
+     ;;org
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
      spell-checking
      syntax-checking
      version-control
+     python
+     ipython-notebook
+
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(color-theme-solarized
-                                      powerline
-                                      virtualenvwrapper
-                                      key-chord
-                                      general)
+   dotspacemacs-additional-packages '(color-theme-solarized)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -116,17 +113,15 @@ values."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner nil
+   dotspacemacs-startup-banner 'official
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
    ;; `recents' `bookmarks' `projects' `agenda' `todos'."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   dotspacemacs-startup-lists '((bookmarks . 5)
-                                (recents . 5)
-                                (projects . 7)
-                                (todos . 10))
+   dotspacemacs-startup-lists '((recents . 5)
+                                (projects . 7))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
@@ -137,13 +132,13 @@ values."
    dotspacemacs-themes '(spacemacs-dark
                          spacemacs-light
                          zenburn
-                         leuven)
+                         )
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 16
+                               :size 15
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -218,7 +213,7 @@ values."
    dotspacemacs-enable-paste-transient-state nil
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.1
+   dotspacemacs-which-key-delay 0.4
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
@@ -241,7 +236,7 @@ values."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-active-transparency 100
+   dotspacemacs-active-transparency 90
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -269,7 +264,7 @@ values."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers 'relative
+   dotspacemacs-line-numbers nil
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -300,7 +295,7 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup 'trailing
+   dotspacemacs-whitespace-cleanup nil
    ))
 
 (defun dotspacemacs/user-init ()
@@ -319,27 +314,92 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (setq spacemacs-theme-comment-bg nil)
+
+;;--------------------------------------------------------------------------
+  
+  ;; open linum-mode
+  (linum-mode t)
+
+  ;; automatically save sessions
+  (setq desktop-buffers-not-to-save
+	      (concat "\\("
+		            "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+		            "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
+		            "\\)$"))
+  (desktop-save-mode 1)
+
+  ;(setq spacemacs-theme-comment-bg nil)
+
   (setq ns-use-srgb-colorspace nil)
-  (setq powerline-default-separator 'utf-8)
+
+  ;; solarized theme
   (set-terminal-parameter nil 'background-mode 'dark)
   (set-frame-parameter nil 'background-mode 'dark)
-  (load-theme 'solarized)
-  (powerline-default-theme)
-  (custom-set-faces
-                                        ;'(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
-	 '(mode-line ((t (:foreground "DarkOrange" :background "Black" :box nil))))
-	 '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
-  
-	(setq key-chord-two-keys-delay 0.1)
-  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-  (key-chord-define evil-replace-state-map "jk" 'evil-normal-state)
-  (key-chord-mode t)
+  (spacemacs/load-theme 'solarized)
 
-  (venv-initialize-interactive-shells)
-  (venv-initialize-eshell)
-  (setq venv-location
-        (expand-file-name "~/.virtualenvs/"))
+  ;; spacemacs bg
+  (custom-set-variables '(spacemacs-theme-custom-colors
+                          '((bg1 . "black")
+                            (act2 . "#0D2A35"))))
+
+  (defun set-solarized-light ()
+    (interactive)
+    (customize-set-variable 'frame-background-mode 'light)
+    (load-theme 'solarized t))
+  (defun set-solarized-dark ()
+    (interactive)
+    (customize-set-variable 'frame-background-mode 'dark)
+    (load-theme 'solarized t))
+
+  ;; key-chord
+  (use-package key-chord
+    :ensure
+    :config
+    ;; Max time delay between two key presses to be considered a key chord
+	  (setq key-chord-two-keys-delay 0.1)
+    (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+    (key-chord-define evil-replace-state-map "jk" 'evil-normal-state)
+    (key-chord-mode t))
+
+  ;; Python virtualenv mode:
+  (use-package virtualenvwrapper
+    :ensure t
+    :config
+    (venv-initialize-interactive-shells)
+    (venv-initialize-eshell)
+    (setq venv-location
+          (expand-file-name "~/virtualenvs/")))
+
+;; general
+(use-package general
+  :ensure t
+  :config
+  (general-evil-setup t)
+  ;; define emacs leader key
+  (general-define-key
+   :states '(normal visual emacs)
+   :prefix "SPC"
+   "bq" '(save-buffers-kill-emacs :which-key "C-x C-c")
+   "hf" '(describe-function :which-key "describe-function")
+   "hk" '(describe-key :which-key "describe-key")
+   "hv" '(describe-variable :which-key "describe-variable")
+   "o" '(evil-window-next :which-key "evil-window-next")
+   "1" '(delete-other-windows :which-key "delete-other-windows")
+   "2" '(split-window-below :which-key "split-window-below")
+   "3" '(split-window-right :which-key "split-window-right"))
+
+  ;; define my leader key
+  (general-define-key
+   :states '(normal)
+   :prefix ","
+   "p" '(run-python :which-key "run-python")
+   "cc" '(python-shell-send-buffer :which-key "python-shell-send-buffer")
+   "sl" '(set-solarized-light :which-key "set bg light")
+   "sd" '(set-solarized-dark :which-key "set bg dark")
+  ))
+
+
+;;--------------------------------------------------------------------------
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -349,53 +409,12 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector
-   (vector "#839496" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#002b36"))
- '(custom-enabled-themes (quote (solarized)))
- '(custom-safe-themes
-   (quote
-    ("3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "b59d7adea7873d58160d368d42828e7ac670340f11f36f67fa8071dbf957236a" "84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "bfdcbf0d33f3376a956707e746d10f3ef2d8d9caa1c214361c9c08f00a1c8409" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
- '(electric-pair-mode t)
- '(evil-want-Y-yank-to-eol nil)
- '(fci-rule-color "#073642")
- '(frame-background-mode (quote dark))
- '(package-archives
-   (quote
-    (("melpa-stable" . "http://stable.melpa.org/packages/")
-     ("melpa" . "http://melpa.milkbox.net/packages/")
-     ("gnu" . "https://elpa.gnu.org/packages/"))))
  '(package-selected-packages
    (quote
-    (counsel ein powerline rainbow-delimiters auto-complete yasnippet gruvbox-theme which-key virtualenvwrapper zenburn-theme evil-indent-textobject evil-surround evil-leader evil markdown-preview-mode markdown-mode use-package color-theme-solarized)))
- '(recentf-mode t)
- '(vc-annotate-background nil)
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#dc322f")
-     (40 . "#cb4b16")
-     (60 . "#b58900")
-     (80 . "#859900")
-     (100 . "#2aa198")
-     (120 . "#268bd2")
-     (140 . "#d33682")
-     (160 . "#6c71c4")
-     (180 . "#dc322f")
-     (200 . "#cb4b16")
-     (220 . "#b58900")
-     (240 . "#859900")
-     (260 . "#2aa198")
-     (280 . "#268bd2")
-     (300 . "#d33682")
-     (320 . "#6c71c4")
-     (340 . "#dc322f")
-     (360 . "#cb4b16"))))
- '(vc-annotate-very-old-color nil))
+    (ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(mode-line ((t (:foreground "DarkOrange" :background "Black" :box nil))))
- '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
+ )
