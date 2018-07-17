@@ -16,5 +16,17 @@ export WORKON_HOME=~/.virtualenvs
 VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 source /usr/local/bin/virtualenvwrapper.sh
 
+# set Emacs Flyspell Lang
+export LANG=en_US.UTF-8
+
+## startup emacs server
+alias em='emacs --daemon'
+## startup spacemacs
+alias spacemacs='emacs -q -l ~/.spacemacs.d/init.el'
+## startup spacemacs server
+alias sm='emacs --daemon -q -l ~/.spacemacs.d/init.el'
+## startup emacs or spacemacs client
+alias cm='emacsclient -c '' "$@"'
+
 cd $PROJECT_HOME
 workon all

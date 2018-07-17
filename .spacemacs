@@ -51,13 +51,20 @@ values."
      version-control
      python
      ipython-notebook
-
+     c-c++
+     html
+     javascript
+     latex
+     pdf-tools
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(color-theme-solarized)
+   dotspacemacs-additional-packages '(color-theme-solarized
+                                      general
+                                      key-chord
+                                      virtualenvwrapper)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -113,7 +120,7 @@ values."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner nil
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
@@ -130,9 +137,7 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light
-                         zenburn
-                         )
+                         spacemacs-light)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -213,7 +218,7 @@ values."
    dotspacemacs-enable-paste-transient-state nil
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.4
+   dotspacemacs-which-key-delay 0.1
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
@@ -264,7 +269,14 @@ values."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers '(:relative nil
+                               :disabled-for-modes
+                                dired-mode
+                                doc-view-mode
+                                markdown-mode
+                                org-mode
+                                pdf-view-mode
+                                text-mode)
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -317,8 +329,12 @@ you should place your code here."
 
 ;;--------------------------------------------------------------------------
   
-  ;; open linum-mode
-  (linum-mode t)
+  ;; key-chord
+  ;; Max time delay between two key presses to be considered a key chord
+  (setq key-chord-two-keys-delay 0.2)
+  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+  (key-chord-define evil-replace-state-map "jk" 'evil-normal-state)
+  (key-chord-mode t)
 
   ;; automatically save sessions
   (setq desktop-buffers-not-to-save
@@ -326,9 +342,11 @@ you should place your code here."
 		            "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
 		            "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
 		            "\\)$"))
-  (desktop-save-mode 1)
+  (setq desktop-path '("~/.spacemacs.d/"))
+  (desktop-save-mode)
+  (desktop-read)
 
-  ;(setq spacemacs-theme-comment-bg nil)
+  (setq spacemacs-theme-comment-bg nil)
 
   (setq ns-use-srgb-colorspace nil)
 
@@ -338,9 +356,9 @@ you should place your code here."
   (spacemacs/load-theme 'solarized)
 
   ;; spacemacs bg
-  (custom-set-variables '(spacemacs-theme-custom-colors
-                          '((bg1 . "black")
-                            (act2 . "#0D2A35"))))
+  ;(custom-set-variables '(spacemacs-theme-custom-colors
+  ;                        '((bg1 . "black")
+  ;                          (act2 . "#0D2A35"))))
 
   (defun set-solarized-light ()
     (interactive)
@@ -351,42 +369,20 @@ you should place your code here."
     (customize-set-variable 'frame-background-mode 'dark)
     (load-theme 'solarized t))
 
-  ;; key-chord
-  (use-package key-chord
-    :ensure
-    :config
-    ;; Max time delay between two key presses to be considered a key chord
-	  (setq key-chord-two-keys-delay 0.1)
-    (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-    (key-chord-define evil-replace-state-map "jk" 'evil-normal-state)
-    (key-chord-mode t))
-
   ;; Python virtualenv mode:
-  (use-package virtualenvwrapper
-    :ensure t
-    :config
-    (venv-initialize-interactive-shells)
-    (venv-initialize-eshell)
-    (setq venv-location
-          (expand-file-name "~/virtualenvs/")))
+  (venv-initialize-interactive-shells)
+  (venv-initialize-eshell)
+  (setq venv-location
+        (expand-file-name "~/virtualenvs/"))
 
-;; general
-(use-package general
-  :ensure t
-  :config
+  ;; general
   (general-evil-setup t)
   ;; define emacs leader key
   (general-define-key
    :states '(normal visual emacs)
    :prefix "SPC"
-   "bq" '(save-buffers-kill-emacs :which-key "C-x C-c")
-   "hf" '(describe-function :which-key "describe-function")
-   "hk" '(describe-key :which-key "describe-key")
-   "hv" '(describe-variable :which-key "describe-variable")
    "o" '(evil-window-next :which-key "evil-window-next")
-   "1" '(delete-other-windows :which-key "delete-other-windows")
-   "2" '(split-window-below :which-key "split-window-below")
-   "3" '(split-window-right :which-key "split-window-right"))
+   "1" '(delete-other-windows :which-key "delete-other-windows"))
 
   ;; define my leader key
   (general-define-key
@@ -395,8 +391,11 @@ you should place your code here."
    "p" '(run-python :which-key "run-python")
    "cc" '(python-shell-send-buffer :which-key "python-shell-send-buffer")
    "sl" '(set-solarized-light :which-key "set bg light")
-   "sd" '(set-solarized-dark :which-key "set bg dark")
-  ))
+   "sd" '(set-solarized-dark :which-key "set bg dark"))
+
+  ;; flyspell configuration
+  (setq flyspell-issue-message-flag nil)
+  (flyspell-prog-mode t)
 
 
 ;;--------------------------------------------------------------------------
