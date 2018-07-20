@@ -22,7 +22,7 @@
 (package-initialize)
 
 ;;-----------------------------------------------------
-;; 1. Editor configuration
+;; 1. Global editor configuration
 ;;-----------------------------------------------------
 
 ;; solution to that <Backspace> fails to delete
@@ -66,7 +66,7 @@
 (blink-cursor-mode 0)
 
 ;; set font
-(set-default-font "Source Code Pro-16")
+(set-default-font "Source Code Pro-15")
 
 ;; yes->y, no->n
 (fset 'yes-or-no-p'y-or-n-p)
@@ -127,6 +127,7 @@
 ;; yasnippet
 (use-package yasnippet
   :ensure t
+  :diminish ""
   :config
   (yas-global-mode t)
   (define-key yas-minor-mode-map (kbd "<tab>") nil))
@@ -134,12 +135,14 @@
 ;; auto-complete
 (use-package auto-complete
   :ensure
+  :diminish ""
   :config
   (ac-config-default))
 
 ;; rainbow-delimiters
 (use-package rainbow-delimiters
   :ensure
+  :diminish ""
   :config
 	(set-face-attribute 'rainbow-delimiters-unmatched-face nil
 						:inherit 'error
@@ -163,7 +166,8 @@
 
 ;; counsel
 (use-package counsel
-  :ensure t)
+  :ensure t
+  :diminish "")
 
 ;;-----------------------------------------------------
 ;;; 3. specific mode packages' configuration, e.g. evil, markdown
@@ -219,6 +223,7 @@
 ;; key-chord
 (use-package key-chord
   :ensure
+  :diminish ""
   :config
     ;; Max time delay between two key presses to be considered a key chord
 	(setq key-chord-two-keys-delay 0.1)
@@ -235,33 +240,6 @@
   (setq venv-location
         (expand-file-name "~/virtualenvs/")))
 
-;; powerline
-(use-package powerline
-  :ensure
-  :config
-    (custom-set-faces
-	'(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
-	'(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
-  
-    (setq ns-use-srgb-colorspace nil)
-    (setq evil-normal-state-cursor '("orange" box))
-    (setq evil-insert-state-cursor '("red" bar))
-    (setq evil-visual-state-cursor '("gray" box))
-    (setq evil-replace-state-cursor '("cyan" bar))
-    (setq evil-operator-state-cursor '("gold" hollow))
-    (setq evil-emacs-state-cursor '("purple" box))
-
-  (powerline-center-evil-theme))
-
-    (setq evil-normal-state-tag (propertize "NORMAL" 'face '((:foreground "DarkOrange" :background "#brown" :weight bold)))
-	  evil-insert-state-tag (propertize "INSERT" 'face '((:foreground "red" :background "#666666" :weight bold)))
-	  evil-visual-state-tag (propertize "VISUAL" 'face '((:foreground "gray" :background "#f9f9f9" :weight bold)))
-	  evil-replace-state-tag (propertize "REPLACE" 'face '((:foreground "cyan" :background "#f9f9f9" :weight bold)))
-	  evil-operator-state-tag (propertize "OPERATOR" 'face '((:foreground "gold" :background "#f9f9f9" :weight bold)))
-	  evil-emacs-state-tag (propertize "EMACS" 'face '((:foreground "purple" :background "#f9f9f9" :weight bold))))
-(cons 'evil-mode-line-tag mode-line-format)
-(setq evil-mode-line-format '(before . mode-line-front-space))
-
 ;; Emacs Ipython Notebook
 (use-package ein
   :ensure t
@@ -270,12 +248,12 @@
 	(require 'ein-notebook)
 	(require 'ein-subpackages)
 	(setq ein:use-smartrep t)
-	;;(setq ein:jupyter-default-server-command "/Users/zwwang/.virtualenvs/all/bin/ipython")
 	(setq ein:use-auto-complete t))
 
 ;; general
 (use-package general
   :ensure t
+  :diminish ""
   :config
   (general-evil-setup t)
   ;; define emacs leader key
@@ -286,7 +264,6 @@
    "TAB" 'evil-switch-to-windows-last-buffer
    "bd" '(kill-buffer :which-key "kill-buffer")
    "qq" '(save-buffers-kill-emacs :which-key "C-x C-c")
-   "eb" '(eval-buffer :which-key "eval-buffer")
    "ff" '(counsel-find-file :which-key "find file")
    "fr" '(counsel-recentf :which-key "recent files")
    "g" '(:igonre t :which-key "Git")
@@ -294,21 +271,27 @@
    "hdf" '(describe-function :which-key "describe-function")
    "hdk" '(describe-key :which-key "describe-key")
    "hdv" '(describe-variable :which-key "describe-variable")
+   "hdm" '(describe-mode :which-key "describe-mode")
    "o" '(evil-window-next :which-key "evil-window-next")
    "1" '(delete-other-windows :which-key "delete-other-windows")
    "2" '(split-window-below :which-key "split-window-below")
    "3" '(split-window-right :which-key "split-window-right")
-   "l" '(set-solarized-light :which-key "set bg light")
-   "d" '(set-solarized-dark :which-key "set bg dark")
  )
   ;; define my leader key
   (general-define-key
    :states '(normal)
    :prefix ","
+   "eb" '(eval-buffer :which-key "eval-buffer")
+   "sl" '(set-solarized-light :which-key "set bg light")
+   "sd" '(set-solarized-dark :which-key "set bg dark")
    "p" '(run-python :which-key "run-python")
-   "cc" '(python-shell-send-buffer :which-key "python-shell-send-buffer"))
+   "cc" '(python-shell-send-buffer :which-key "python-shell-send-buffer")))
 
-  )
+;; set mode line
+(add-to-list 'load-path "~/.emacs.d/core/")
+(require 'core-mode-line)
+(my-line)
+;(power-line)
 
 
 ;;-----------------------------------------------------
@@ -367,7 +350,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(mode-line ((t (:foreground "DarkOrange" :background "Black" :box nil))))
+ '(mode-line ((t (:foreground "#475B61" :background "gray" :box nil))))
  '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
 
 

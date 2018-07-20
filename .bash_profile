@@ -1,4 +1,4 @@
-export PROJECT_HOME=$HOME/documents/MyProject/
+export PROJECT=$HOME/documents/myproject/
 
 # set color
 export CLICOLOR=1
@@ -28,5 +28,5 @@ alias sm='emacs --daemon -q -l ~/.spacemacs.d/init.el'
 ## startup emacs or spacemacs client
 alias cm='emacsclient -c '' "$@"'
 
-cd $PROJECT_HOME
+cd $PROJECT
 workon all

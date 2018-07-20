@@ -41,7 +41,7 @@ values."
      better-defaults
      emacs-lisp
      git
-     markdown
+     (markdown :variables markdown-live-preview-engine 'vmd)
      ;;org
      (shell :variables
             shell-default-height 30
@@ -54,9 +54,7 @@ values."
      c-c++
      html
      javascript
-     latex
-     pdf-tools
-     )
+     latex)
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
@@ -252,11 +250,11 @@ values."
    dotspacemacs-show-transient-state-color-guide t
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
    dotspacemacs-mode-line-unicode-symbols t
-   ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
+   ;; If non nil smooth scrolling (native-scrolling) is enab  d. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
    dotspacemacs-smooth-scrolling t
-   ;; Control line numbers activation.
+   ;; Control line numbers activation. 
    ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
    ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
    ;; This variable can also be set to a property list for finer control:
@@ -328,7 +326,17 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
 ;;--------------------------------------------------------------------------
-  
+
+  ;; Don't show menu-bar, scroll-bar, tool-bar in GUI Emacs
+  (menu-bar-mode 0)
+  (scroll-bar-mode 0)
+  (tool-bar-mode 0)
+
+  ;; turn mode-line minor modes off
+  (spacemacs/toggle-mode-line-minor-modes-off)
+  ;; show clock
+  (spacemacs/toggle-mode-line-org-clock-on)
+
   ;; key-chord
   ;; Max time delay between two key presses to be considered a key chord
   (setq key-chord-two-keys-delay 0.2)
@@ -350,15 +358,21 @@ you should place your code here."
 
   (setq ns-use-srgb-colorspace nil)
 
+  ;; set mouse scroll in terminal
+  (unless window-system
+    (global-set-key [mouse-4] 'scroll-down-line)
+    (global-set-key [mouse-5] 'scroll-up-line)
+    ;; set cursor scrolling speed
+    (setq mouse-wheel-progressive-speed nil)
+    (setq scroll-margin 1
+          scroll-conservatively 1
+          scroll-up-aggressively 0.01
+          scroll-down-aggressively 0.01))
+
   ;; solarized theme
   (set-terminal-parameter nil 'background-mode 'dark)
   (set-frame-parameter nil 'background-mode 'dark)
   (spacemacs/load-theme 'solarized)
-
-  ;; spacemacs bg
-  ;(custom-set-variables '(spacemacs-theme-custom-colors
-  ;                        '((bg1 . "black")
-  ;                          (act2 . "#0D2A35"))))
 
   (defun set-solarized-light ()
     (interactive)
@@ -381,6 +395,7 @@ you should place your code here."
   (general-define-key
    :states '(normal visual emacs)
    :prefix "SPC"
+   "ein" '(ein:notebooklist-login :which-key "ein:notebooklist-login")
    "o" '(evil-window-next :which-key "evil-window-next")
    "1" '(delete-other-windows :which-key "delete-other-windows"))
 
@@ -396,8 +411,6 @@ you should place your code here."
   ;; flyspell configuration
   (setq flyspell-issue-message-flag nil)
   (flyspell-prog-mode t)
-
-
 ;;--------------------------------------------------------------------------
   )
 
