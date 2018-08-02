@@ -43,16 +43,11 @@ colorscheme solarized
 "let g:gruvbox_contrast_dark = "hard"
 "colorscheme gruvbox
 
-" notedown plugin for vim to edit *.ipynb file
-let g:notedown_enable=1
-let g:notedown_code_match='all'
-
 " Tree
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_browse_split = 3
 let g:netrw_winsize = 25
-
 
 " Enable folding
 set foldmethod=indent

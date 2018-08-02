@@ -1,4 +1,4 @@
-;;; core-mode-line.el --- configuration for my emacs
+;;; core-mode-line.el --- configuration for the mode-line of my emacs.
 
 ;; Author: Zewei Wang
 
@@ -16,23 +16,30 @@
 
 ;; set cursor clolor
 (setq evil-normal-state-cursor '("orange" box))
-(setq evil-insert-state-cursor '("red" bar))
-(setq evil-visual-state-cursor '("green" box))
-(setq evil-replace-state-cursor '("skyblue" bar))
+(setq evil-insert-state-cursor '("green" bar))
+(setq evil-visual-state-cursor '("gray" box))
+(setq evil-replace-state-cursor '("red" bar))
 (setq evil-operator-state-cursor '("gold" hollow))
-(setq evil-emacs-state-cursor '("purple" box))
-
-;; evil tag color
-  (setq evil-normal-state-tag (propertize " <N> " 'face '((:foreground "DarkOrange" :background "#f9f9f9" :weight bold)))
-        evil-insert-state-tag (propertize " <I> " 'face '((:foreground "red" :background "#f9f9f9" :weight bold)))
-        evil-visual-state-tag (propertize " <V> " 'face '((:foreground "green" :background "#f9f9f9" :weight bold)))
-        evil-replace-state-tag (propertize " <R> " 'face '((:foreground "skyblue" :background "#f9f9f9" :weight bold)))
-        evil-operator-state-tag (propertize " <O> " 'face '((:foreground "gold" :background "#f9f9f9" :weight bold)))
-        evil-emacs-state-tag (propertize " <E> " 'face '((:foreground "purple" :background "#f9f9f9" :weight bold))))
+(setq evil-emacs-state-cursor '("skyblue" box))
 
 ;; my-mode-line
 (defun my-line ()
-    (setq-default mode-line-format
+  ;; evil tag color
+  (setq evil-normal-state-tag
+        (propertize " <N> " 'face '((:foreground "DarkOrange" :background "#f9f9f9" :weight bold)))
+        evil-insert-state-tag
+        (propertize " <I> " 'face '((:foreground "red" :background "#f9f9f9" :weight bold)))
+        evil-visual-state-tag
+        (propertize " <V> " 'face '((:foreground "green" :background "#f9f9f9" :weight bold)))
+        evil-replace-state-tag
+        (propertize " <R> " 'face '((:foreground "skyblue" :background "#f9f9f9" :weight bold)))
+        evil-operator-state-tag
+        (propertize " <O> " 'face '((:foreground "gold" :background "#f9f9f9" :weight bold)))
+        evil-emacs-state-tag
+        (propertize " <E> " 'face '((:foreground "purple" :background "#f9f9f9" :weight bold))))
+
+  ;; mode-line-format
+  (setq-default mode-line-format
                   (list
                   ;; evil tag
                   '(:eval evil-mode-line-tag)
@@ -51,7 +58,6 @@
                   ;; major mode
                   '(:eval (propertize "%m"))
                   "   "
-
                   ;; line number & column number
                   "(%02l,%02c)"
                   " | "
@@ -61,20 +67,38 @@
                   ;; git info
                   '(vc-mode vc-mode)
                   " "
-                  ))
+                  )))
 
-    )
+(defun space-line ()
+  ;; display battery info
+  (use-package fancy-battery
+    :ensure t
+    :config
+    (add-hook 'after-init-hook #'fancy-battery-mode))
+  ;; display window number
+  (use-package window-numbering
+    :ensure t
+    :config
+    (setq window-numbering-assign-func
+	        (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
+    (window-numbering-mode))
+  ;; the spaceline package
+  (use-package spaceline
+    :ensure t
+    :config
+    (require 'spaceline-config)
+    (setq powerline-default-separator 'wave)
+    (spaceline-toggle-window-number-on)
+    (spaceline-toggle-minor-modes-off)
+    (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+    (spaceline-spacemacs-theme))
+
+  )
 
 
-;; powerline
-(defun power-line ()
-    (use-package powerline
-      :ensure
-      :config
-        (custom-set-faces
-      '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
-      '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
-      (powerline-center-evil-theme)))
+;; set mode-line
+;;(my-line)
+(space-line)
 
 
 (provide 'core-mode-line)

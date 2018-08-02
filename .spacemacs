@@ -42,14 +42,14 @@ values."
      emacs-lisp
      git
      (markdown :variables markdown-live-preview-engine 'vmd)
-     ;;org
+     org
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
      spell-checking
      syntax-checking
      version-control
-     python
+     (python :variables python-enable-yapf-format-on-save t)
      ipython-notebook
      c-c++
      html
@@ -62,6 +62,8 @@ values."
    dotspacemacs-additional-packages '(color-theme-solarized
                                       general
                                       key-chord
+                                      pandoc-mode
+                                      ob-ipython
                                       virtualenvwrapper)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -254,7 +256,7 @@ values."
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
    dotspacemacs-smooth-scrolling t
-   ;; Control line numbers activation. 
+   ;; Control line numbers activation.
    ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
    ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
    ;; This variable can also be set to a property list for finer control:
@@ -325,7 +327,9 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-;;--------------------------------------------------------------------------
+  ;;--------------------------------------------------------
+  ;;********************************************************
+  ;;--------------------------------------------------------
 
   ;; Don't show menu-bar, scroll-bar, tool-bar in GUI Emacs
   (menu-bar-mode 0)
@@ -336,13 +340,6 @@ you should place your code here."
   (spacemacs/toggle-mode-line-minor-modes-off)
   ;; show clock
   (spacemacs/toggle-mode-line-org-clock-on)
-
-  ;; key-chord
-  ;; Max time delay between two key presses to be considered a key chord
-  (setq key-chord-two-keys-delay 0.2)
-  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-  (key-chord-define evil-replace-state-map "jk" 'evil-normal-state)
-  (key-chord-mode t)
 
   ;; automatically save sessions
   (setq desktop-buffers-not-to-save
@@ -356,8 +353,6 @@ you should place your code here."
 
   (setq spacemacs-theme-comment-bg nil)
 
-  (setq ns-use-srgb-colorspace nil)
-
   ;; set mouse scroll in terminal
   (unless window-system
     (global-set-key [mouse-4] 'scroll-down-line)
@@ -369,6 +364,11 @@ you should place your code here."
           scroll-up-aggressively 0.01
           scroll-down-aggressively 0.01))
 
+  ;;----------------------------------------------------------
+  ;; theme supplement
+  ;;----------------------------------------------------------
+
+  (setq ns-use-srgb-colorspace nil)
   ;; solarized theme
   (set-terminal-parameter nil 'background-mode 'dark)
   (set-frame-parameter nil 'background-mode 'dark)
@@ -383,11 +383,26 @@ you should place your code here."
     (customize-set-variable 'frame-background-mode 'dark)
     (load-theme 'solarized t))
 
+  ;;----------------------------------------------------------
+  ;; python layer supplement
+  ;;----------------------------------------------------------
+
   ;; Python virtualenv mode:
   (venv-initialize-interactive-shells)
   (venv-initialize-eshell)
   (setq venv-location
         (expand-file-name "~/virtualenvs/"))
+
+  ;;----------------------------------------------------------
+  ;; key-bindings supplement
+  ;;----------------------------------------------------------
+
+  ;; key-chord
+  ;; Max time delay between two key presses to be considered a key chord
+  (setq key-chord-two-keys-delay 0.2)
+  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+  (key-chord-define evil-replace-state-map "jk" 'evil-normal-state)
+  (key-chord-mode t)
 
   ;; general
   (general-evil-setup t)
@@ -395,7 +410,9 @@ you should place your code here."
   (general-define-key
    :states '(normal visual emacs)
    :prefix "SPC"
+   "bk" '(kill-buffer-and-window :which-key "kill-buffer-and-window")
    "ein" '(ein:notebooklist-login :which-key "ein:notebooklist-login")
+   "td" '(org-todo :which-key "org-tod")
    "o" '(evil-window-next :which-key "evil-window-next")
    "1" '(delete-other-windows :which-key "delete-other-windows"))
 
@@ -405,13 +422,52 @@ you should place your code here."
    :prefix ","
    "p" '(run-python :which-key "run-python")
    "cc" '(python-shell-send-buffer :which-key "python-shell-send-buffer")
+   "ml" '(markdown-live-preview-mode :which-key "markdown-live-preview-mode")
    "sl" '(set-solarized-light :which-key "set bg light")
    "sd" '(set-solarized-dark :which-key "set bg dark"))
 
   ;; flyspell configuration
   (setq flyspell-issue-message-flag nil)
   (flyspell-prog-mode t)
-;;--------------------------------------------------------------------------
+
+  ;;----------------------------------------------------------
+  ;; org layer supplement
+  ;;----------------------------------------------------------
+
+  ;; fix org error caused by built-in version and melpa version
+  (org-reload)
+  ;; org startup not folded
+  (setq org-inhibit-startup-visibility-stuff t)
+  ;; pandoc-mode
+  (add-hook 'markdown-mode-hook 'pandoc-mode)
+  (add-hook 'org-mode-hook 'pandoc-mode)
+  ;; ob-ipython
+
+  ;;----------------------------------------------------------
+  ;; latex layer supplement
+  ;;----------------------------------------------------------
+
+  ;; preview
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+  ;; build command
+  (latex :variables latex-build-command "LaTeX")
+  ;; auto fill
+  (latex :variables latex-enable-auto-fill t)
+  ;; enable folding
+  (latex :variables latex-enable-folding t)
+
+  ;;----------------------------------------------------------
+  ;; auto-completion layer supplement
+  ;;----------------------------------------------------------
+  (setq-default dotspacemacs-configuration-layers
+                '((auto-completion :variables
+                                   auto-completion-enable-help-tooltip t))
+                '((auto-completion :variables
+                                   auto-completion-enable-sort-by-usage t)))
+
+  ;;--------------------------------------------------------
+  ;;********************************************************
+  ;;--------------------------------------------------------
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
