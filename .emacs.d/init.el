@@ -22,27 +22,79 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 (package-initialize)
-(package-refresh-contents)
-
 ;;;-----------------------------------------------------------------
 ;; my configurations
 ;;;-----------------------------------------------------------------
 
+(when (not package-archive-contents)
+    (package-refresh-contents))
+
+(defvar my-packages
+  '(
+    ;; better defaults
+    yasnippet-snippets
+    ;; python layer
+    elpy
+    flycheck  ;; realtime syntax checking
+    py-autopep8
+    ))
+
+(mapc #'(lambda (package)
+	  (unless (package-installed-p package)
+	    (package-install package)))
+      my-packages)
+
 ;; directory of all my configuration files
 (add-to-list 'load-path "~/.emacs.d/core/")
+
+;;-----------------------------------------------------------
 ;; evil
+;;-----------------------------------------------------------
 (require 'core-evil)
+
+;;-----------------------------------------------------------
 ;; better defaults
+;;-----------------------------------------------------------
 (require 'core-better-defaults)
+
+;; yasnippet
+(setq yas-snippet-dirs
+	'("~/.spacemacs.d/private/snippets"                 ;; personal snippets
+	"~/.spacemacs.d/elpa/yasnippet-snippets-20180714.1322/snippets"))
+;;-----------------------------------------------------------
 ;; theme
+;;-----------------------------------------------------------
 (require 'core-theme)
+
+;;-----------------------------------------------------------
 ;; mode line
+;;-----------------------------------------------------------
 (require 'core-mode-line)
+
+;;-----------------------------------------------------------
 ;; key-bindings
+;;-----------------------------------------------------------
 (require 'core-key-bindings)
+
+;;-----------------------------------------------------------
 ;; python
+;;-----------------------------------------------------------
 (require 'core-python)
+
+;; elpy
+(elpy-enable)
+
+;; flycheck
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+;; py-autopep8
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
+;;-----------------------------------------------------------
 ;; markdown 
+;;-----------------------------------------------------------
 (require 'core-markdown)
 
 ;;-----------------------------------------------------

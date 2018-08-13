@@ -62,7 +62,9 @@ values."
    dotspacemacs-additional-packages '(color-theme-solarized
                                       general
                                       key-chord
+                                      yasnippet-snippets
                                       pandoc-mode
+                                      py-autopep8
                                       ob-ipython
                                       virtualenvwrapper)
    ;; A list of packages that cannot be updated.
@@ -364,6 +366,24 @@ you should place your code here."
           scroll-up-aggressively 0.01
           scroll-down-aggressively 0.01))
 
+  ;; yasnippet
+  (setq yas-snippet-dirs
+        '("~/.spacemacs.d/private/snippets"                 ;; personal snippets
+          "~/.spacemacs.d/elpa/yasnippet-snippets-20180714.1322/snippets"))
+
+  ;; header2
+  (add-to-list 'load-path "~/.spacemacs.d/private/header2")
+  (require 'header2)
+  ;; To have Emacs update file headers automatically whenever you save a
+  ;; file, put this in your init file:
+  (autoload 'auto-update-file-header "header2")
+  (add-hook 'write-file-hooks 'auto-update-file-header)
+  ;; To have Emacs add a file header whenever you create a new file in
+  ;; some mode, put this in your init file:
+  (autoload 'auto-make-header "header2")
+  (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
+  (add-hook 'c-mode-common-hook   'auto-make-header)
+
   ;;----------------------------------------------------------
   ;; theme supplement
   ;;----------------------------------------------------------
@@ -392,6 +412,8 @@ you should place your code here."
   (venv-initialize-eshell)
   (setq venv-location
         (expand-file-name "~/virtualenvs/"))
+  ;; enable autopep8 formatting on save
+  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 
   ;;----------------------------------------------------------
   ;; key-bindings supplement
@@ -423,6 +445,7 @@ you should place your code here."
    "p" '(run-python :which-key "run-python")
    "cc" '(python-shell-send-buffer :which-key "python-shell-send-buffer")
    "ml" '(markdown-live-preview-mode :which-key "markdown-live-preview-mode")
+   "i" '(yas-insert-snippet :which-key "yas-insert-snippet")
    "sl" '(set-solarized-light :which-key "set bg light")
    "sd" '(set-solarized-dark :which-key "set bg dark"))
 

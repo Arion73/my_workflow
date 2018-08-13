@@ -50,6 +50,8 @@
    "sd" '(set-solarized-dark :which-key "set bg dark")
    "ml" '(markdown-live-preview-mode :which-key "markdown-live-preview-mode")
    "p" '(run-python :which-key "run-python")
+   "i" '(yas-insert-snippet :which-key "yas-insert-snippet")
+   "C-c" '(elpy-shell-send-region-or-buffer :which-key "elpy-shell")
    "cc" '(python-shell-send-buffer :which-key "python-shell-send-buffer")))
 
 
