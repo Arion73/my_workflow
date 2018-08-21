@@ -51,7 +51,7 @@ values."
      version-control
      (python :variables python-enable-yapf-format-on-save t)
      ipython-notebook
-     c-c++
+     (c-c++ :variables c-c++-enable-clang-support t)
      html
      javascript
      latex)
@@ -66,6 +66,7 @@ values."
                                       pandoc-mode
                                       py-autopep8
                                       ob-ipython
+                                      elpy
                                       virtualenvwrapper)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -382,7 +383,6 @@ you should place your code here."
   ;; some mode, put this in your init file:
   (autoload 'auto-make-header "header2")
   (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
-  (add-hook 'c-mode-common-hook   'auto-make-header)
 
   ;;----------------------------------------------------------
   ;; theme supplement
@@ -414,6 +414,8 @@ you should place your code here."
         (expand-file-name "~/virtualenvs/"))
   ;; enable autopep8 formatting on save
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+  ;; elpy
+  (elpy-enable)
 
   ;;----------------------------------------------------------
   ;; key-bindings supplement
@@ -444,6 +446,7 @@ you should place your code here."
    :prefix ","
    "p" '(run-python :which-key "run-python")
    "cc" '(python-shell-send-buffer :which-key "python-shell-send-buffer")
+   "C-c" '(elpy-shell-send-region-or-buffer :which-key "elpy-shell-send-")
    "ml" '(markdown-live-preview-mode :which-key "markdown-live-preview-mode")
    "i" '(yas-insert-snippet :which-key "yas-insert-snippet")
    "sl" '(set-solarized-light :which-key "set bg light")
@@ -487,6 +490,14 @@ you should place your code here."
                                    auto-completion-enable-help-tooltip t))
                 '((auto-completion :variables
                                    auto-completion-enable-sort-by-usage t)))
+
+  ;;--------------------------------------------------------
+  ;;********************************************************
+  ;;--------------------------------------------------------
+  '(version-control :variables
+                    version-control-diff-tool 'diff-hl)
+  '(version-control :variables
+                    version-control-global-margin t)
 
   ;;--------------------------------------------------------
   ;;********************************************************

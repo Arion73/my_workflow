@@ -14,7 +14,7 @@ set showmatch   		"显示匹配的括号"
 set lazyredraw
 set synmaxcol=200
 syntax on 
-"hi LineNr ctermbg=NONE
+
 "快速编辑 .vimrc
 nnoremap <leader>ev :split $MYVIMRC<CR>
 
@@ -37,7 +37,7 @@ inoremap jk <esc>
 " colorscheme
 set bg=dark             "显示底色
 set t_Co=256
-let g:solarized_termtrans = 1
+"let g:solarized_termtrans = 1
 colorscheme solarized 
 "another colorscheme
 "let g:gruvbox_contrast_dark = "hard"
@@ -92,6 +92,10 @@ autocmd BufNewFile *.html 0r ~/.vim/template/sample.html
 
 " system clipboard
 set clipboard=unnamed
+
+" clang-format
+map <C-K> :pyf <path-to-this-file>/clang-format.py<cr>
+imap <C-K> <c-o>:pyf <path-to-this-file>/clang-format.py<cr>
 
 " 缩进指示线
 "Plugin 'Yggdroot/indentLine'
