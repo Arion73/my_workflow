@@ -36,7 +36,7 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     helm
+     ivy
      auto-completion
      better-defaults
      emacs-lisp
@@ -372,18 +372,6 @@ you should place your code here."
         '("~/.spacemacs.d/private/snippets"                 ;; personal snippets
           "~/.spacemacs.d/elpa/yasnippet-snippets-20180714.1322/snippets"))
 
-  ;; header2
-  (add-to-list 'load-path "~/.spacemacs.d/private/header2")
-  (require 'header2)
-  ;; To have Emacs update file headers automatically whenever you save a
-  ;; file, put this in your init file:
-  (autoload 'auto-update-file-header "header2")
-  (add-hook 'write-file-hooks 'auto-update-file-header)
-  ;; To have Emacs add a file header whenever you create a new file in
-  ;; some mode, put this in your init file:
-  (autoload 'auto-make-header "header2")
-  (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
-
   ;;----------------------------------------------------------
   ;; theme supplement
   ;;----------------------------------------------------------
@@ -424,8 +412,8 @@ you should place your code here."
   ;; key-chord
   ;; Max time delay between two key presses to be considered a key chord
   (setq key-chord-two-keys-delay 0.2)
-  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-  (key-chord-define evil-replace-state-map "jk" 'evil-normal-state)
+  (key-chord-define evil-insert-state-map "kk" 'evil-normal-state)
+  (key-chord-define evil-replace-state-map "kk" 'evil-normal-state)
   (key-chord-mode t)
 
   ;; general

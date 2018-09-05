@@ -141,31 +141,5 @@
   :config
   (add-hook 'after-init-hook 'company-statistics-mode))
 
-;; header2
-(add-to-list 'load-path "~/.emacs.d/private/header2")
-(require 'header2)
-(setq make-header-hook '(header-title
-			 header-blank
-			 header-file-name
-			 header-description
-			 header-author
-			 header-copyright
-			 header-creation-date
-			 header-end-line
-			 header-commentary
-			 header-blank
-			 header-end-line
-			 header-code
-			 header-eof))
-;; To have Emacs update file headers automatically whenever you save a
-;; file, put this in your init file:
-(autoload 'auto-update-file-header "header2")
-(add-hook 'write-file-hooks 'auto-update-file-header)
-;; To have Emacs add a file header whenever you create a new file in
-;; some mode, put this in your init file:
-(autoload 'auto-make-header "header2")
-(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
-(add-hook 'c-mode-common-hook   'auto-make-header)
-
 
 (provide 'core-better-defaults)

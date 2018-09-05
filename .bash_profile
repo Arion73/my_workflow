@@ -37,4 +37,4 @@ fi
 
 
 cd $PROJECT
-# workon python3.7
+workon python3.7

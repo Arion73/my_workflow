@@ -62,8 +62,8 @@
   :config
   ;; Max time delay between two key presses to be considered a key chord
 	(setq key-chord-two-keys-delay 0.1)
-  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-  (key-chord-define evil-replace-state-map "jk" 'evil-normal-state)
+  (key-chord-define evil-insert-state-map "kk" 'evil-normal-state)
+  (key-chord-define evil-replace-state-map "kk" 'evil-normal-state)
   (key-chord-mode t))
 
 ;; apply the Evil h,j,k,l bindings to occur-mode-map when Emacs state

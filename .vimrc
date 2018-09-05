@@ -37,7 +37,7 @@ inoremap jk <esc>
 " colorscheme
 set bg=dark             "显示底色
 set t_Co=256
-"let g:solarized_termtrans = 1
+let g:solarized_termtrans = 1
 colorscheme solarized 
 "another colorscheme
 "let g:gruvbox_contrast_dark = "hard"
