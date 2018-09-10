@@ -20,9 +20,11 @@
   (general-define-key
    :states '(normal visual emacs)
    :prefix "SPC"
-   "SPC" '(execute-extended-command :which-key "M-x")
+   "SPC" '(counsel-M-x :which-key "M-x")
    "TAB" '(switch-to-prev-buffer :which-key "previous buffer")
-   "bb" 'evil-switch-to-windows-last-buffer
+   "!" '(shell-command :which-key "shell-command")
+   "'" '(shell :which-key "shell")
+   "bb" '(ivy-switch-buffer :which-key "ivy-switch-buffer")
    "bd" '(kill-buffer :which-key "kill-buffer")
    "bk" '(kill-buffer-and-window :which-key "kill-buffer-and-window")
    "cl" '(comment-line :which-key "comment-line")
@@ -37,9 +39,8 @@
    "hdm" '(describe-mode :which-key "describe-mode")
    "td" '(org-todo :which-key "org-tod")
    "o" '(evil-window-next :which-key "evil-window-next")
+   "Ts" '(counsel-load-theme :which-key "counsel-load-theme")
    "1" '(delete-other-windows :which-key "delete-other-windows")
-   "2" '(split-window-below :which-key "split-window-below")
-   "3" '(split-window-right :which-key "split-window-right")
  )
   ;; define my leader key
   (general-define-key
