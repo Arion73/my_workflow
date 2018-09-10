@@ -17,7 +17,6 @@
 ;; set mode-line background color
 ;;(set-face-background 'mode-line "black")
 ;;(set-face-background 'mode-line-inactive "shadow")
-;;(set-face-attribute 'mode-line nil :height 100)
 
 ;; set cursor clolor
 (setq evil-normal-state-cursor '("systemYellowColor" box))
