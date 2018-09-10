@@ -12,6 +12,11 @@
 
 (setq ns-use-srgb-colorspace nil)
 
+;; monokai-alt-theme
+(use-package monokai-alt-theme
+  :ensure t)
+
+
 ;; set theme solarized background
 (set-frame-parameter nil 'background-mode 'dark)
 (set-terminal-parameter nil 'background-mode 'dark)
@@ -28,5 +33,13 @@
   (load-theme 'solarized t))
 
 (set-solarized-dark)
+
+;; gruvbox-theme
+(use-package gruvbox-theme
+  :ensure t
+  :config
+  (load-theme 'gruvbox-dark-hard t))
+
+
 
 (provide 'core-theme)
