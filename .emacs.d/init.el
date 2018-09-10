@@ -47,23 +47,24 @@
 ;; directory of all my configuration files
 (add-to-list 'load-path "~/.emacs.d/core/")
 
-;;-----------------------------------------------------------
+;;==========================================================
 ;; evil
-;;-----------------------------------------------------------
+;;==========================================================
 (require 'core-evil)
 
-;;-----------------------------------------------------------
+;;==========================================================
 ;; better defaults
-;;-----------------------------------------------------------
+;;==========================================================
+(savehist-mode 1)
 (require 'core-better-defaults)
 
 ;; yasnippet
 (setq yas-snippet-dirs
-	'("~/.spacemacs.d/private/snippets"                 ;; personal snippets
+	'("~/.spacemacs.d/private/snippets"      ;; personal snippets
 	"~/.spacemacs.d/elpa/yasnippet-snippets-20180714.1322/snippets"))
-;;-----------------------------------------------------------
+;;==========================================================
 ;; theme
-;;-----------------------------------------------------------
+;;==========================================================
 (require 'core-theme)
 
 ;;-----------------------------------------------------------
@@ -83,6 +84,8 @@
 
 ;; elpy
 (elpy-enable)
+;; highlight-indentation is a dependency package. Do not display highlight-indentation as default
+(add-hook 'elpy-mode-hook (lambda() (highlight-indentation-mode -1)))
 
 ;; flycheck
 (when (require 'flycheck nil t)
@@ -113,10 +116,11 @@
  '(custom-enabled-themes (quote (solarized)))
  '(custom-safe-themes
    (quote
-    ("cd4d1a0656fee24dc062b997f54d6f9b7da8f6dc8053ac858f15820f9a04a679" "190a9882bef28d7e944aa610aa68fe1ee34ecea6127239178c7ac848754992df" "3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "b59d7adea7873d58160d368d42828e7ac670340f11f36f67fa8071dbf957236a" "84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "bfdcbf0d33f3376a956707e746d10f3ef2d8d9caa1c214361c9c08f00a1c8409" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+    ("d1ede12c09296a84d007ef121cd72061c2c6722fcb02cb50a77d9eae4138a3ff" "f27c3fcfb19bf38892bc6e72d0046af7a1ded81f54435f9d4d09b3bff9c52fc1" "cd4d1a0656fee24dc062b997f54d6f9b7da8f6dc8053ac858f15820f9a04a679" "190a9882bef28d7e944aa610aa68fe1ee34ecea6127239178c7ac848754992df" "3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "b59d7adea7873d58160d368d42828e7ac670340f11f36f67fa8071dbf957236a" "84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "bfdcbf0d33f3376a956707e746d10f3ef2d8d9caa1c214361c9c08f00a1c8409" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+ '(display-battery-mode t)
  '(electric-pair-mode t)
  '(fci-rule-color "#073642")
- '(frame-background-mode (quote light))
+ '(frame-background-mode (quote dark))
  '(package-archives
    (quote
     (("melpa-stable" . "http://stable.melpa.org/packages/")
@@ -124,7 +128,7 @@
      ("gnu" . "https://elpa.gnu.org/packages/"))))
  '(package-selected-packages
    (quote
-    (org-bullets org markdown-preview-mode window-numbering fancy-battery counsel use-package spaceline ein rainbow-delimiters auto-complete yasnippet gruvbox-theme which-key virtualenvwrapper zenburn-theme evil-indent-textobject evil-surround evil-leader evil markdown-mode color-theme-solarized)))
+    (org-bullets org markdown-preview-mode window-numbering counsel use-package ein rainbow-delimiters auto-complete yasnippet gruvbox-theme which-key virtualenvwrapper evil-indent-textobject evil-surround evil-leader evil markdown-mode color-theme-solarized)))
  '(recentf-mode t)
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
@@ -153,8 +157,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(mode-line ((t (:foreground "#475B61" :background "gray" :box nil))))
- '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
-
+ '(mode-line ((t (:foreground "#333333" :background "999999" :box nil))))
+ '(mode-line-inactive ((t (:foreground "#333333" :background "#777777" :box nil)))))
+ 
 (provide 'init)
 ;;; init.el ends here
