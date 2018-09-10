@@ -52,6 +52,7 @@ values."
      (python :variables python-enable-yapf-format-on-save t)
      ipython-notebook
      (c-c++ :variables c-c++-enable-clang-support t)
+     cscope
      html
      javascript
      latex)
@@ -60,6 +61,8 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(color-theme-solarized
+                                      gruvbox-theme
+                                      monokai-alt-theme
                                       general
                                       key-chord
                                       yasnippet-snippets
