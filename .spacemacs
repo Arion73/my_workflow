@@ -376,8 +376,15 @@ you should place your code here."
   ;; theme supplement
   ;;----------------------------------------------------------
 
-  (setq ns-use-srgb-colorspace nil)
   (add-to-list 'custom-theme-load-path "~/.spacemacs.d/private/zelin-theme")
+  (setq ns-use-srgb-colorspace nil)
+
+  (if (display-graphic-p)
+      (progn
+        ;; if graphic
+        (load-theme 'zelin-dark-02-gui))
+    ;; else
+    (load-theme 'zelin-dark-02-terminal))
 
   ;;----------------------------------------------------------
   ;; python layer supplement
