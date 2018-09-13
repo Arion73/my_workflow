@@ -60,10 +60,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(color-theme-solarized
-                                      gruvbox-theme
-                                      monokai-alt-theme
-                                      general
+   dotspacemacs-additional-packages '(general
                                       key-chord
                                       yasnippet-snippets
                                       pandoc-mode
@@ -380,19 +377,7 @@ you should place your code here."
   ;;----------------------------------------------------------
 
   (setq ns-use-srgb-colorspace nil)
-  ;; solarized theme
-  (set-terminal-parameter nil 'background-mode 'dark)
-  (set-frame-parameter nil 'background-mode 'dark)
-  (spacemacs/load-theme 'solarized)
-
-  (defun set-solarized-light ()
-    (interactive)
-    (customize-set-variable 'frame-background-mode 'light)
-    (load-theme 'solarized t))
-  (defun set-solarized-dark ()
-    (interactive)
-    (customize-set-variable 'frame-background-mode 'dark)
-    (load-theme 'solarized t))
+  (add-to-list 'custom-theme-load-path "~/.spacemacs.d/private/zelin-theme")
 
   ;;----------------------------------------------------------
   ;; python layer supplement
@@ -439,9 +424,7 @@ you should place your code here."
    "cc" '(python-shell-send-buffer :which-key "python-shell-send-buffer")
    "C-c" '(elpy-shell-send-region-or-buffer :which-key "elpy-shell-send-")
    "ml" '(markdown-live-preview-mode :which-key "markdown-live-preview-mode")
-   "i" '(yas-insert-snippet :which-key "yas-insert-snippet")
-   "sl" '(set-solarized-light :which-key "set bg light")
-   "sd" '(set-solarized-dark :which-key "set bg dark"))
+   "i" '(yas-insert-snippet :which-key "yas-insert-snippet"))
 
   ;; flyspell configuration
   (setq flyspell-issue-message-flag nil)
