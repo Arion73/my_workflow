@@ -14,17 +14,14 @@
 
 (setq-default ns-use-srgb-colorspace nil)
 
-;; set mode-line background color
-;;(set-face-background 'mode-line "black")
-;;(set-face-background 'mode-line-inactive "shadow")
-
 ;; set cursor clolor
-(setq evil-normal-state-cursor '("systemYellowColor" box))
-(setq evil-insert-state-cursor '("green" bar))
-(setq evil-visual-state-cursor '("gray" box))
-(setq evil-replace-state-cursor '("red" bar))
-(setq evil-operator-state-cursor '("gold" hollow))
-(setq evil-emacs-state-cursor '("skyblue" box))
+(setq evil-normal-state-cursor '("#FFC820" box))
+(setq evil-insert-state-cursor '("#5BE516" bar))
+(setq evil-visual-state-cursor '("#EEEEEE" box))
+(setq evil-replace-state-cursor '("#F11712" bar))
+(setq evil-operator-state-cursor '("#1019DE" hollow))
+(setq evil-motions-state-cursor '("#1D9FFF" box))
+(setq evil-emacs-state-cursor '("#B612B8" box))
 
 
 ;; display window number
@@ -37,41 +34,41 @@
 
 ;; my faces
 (defface my-normal-face
-  '((t (:foreground "systemYellowColor" :background "black")))
+  '((t (:foreground "#333333" :background "#FFC820" )))
   "evil-normal color"
   :group 'faces)
 
 (defface my-insert-face
-  '((t (:foreground "green" :background "black")))
+  '((t (:foreground "#333333" :background "#5BE516")))
   "evil-insert color"
   :group 'faces)
 
 (defface my-visual-face
-  '((t (:foreground "gray" :background "black")))
+  '((t (:foreground "#333333" :background "#EEEEEE")))
   "evil-visual color"
   :group 'faces)
 
 (defface my-repace-face
-  '((t (:foreground "skyblue" :background "black")))
+  '((t (:foreground "#333333" :background "#F11712")))
   "evil-replace color"
   :group 'faces)
 
 (defface my-operator-face
-  '((t (:foreground "gold" :background "black")))
+  '((t (:foreground "#333333" :background "#1019DE")))
   "evil-operator color"
   :group 'faces)
 
 (defface my-motions-face
-  '((t (:foreground "purple" :background "black")))
+  '((t (:foreground "#333333" :background "#1D9FFF")))
   "evil-operator color"
   :group 'faces)
 (defface my-emacs-face
-  '((t (:foreground "purple" :background "black")))
+  '((t (:foreground "#333333" :background "#B612B8" )))
   "evil-emacs color"
   :group 'faces)
 
 (defface my-highlight-face
-  '((t (:background "systemYellowColor")))
+  '((t (:foreground "#FFC820" :background "black")))
   "my-red-face"
   :group 'face)
 
@@ -105,7 +102,7 @@
 		      ;;left
 		      (format-mode-line
 		       (list 
-			'(:eval (propertize (concat " " (window-numbering-get-number-string) " |") 'face 'my-normal-face))
+			'(:eval (propertize (concat " " (window-numbering-get-number-string) " ") 'face 'my-normal-face))
 			;; evil tag
 			evil-mode-line-tag
 			" "
@@ -135,13 +132,12 @@
 		      ;; right
 		      (format-mode-line
 		       (list
-			mode-line-front-space
-			;;mode-line-misc-info
 			 ;; line number, column number and percent of buffer above bottom of window
-			" %02l:%02c | %p%%"
+			" %02l:%02c | %p%%  "
+			mode-line-misc-info
 			 )))))))
 
-;(my-mode-line)
+(my-mode-line)
 
 (provide 'core-mode-line)
 
