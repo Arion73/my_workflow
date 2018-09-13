@@ -61,6 +61,9 @@
 (setenv "LC_ALL" "en_US.UTF-8")
 (setenv "LANG" "en_US.UTF-8")
 
+;; electric-pair mode
+(electric-pair-mode t)
+
 ;;
 (setq default-fill-column 80)
 
@@ -75,6 +78,7 @@
   :ensure t
   :config
   (osx-clipboard-mode t))
+
 
 ;; ivy
 (use-package ivy
@@ -95,6 +99,13 @@
 (use-package counsel
   :ensure t
   :diminish "")
+
+;; smex
+(use-package smex
+  :ensure t
+  :diminish ""
+  :config
+  (smex-initialize))
 
 
 ;; which-key
@@ -135,7 +146,7 @@
   :config
   (ac-config-default))
 
-;; companty-statistics
+;; company-statistics
 (use-package company-statistics
   :ensure t
   :config
