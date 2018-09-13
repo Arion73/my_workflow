@@ -47,8 +47,6 @@
    :states '(normal)
    :prefix ","
    "eb" '(eval-buffer :which-key "eval-buffer")
-   "sl" '(set-solarized-light :which-key "set bg light")
-   "sd" '(set-solarized-dark :which-key "set bg dark")
    "ml" '(markdown-live-preview-mode :which-key "markdown-live-preview-mode")
    "p" '(run-python :which-key "run-python")
    "i" '(yas-insert-snippet :which-key "yas-insert-snippet")
@@ -65,6 +63,7 @@
 	(setq key-chord-two-keys-delay 0.1)
   (key-chord-define evil-insert-state-map "kk" 'evil-normal-state)
   (key-chord-define evil-replace-state-map "kk" 'evil-normal-state)
+  (key-chord-define evil-motion-state-map "kk" 'evil-normal-state)
   (key-chord-mode t))
 
 ;; apply the Evil h,j,k,l bindings to occur-mode-map when Emacs state
