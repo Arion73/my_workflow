@@ -1,81 +1,53 @@
-;;; core-key-binding.el
+;;; core-key-binding.el --- provide key-bindings similar to  spacemacs's settings.
 
-;; Author: Zewei Wang
+;; Author: Z.Wang
 
 ;; This file is not part of GNU Emacs.
 
-;; Commentary:
+;;; Commentary:
 
-;; set key-bindings as spacemacs
+;; set key-bindings similar to  spacemacs's settings
 
-;; Code:
+;;; Code:
 
-;; general
-(use-package general
-  :ensure t
-  :diminish ""
-  :config
-  (general-evil-setup t)
-  ;; define emacs leader key
-  (general-define-key
-   :states '(normal visual emacs)
-   :prefix "SPC"
-   "SPC" '(counsel-M-x :which-key "M-x")
-   "TAB" '(switch-to-prev-buffer :which-key "previous buffer")
-   "!" '(shell-command :which-key "shell-command")
-   "'" '(shell :which-key "shell")
-   "bb" '(ivy-switch-buffer :which-key "ivy-switch-buffer")
-   "bd" '(kill-buffer :which-key "kill-buffer")
-   "bk" '(kill-buffer-and-window :which-key "kill-buffer-and-window")
-   "cl" '(comment-line :which-key "comment-line")
-   "qq" '(save-buffers-kill-emacs :which-key "C-x C-c")
-   "ff" '(counsel-find-file :which-key "find file")
-   "fr" '(counsel-recentf :which-key "recent files")
-   "g" '(:igonre t :which-key "Git")
-   "gs" '(magit-status :which-key "git status")
-   "hdf" '(describe-function :which-key "describe-function")
-   "hdk" '(describe-key :which-key "describe-key")
-   "hdv" '(describe-variable :which-key "describe-variable")
-   "hdm" '(describe-mode :which-key "describe-mode")
-   "td" '(org-todo :which-key "org-tod")
-   "o" '(evil-window-next :which-key "evil-window-next")
-   "Ts" '(counsel-load-theme :which-key "counsel-load-theme")
-   "1" '(delete-other-windows :which-key "delete-other-windows")
- )
-  ;; define my leader key
-  (general-define-key
-   :states '(normal)
-   :prefix ","
-   "eb" '(eval-buffer :which-key "eval-buffer")
-   "ml" '(markdown-live-preview-mode :which-key "markdown-live-preview-mode")
-   "p" '(run-python :which-key "run-python")
-   "i" '(yas-insert-snippet :which-key "yas-insert-snippet")
-   "C-c" '(elpy-shell-send-region-or-buffer :which-key "elpy-shell")
-   "cc" '(python-shell-send-buffer :which-key "python-shell-send-buffer")))
+;; kill all buffers
+(defun kill-all-buffers ()
+  "Kill all buffers."
+  (interactive)
+  (dolist (cur (buffer-list))
+    (kill-buffer cur)))
 
 
-;; key-chord
-(use-package key-chord
-  :ensure
-  :diminish ""
-  :config
-  ;; Max time delay between two key presses to be considered a key chord
-	(setq key-chord-two-keys-delay 0.1)
-  (key-chord-define evil-insert-state-map "kk" 'evil-normal-state)
-  (key-chord-define evil-replace-state-map "kk" 'evil-normal-state)
-  (key-chord-define evil-motion-state-map "kk" 'evil-normal-state)
-  (key-chord-mode t))
+(require 'evil)
 
-;; apply the Evil h,j,k,l bindings to occur-mode-map when Emacs state
-(add-hook 'occur-mode-hook
-	        (lambda ()
-	          (evil-add-hjkl-bindings occur-mode-map 'emacs
-		          (kbd "/") 'evil-search-forward
-		          (kbd "n") 'evil-search-next
-		          (kbd "N") 'evil-search-previous
-		          (kbd "C-f") 'evil-scroll-down
-		          (kbd "C-b") 'evil-scroll-up
-		          (kdb "C-w C-w") 'other-window)))
+;; global key bindings
+(evil-define-key '(normal visual motion) global-map
+  (kbd "SPC SPC") 'counsel-M-x
+  (kbd "SPC TAB") 'switch-to-prev-buffer
+  (kbd "SPC !") 'shell-command
+  (kbd "SPC '") 'shell
+  (kbd "SPC 1") 'delete-other-windows
+  (kbd "SPC bb") 'ivy-switch-buffer
+  (kbd "SPC bd") 'kill-buffer
+  (kbd "SPC bk") 'kill-buffer-and-window
+  (kbd "SPC bm") 'kill-all-buffers
+  (kbd "SPC bR") 'rename-buffer
+  (kbd "SPC eb") 'eval-buffer
+  (kbd "SPC yi") 'yas-insert-snippet
+  (kbd "SPC ff") 'counsel-find-file
+  (kbd "SPC qq") 'save-buffers-kill-emacs
+  (kbd "SPC fs") 'save-buffer
+  (kbd "SPC fr") 'counsel-recentf
+  (kbd "SPC gs") 'magit-status
+  (kbd "SPC hdf") 'describe-function
+  (kbd "SPC hdk") 'describe-key
+  (kbd "SPC hdv") 'describe-variable
+  (kbd "SPC hdm") 'describe-mode
+  (kbd "SPC td") 'org-todo
+  (kbd "SPC Ts") 'counsel-load-theme
+  (kbd "SPC o") 'evil-window-next
+  )
 
 
 (provide 'core-key-bindings)
+;;; core-key-bindings.el ends here
