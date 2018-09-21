@@ -61,18 +61,21 @@
 (add-hook 'python-mode-hook
 	  (lambda()
 	    (setq tab-width 4)
-	    (setq python-indent-guess-indent-offset t)  
-	    (setq python-indent-guess-indent-offset-verbose nil)))
+	    (setq python-indent-guess-indent-offset t
+		  python-indent-guess-indent-offset-verbose nil)
 
-;; key-bindings
-(add-hook 'python-mode-hook
-	  (lambda()
+	    ;; set python-shell-interpreter
+	    (setq python-shell-interpreter "python3")
+
+	    ;; key-bindings
 	    (evil-define-key '(normal visual motion) python-mode-map
-	      (kbd "SPC py") 'run-python)))
-(add-hook 'python-mode-hook
-	  (lambda()
-	    (evil-define-key '(normal visual motion) python-mode-map
-	      (kbd "SPC cc") 'python-shell-send-buffer)))
+	      (kbd "SPC py") 'run-python
+	      (kbd "SPC cc") (lambda() (interactive) (python-shell-send-buffer t))
+	      (kbd "C-c C-c") (lambda() (interactive) (elpy-shell-send-region-or-buffer t))
+	      )))
+
+;; suppress warnings about python-shell-interpreter doesn't seem to support readline
+(setq python-shell-completion-native-disabled-interpreters '("python3"))
 
 ;; py-autopep8
 (use-package py-autopep8
