@@ -70,8 +70,12 @@
 	    ;; key-bindings
 	    (evil-define-key '(normal visual motion) python-mode-map
 	      (kbd "SPC py") 'run-python
-	      (kbd "SPC cc") (lambda() (interactive) (python-shell-send-buffer t))
-	      (kbd "C-c C-c") (lambda() (interactive) (elpy-shell-send-region-or-buffer t))
+	      (kbd "SPC cc") (lambda()
+			       (interactive)
+			       (python-shell-send-buffer t))
+	      (kbd "C-c C-c") (lambda()
+				(interactive)
+				(elpy-shell-send-region-or-buffer t))
 	      )))
 
 ;; suppress warnings about python-shell-interpreter doesn't seem to support readline
