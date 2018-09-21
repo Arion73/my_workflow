@@ -14,7 +14,7 @@
 
 (defadvice vc-mode-line (after strip-backend () activate)
   (when (stringp vc-mode)
-    (let ((gitlogo (replace-regexp-in-string "^ Git." ":" vc-mode)))
+    (let ((gitlogo (replace-regexp-in-string "^ Git." " :" vc-mode)))
           (setq vc-mode gitlogo))))
 
 
@@ -128,13 +128,13 @@
 			    " "
 			    ;; pyvenv-virtual-env-name
 			    '(:eval (if pyvenv-mode (when (stringp pyvenv-virtual-env-name)
-				      (propertize (concat " " pyvenv-virtual-env-name " ") 'face 'my-normal-face))))
+			   	      (propertize (concat " " pyvenv-virtual-env-name " ") 'face 'my-normal-face))))
+			    ;; git info
+			    vc-mode
 			    ))
 			;; right
 			(format-mode-line
 			(list
-			    ;; git info
-			    vc-mode
 			    ;; line number, column number and percent of buffer above bottom of window
 			    "  %02l:%02c | %p%%  "
 			    mode-line-misc-info
