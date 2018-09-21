@@ -341,8 +341,6 @@ you should place your code here."
 
   ;; turn mode-line minor modes off
   (spacemacs/toggle-mode-line-minor-modes-off)
-  ;; show clock
-  (spacemacs/toggle-mode-line-org-clock-on)
 
   ;; automatically save sessions
   (setq desktop-buffers-not-to-save
@@ -382,9 +380,9 @@ you should place your code here."
   (if (display-graphic-p)
       (progn
         ;; if graphic
-        (load-theme 'zelin-dark-02-gui))
+        (load-theme 'zelin-dark-02-gui t))
     ;; else
-    (load-theme 'zelin-dark-02-terminal))
+    (load-theme 'zelin-dark-02-terminal t))
 
   ;;----------------------------------------------------------
   ;; python layer supplement
@@ -394,12 +392,26 @@ you should place your code here."
   (venv-initialize-interactive-shells)
   (venv-initialize-eshell)
   (setq venv-location
-        (expand-file-name "~/virtualenvs/"))
+        (expand-file-name "~/.virtualenvs/"))
   ;; enable autopep8 formatting on save
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
   ;; elpy
   (elpy-enable)
+  (add-hook 'elpy-mode-hook
+            (lambda ()
+              (evil-define-key '(normal visual motion) elpy-mode-map
+		            (kbd "SPC cc")
+                (elpy-shell-send-region-or-buffer t))))
 
+  ;; key-bindings
+  (add-hook 'python-mode-hook
+	          (lambda()
+	            (evil-define-key '(normal visual motion) python-mode-map
+	              (kbd "SPC py") 'run-python)))
+  (add-hook 'python-mode-hook
+	          (lambda()
+	            (evil-define-key '(normal visual motion) python-mode-map
+	              (kbd "SPC cc") (python-shell-send-buffer t))))
   ;;----------------------------------------------------------
   ;; key-bindings supplement
   ;;----------------------------------------------------------
@@ -407,8 +419,9 @@ you should place your code here."
   ;; key-chord
   ;; Max time delay between two key presses to be considered a key chord
   (setq key-chord-two-keys-delay 0.2)
-  (key-chord-define evil-insert-state-map "kk" 'evil-normal-state)
-  (key-chord-define evil-replace-state-map "kk" 'evil-normal-state)
+  (key-chord-define evil-insert-state-map "ii" 'evil-normal-state)
+  (key-chord-define evil-replace-state-map "ii" 'evil-normal-state)
+  (key-chord-define evil-motion-state-map "ii" 'evil-normal-state)
   (key-chord-mode t)
 
   ;; general
@@ -417,10 +430,10 @@ you should place your code here."
   (general-define-key
    :states '(normal visual emacs)
    :prefix "SPC"
-   "bk" '(kill-buffer-and-window :which-key "kill-buffer-and-window")
    "ein" '(ein:notebooklist-login :which-key "ein:notebooklist-login")
    "td" '(org-todo :which-key "org-tod")
    "o" '(evil-window-next :which-key "evil-window-next")
+   "yi" '(yas-insert-snippet :which-key "yas-insert-snippet")
    "1" '(delete-other-windows :which-key "delete-other-windows"))
 
   ;; define my leader key
@@ -429,9 +442,8 @@ you should place your code here."
    :prefix ","
    "p" '(run-python :which-key "run-python")
    "cc" '(python-shell-send-buffer :which-key "python-shell-send-buffer")
-   "C-c" '(elpy-shell-send-region-or-buffer :which-key "elpy-shell-send-")
    "ml" '(markdown-live-preview-mode :which-key "markdown-live-preview-mode")
-   "i" '(yas-insert-snippet :which-key "yas-insert-snippet"))
+   )
 
   ;; flyspell configuration
   (setq flyspell-issue-message-flag nil)
