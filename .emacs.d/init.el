@@ -11,25 +11,26 @@
 
 ;;; Code:
 
+;;==========================================================
+;; MY CONFIGURATIONS
+;;==========================================================
 
 (let ((file-name-handler-alist nil))
-
-;;==========================================================
-  
+;;----------------------------------------------------------
 ;; Make startup faster by redcing the frequency of garbage collection.
 ;; The default is 800000 bytes.
 (setq gc-cons-threshold 30000000)
-
-;;==========================================================
-
+;;----------------------------------------------------------
 (require 'package)
 (setq package-enable-at-startup nil)
 
+;;==========================================================
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 (package-initialize)
+;;==========================================================
 
 ;; add melpa stable
 (add-to-list 'package-archives
@@ -37,77 +38,27 @@
 ;; add melpa
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/"))
-
 (when (not package-archive-contents)
     (package-refresh-contents))
-
-;;==========================================================
-;; MY CONFIGURATIONS
-;;==========================================================
-
+;;----------------------------------------------------------
 ;; directory of my core configuration files
 (add-to-list 'load-path "~/.emacs.d/core/")
-
-;;==========================================================
-;; PACKAGE MANAGEMENT
-;; Note: Keep this block near the top, because it needs to
+;; Note: Keep core-package near the top, as it needs to
 ;; count loaded packages number and time spent.
-;;==========================================================
+(require 'core-package)          ;; package management layer
+(require 'core-basic)            ;; basic config 
+(require 'core-evil)             ;; evil layer
+(require 'core-python)           ;; python layer
+(require 'core-c-c++)            ;; C/C++ layer
+(require 'core-markdown)         ;; markdown layer
+(require 'core-auto-completion)  ;; completion layer
+(require 'core-global)           ;; package collections for global mode 
+(require 'core-key-bindings)     ;; key-bindings
+(require 'core-mode-line)        ;; mode-line
 
-(require 'core-package-management)
-
-;;==========================================================
-;; BASIC CONFIGURATIONS
-;;==========================================================
-
-(require 'core-basic)
-
-;;==========================================================
-;; EVIL
-;;==========================================================
-
-(require 'core-evil)
-
-;;==========================================================
-;; PYTHON
-;;==========================================================
-
-(require 'core-python)
-
-;;==========================================================
-;; C/C++  
-;;==========================================================
-
-(require 'core-c-c++)
-
-;;==========================================================
-;; MARKDOWN
-;;==========================================================
-
-(require 'core-markdown)
-
-;;==========================================================
-;; AUTO-COMPLETION
-;;==========================================================
-
-(require 'core-auto-completion)
-
-;; flycheck
-(use-package flycheck
-  :ensure t
-  :config
-  (add-hook 'elpy-mode-hook 'flycheck-mode)
-  )
-
-;;==========================================================
-;; KEY BINDINGS
-;;==========================================================
-
-(require 'core-key-bindings)
-
-;;==========================================================
-;; THEME & MODE LINE
-;;==========================================================
+;;----------------------------------------------------------
+;; THEME 
+;;----------------------------------------------------------
 
 ;; load my own theme path
 (add-to-list 'custom-theme-load-path "~/.emacs.d/private/zelin-theme")
@@ -122,10 +73,7 @@
   ;; else
   (load-theme 'zelin-dark-02-terminal t))
 
-;; mode line
-(require 'core-mode-line)
-
-;;==========================================================
+;;----------------------------------------------------------
 )  ;; let ends here
 ;;==========================================================
 ;; PACKAGE.EL AUTOMATICALLY PRODUCED CONFIGURATIONS
@@ -141,7 +89,7 @@
     ("04bff26d45b0ac4e64295eb5c73585e051a7d12cea771e54bb234d94a2ff59f8" "7b839cbaaf0f7da876cab50d745e65ee6a07a5c03edc8ae90defd33ab1af88ce" default)))
  '(package-selected-packages
    (quote
-    (esup exec-path-from-shell pandoc-mode company-auctex auctex-latexmk ein ob-ipython org-projectile org-download org-present org-bullets markdown-preview-mode markdown-mode nose anaconda-mode virtualenvwrapper key-chord general window-numbering company-statistics auto-complete rainbow-delimiters which-key smex counsel osx-clipboard evil-matchit evil-indent-textobject evil-surround evil-leader evil yasnippet-snippets use-package py-autopep8 flycheck elpy))))
+    (highlight-parentheses diff-hl esup exec-path-from-shell pandoc-mode company-auctex auctex-latexmk ein ob-ipython org-projectile org-download org-present org-bullets markdown-preview-mode markdown-mode nose anaconda-mode virtualenvwrapper key-chord general window-numbering company-statistics auto-complete rainbow-delimiters which-key smex counsel osx-clipboard evil-matchit evil-indent-textobject evil-surround evil-leader evil yasnippet-snippets use-package py-autopep8 flycheck elpy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
