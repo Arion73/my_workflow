@@ -122,7 +122,7 @@
 			    ;; value of "mode-name"
 			    '(:eval (propertize " %m "))
 			    ;; project name
-			    '(:eval (if projectile-mode (when (ignore-errors (projectile-project-root)) (format " Proj[%s] " (projectile-project-name)))))
+			    '(:eval (if projectile-mode (when (ignore-errors (projectile-project-root)) (propertize (concat " Proj[" (projectile-project-name) "] ") 'face 'my-normal-face))))
 			    ;; flycheck
 			    (flycheck-mode-line-status-text)
 			    " "
@@ -130,7 +130,7 @@
 			    '(:eval (if pyvenv-mode (when (stringp pyvenv-virtual-env-name)
 			   	      (propertize (concat " " pyvenv-virtual-env-name " ") 'face 'my-normal-face))))
 			    ;; git info
-			    vc-mode
+			    '(:eval (when (stringp vc-mode) (propertize (concat vc-mode " ") 'face 'my-normal-face)))
 			    ))
 			;; right
 			(format-mode-line
