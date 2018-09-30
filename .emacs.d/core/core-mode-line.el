@@ -105,14 +105,17 @@
 			    ;; buffer modified
 			    mode-line-modified
 			    ;; buffer read only
-			    mode-line-client
 			    mode-line-remote
+			    mode-line-client
 			    ;; buffer size
 			    " %I "
 			    ;; buffer name
 			    '(:eval (propertize " %b " 'face 'my-normal-face))
-			    ;; value of "mode-name"
-			    '(:eval (propertize " %m "))
+			    ;; major mode
+			    '(:eval (propertize " %m"))
+			    ;; mode-line-process
+			    '(:eval (if mode-line-process (propertize ":%s")))
+			    " "
 			    ;; project name
 			    '(:eval (if projectile-mode
 					(when (ignore-errors (projectile-project-root))
@@ -120,10 +123,6 @@
 			    ;; flycheck
 			    (flycheck-mode-line-status-text)
 			    " "
-			    ;; pyvenv-virtual-env-name
-			    '(:eval (if pyvenv-mode
-					(when (stringp pyvenv-virtual-env-name)
-					  (propertize (concat " " pyvenv-virtual-env-name " ") 'face 'my-normal-face))))
 			    ;; git info
 			    '(:eval (when (stringp vc-mode)
 				      (propertize (concat vc-mode " ") 'face 'my-normal-face)))
@@ -131,9 +130,9 @@
 			;; right
 			(format-mode-line
 			(list
+			    mode-line-misc-info
 			    ;; line number, column number and percent of buffer above bottom of window
 			    "  %02l:%02c | %p%%  "
-			    mode-line-misc-info
 			    )))))))
 
 (my-mode-line)
