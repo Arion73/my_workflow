@@ -1,7 +1,7 @@
-#WEmacs
+# WEmacs
 
 **Author:** *Zewei Wang*
 
-#Contents
+# Contents
 
 This package contains all my personal configuration files for my emacs.
