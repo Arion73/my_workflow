@@ -59,8 +59,8 @@
   :hook (evil-mode-hook)
   :config
   (evil-define-key '(normal visual) prog-mode-map
-    (kbd "g l") 'evil-lion-left
-    (kbd "g L") 'evil-lion-right)
+    (kbd "gl") 'evil-lion-left
+    (kbd "gL") 'evil-lion-right)
   (evil-lion-mode))
 
 ;; apply the Evil h,j,k,l bindings to occur-mode-map when Emacs state
