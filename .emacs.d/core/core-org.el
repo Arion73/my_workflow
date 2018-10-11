@@ -11,15 +11,12 @@
 ;;; Code:
 
 (add-hook 'org-mode-hook
-	  (lambda ()
-	    ;; org startup not folded
-	    (setq org-inhibit-startup-visibility-stuff t)
-
+	  (lambda ()                                          
 	    ;; org-indent-mode
-	    (setq org-startup-indented t)
+	    (setq org-startup-indented t)                     
 
 	    ;; set underscore as _, subscript as _{}.
-	    (setq org-export-with-sub-superscripts (quote {})) 
+	    (setq org-export-with-sub-superscripts (quote {}))
 
 	    (setq org-src-fontify-natively t
                   org-src-preserve-indentation nil
@@ -37,20 +34,37 @@
 	    ;;don't prompt me to confirm everytime I want to evaluate a block
 	    (setq org-confirm-babel-evaluate nil)
 
+	    ;; publishing Org-mode files
+	    (setq org-publish-project-alist
+		  '(("org-html"
+		     :base-directory "~/documents/myproject/mynotebook/org/"
+		     :base-extension "org"
+		     :publishing-directory "~/documents/myproject/mynotebook/html/"
+		     :recursive t
+		     :publishing-function org-html-publish-to-html
+		     :headline-levels 6
+		     :auto-preamble t)
+		    ("org-html-images"
+		     :base-directory "~/documents/myproject/mynotebook/org/img/"
+		     :base-extension "jpg\\|gif\\|png\\|tiff"
+		     :publishing-directory "~/documents/myproject/mynotebook/html/img/"
+		     :publishing-function org-publish-attachment)
+		    ("org-tex-pdf"
+		     :base-directory "~/documents/myproject/mynotebook/org/"
+		     :base-extension "org"
+		     :publishing-directory "~/documents/myproject/mynotebook/latex-pdf/"
+		     :publishing-function org-latex-publish-to-pdf)
+		    ("all" :components ("org-html" "org-html-images" "org-tex-pdf"))))
+
 	    ;; active Babel languages
 	    (org-babel-do-load-languages 'org-babel-load-languages
-					'((emacs-lisp . t)
-					(python . t)
-					(ipython . t)
-					(C . t)
-					(shell . t)
-					(org . t)))))
-
-;; htmlize --- syntax highlighting in exported HTML page
-(use-package htmlize
-  :ensure t
-  :hook (org-mode-hook)
-  :defer t)
+			 '((emacs-lisp . t)
+			   (python     . t)
+			   (ipython    . t)
+			   (C          . t)
+			   (shell      . t)
+			   (org        . t)))
+	    ))
 
 ;; org-bullets
 (use-package org-bullets
@@ -101,62 +115,14 @@
   :config
   (add-to-list 'company-backends 'company-ob-ipython))
 
+;; ob-async --- execute org-babel src blocks asynchronously
+(use-package ob-async
+  :ensure t
+  :hook (org-mode-hook)
+  :defer t
+  :config
+  (ob-async))
 
-;; export org to html file when save buffer
-(defun toggle-org-html-export-on-save ()
-  (interactive)
-  (if (memq 'org-html-export-to-html after-save-hook)
-      (progn
-        (remove-hook 'after-save-hook 'org-html-export-to-html t)
-        (message "Disabled org html export on save for current buffer..."))
-    (add-hook 'after-save-hook 'org-html-export-to-html nil t)
-    (message "Enabled org html export on save for current buffer...")))
-(add-hook 'org-mode-hook #'toggle-org-html-export-on-save)
-(add-hook 'org-mode-hook
-	  (lambda ()
-	    (evil-define-key '(normal visual motion) org-mode-map
-	      (kbd "SPC to") 'toggle-org-html-export-on-save)))
-
-
- ;; my css files
-(defvar org-css-dir "~/.emacs.d/private/org-css/")
-
-(defun toggle-org-custom-inline-style ()
-  (interactive)
-  (let ((hook 'org-export-before-parsing-hook)
-        (fun 'set-org-html-style))
-    (if (memq fun (eval hook))
-        (progn
-          (remove-hook hook fun 'buffer-local)
-          (message "Removed %s from %s" (symbol-name fun) (symbol-name hook)))
-      (add-hook hook fun nil 'buffer-local)
-      (message "Added %s to %s" (symbol-name fun) (symbol-name hook)))))
- 
-(defun org-theme ()
-  (interactive)
-  (let* ((cssdir org-css-dir)
-         (css-choices (directory-files cssdir nil ".css$"))
-         (css (completing-read "theme: " css-choices nil t)))
-    (concat cssdir css)))
- 
-(defun set-org-html-style (&optional backend)
-  (interactive)
-  (when (or (null backend) (eq backend 'html))
-    (let ((f (or (and (boundp 'org-theme-css) org-theme-css) (org-theme))))
-      (if (file-exists-p f)
-          (progn
-            (set (make-local-variable 'org-theme-css) f)            
-            (set (make-local-variable 'org-html-head)
-                 (with-temp-buffer
-                   (insert "<style type=\"text/css\">\n<!--/*--><![CDATA[/*><!--*/\n")
-                   (insert-file-contents f)
-                   (goto-char (point-max))
-                   (insert "\n/*]]>*/-->\n</style>\n")
-                   (buffer-string)))
-            (set (make-local-variable 'org-html-head-include-default-style)
-                 nil)
-            (message "Set custom style from %s" f))
-        (message "Custom header file %s doesnt exist")))))
 
 (provide 'core-org)
 ;;; core-org.el ends here
