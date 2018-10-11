@@ -10,9 +10,11 @@
 
 ;;; Code:
 
-;;----------------------------------------------------------
-;; latex layer setting
-;;__________________________________________________________
+;; AUCTEX --- writting and formatting TEX file.
+(use-package auctex
+  :ensure t
+  :hook (TeX-mode-hook)
+  :defer t)
 
 ;; auctex-latexmk --- auto-build
 (use-package auctex-latexmk
@@ -28,6 +30,13 @@
   :hook (LaTeX-mode-hook)
   :config
   (company-auctex-init))
+
+;; company-math --- completion back-ends for math unicode sysmbols and latex tags
+(use-package company-math
+  :ensure t
+  :defer t
+  :config
+  (add-to-list 'company-backends 'company-math-symbols-unicode))
 
 (provide 'core-latex)
 ;;; core-latex.el ends here
