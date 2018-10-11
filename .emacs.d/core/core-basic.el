@@ -12,10 +12,6 @@
 ;;; Code:
 
 
-;;==========================================================
-;; BASIC CONFIGURATIONS
-;;==========================================================
-
 ;; Don't display startup messages
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
@@ -94,6 +90,11 @@
 	    (setenv "LC_ALL" "en_US.UTF-8")
 	    (setenv "LANG" "en_US.UTF-8")
 	    (set-language-environment "UTF-8")
+
+	    ;; Use utf-8 as default coding system
+	    (prefer-coding-system 'utf-8)                                 
+	    (set-charset-priority 'unicode)                               
+	    (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 
 	    ;; projectile mode
 	    (projectile-mode t)

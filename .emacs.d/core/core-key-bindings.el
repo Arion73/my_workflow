@@ -22,7 +22,7 @@
   "Remove file connected to current buffer and kills buffer."
   (interactive)
   (let ((filename (buffer-file-name))
-	buffer (current-buffer)
+	(buffer (current-buffer))
 	(name (buffer-name)))
     (if (not (and filename (file-exists-p filename)))
 	(error "Buffer '%s' is not visiting a file!" name)
