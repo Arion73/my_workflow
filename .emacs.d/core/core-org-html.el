@@ -14,9 +14,9 @@
 (defun toggle-org-html-export-on-save ()
   "Export org file to html when saving buffer."
   (interactive)
-  (if (memq 'org-html-export-to-html after-save-hook)
+  (if (memq 'org-export-and-move-html after-save-hook)
       (progn
-        (remove-hook 'after-save-hook 'org-html-export-to-html t)
+        (remove-hook 'after-save-hook 'org-export-and-move-html t)
         (message "Disabled org html export on save for current buffer..."))
     (add-hook 'after-save-hook 'org-export-and-move-html nil t)
     (message "Enabled org html export on save for current buffer...")))
