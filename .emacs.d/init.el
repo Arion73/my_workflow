@@ -31,6 +31,9 @@
 (require 'core-evil)             ;; evil layer
 (require 'core-theme)            ;; load theme
 
+(require 'core-completion)  ;; completion layer
+(require 'core-global)           ;; package collections for global mode 
+
 (require 'core-python)           ;; python layer
 (require 'core-c-c++)            ;; C/C++ layer
 (require 'core-html)             ;; HTML layer
@@ -42,8 +45,6 @@
 (require 'core-latex)            ;; latex layer
 (require 'core-pdf)              ;; pdf layer
 
-(require 'core-auto-completion)  ;; completion layer
-(require 'core-global)           ;; package collections for global mode 
 (require 'core-key-bindings)     ;; key-bindings
 (require 'core-mode-line)        ;; mode-line
 )  ;; let ends here
@@ -64,7 +65,7 @@
     ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "04bff26d45b0ac4e64295eb5c73585e051a7d12cea771e54bb234d94a2ff59f8" "7b839cbaaf0f7da876cab50d745e65ee6a07a5c03edc8ae90defd33ab1af88ce" default)))
  '(package-selected-packages
    (quote
-    (impatient-mode company-math org2ctex ob-async htmlize h2o all-the-icon evil-lion highlight-parentheses diff-hl esup exec-path-from-shell pandoc-mode company-auctex auctex-latexmk ob-ipython org-projectile org-download org-present org-bullets markdown-preview-mode markdown-mode nose anaconda-mode virtualenvwrapper key-chord general window-numbering company-statistics auto-complete rainbow-delimiters which-key smex counsel osx-clipboard evil-matchit evil-indent-textobject evil-surround evil-leader evil yasnippet-snippets use-package py-autopep8 flycheck elpy)))
+    (company-quickhelp impatient-mode company-math org2ctex ob-async htmlize h2o all-the-icon evil-lion highlight-parentheses diff-hl esup exec-path-from-shell pandoc-mode company-auctex auctex-latexmk ob-ipython org-projectile org-download org-present org-bullets markdown-preview-mode markdown-mode nose anaconda-mode virtualenvwrapper key-chord general window-numbering company-statistics rainbow-delimiters which-key smex counsel osx-clipboard evil-matchit evil-indent-textobject evil-surround evil-leader evil yasnippet-snippets use-package py-autopep8 flycheck elpy)))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
  '(shell-pop-full-span t)
  '(shell-pop-shell-type
