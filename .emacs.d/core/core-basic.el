@@ -82,6 +82,9 @@
 	    ;; set font
 	    (set-frame-font "Source Code Pro-15")
 
+	    ;; set tab behavior
+	    (setq tab-always-indent 'complete)
+
 	    ;; yes->y, no->n
 	    (fset 'yes-or-no-p'y-or-n-p)
 
