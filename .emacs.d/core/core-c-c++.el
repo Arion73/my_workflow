@@ -53,11 +53,13 @@
 (add-hook 'c-mode-hook
 	  (lambda ()
 	    (evil-define-key '(normal visual motion) c-mode-map
-	      (kbd "SPC cc") 'c-run)))
+	      (kbd "SPC cc") 'c-run)
+	    (which-key-add-key-based-replacements "SPC c" "run")))
 (add-hook 'c++-mode-hook
 	  (lambda ()
 	    (evil-define-key '(normal visual motion) c++-mode-map
-	      (kbd "SPC cc") 'cpp-run)))
+	      (kbd "SPC cc") 'cpp-run)
+	    (which-key-add-key-based-replacements "SPC c" "run")))
 
 (setq compilation-ask-about-save nil)
 
