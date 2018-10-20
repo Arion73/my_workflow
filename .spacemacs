@@ -55,19 +55,13 @@ values."
      cscope
      html
      javascript
-     latex)
+     latex
+     )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(general
-                                      key-chord
-                                      yasnippet-snippets
-                                      pandoc-mode
-                                      py-autopep8
-                                      ob-ipython
-                                      elpy
-                                      virtualenvwrapper)
+   dotspacemacs-additional-packages '()
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -123,7 +117,7 @@ values."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner nil
+   dotspacemacs-startup-banner 'official
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
@@ -255,7 +249,7 @@ values."
    dotspacemacs-show-transient-state-color-guide t
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
    dotspacemacs-mode-line-unicode-symbols t
-   ;; If non nil smooth scrolling (native-scrolling) is enab  d. Smooth
+   ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
    dotspacemacs-smooth-scrolling t
@@ -273,13 +267,13 @@ values."
    ;;   :size-limit-kb 1000)
    ;; (default nil)
    dotspacemacs-line-numbers '(:relative nil
-                               :disabled-for-modes
-                                dired-mode
-                                doc-view-mode
-                                markdown-mode
-                                org-mode
-                                pdf-view-mode
-                                text-mode)
+                                         :disabled-for-modes
+                                         dired-mode
+                                         doc-view-mode
+                                         markdown-mode
+                                         org-mode
+                                         pdf-view-mode
+                                         text-mode)
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -329,158 +323,33 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-
   ;;--------------------------------------------------------
   ;;********************************************************
   ;;--------------------------------------------------------
 
-  ;; Don't show menu-bar, scroll-bar, tool-bar in GUI Emacs
-  (menu-bar-mode 0)
-  (scroll-bar-mode 0)
-  (tool-bar-mode 0)
+    ;; directory of my core configuration files
+    (add-to-list 'load-path "~/.emacs.d/core/")
+    ;; Note: Keep core-package at the top
+    ;(require 'core-package)          ;; package management layer
+    (require 'core-basic)            ;; basic config 
+    (require 'core-evil)             ;; evil layer
+    (require 'core-theme)            ;; load theme
 
-  ;; turn mode-line minor modes off
-  (spacemacs/toggle-mode-line-minor-modes-off)
-  ;; show clock
-  (spacemacs/toggle-mode-line-org-clock-on)
+    (require 'core-python)           ;; python layer
+    (require 'core-c-c++)            ;; C/C++ layer
+    (require 'core-html)             ;; HTML layer
 
-  ;; automatically save sessions
-  (setq desktop-buffers-not-to-save
-	      (concat "\\("
-		            "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
-		            "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
-		            "\\)$"))
-  (setq desktop-path '("~/.spacemacs.d/"))
-  (desktop-save-mode)
-  (desktop-read)
+    (require 'core-org)              ;; org layer
+    (require 'core-org-html)         ;; org layer
+    (require 'core-org-latex)        ;; org layer
+    (require 'core-markdown)         ;; markdown layer
+    (require 'core-latex)            ;; latex layer
+    (require 'core-pdf)              ;; pdf layer
 
-  (setq spacemacs-theme-comment-bg nil)
-
-  ;; set mouse scroll in terminal
-  (unless window-system
-    (global-set-key [mouse-4] 'scroll-down-line)
-    (global-set-key [mouse-5] 'scroll-up-line)
-    ;; set cursor scrolling speed
-    (setq mouse-wheel-progressive-speed nil)
-    (setq scroll-margin 1
-          scroll-conservatively 1
-          scroll-up-aggressively 0.01
-          scroll-down-aggressively 0.01))
-
-  ;; yasnippet
-  (setq yas-snippet-dirs
-        '("~/.spacemacs.d/private/snippets"                 ;; personal snippets
-          "~/.spacemacs.d/elpa/yasnippet-snippets-20180714.1322/snippets"))
-
-  ;;----------------------------------------------------------
-  ;; theme supplement
-  ;;----------------------------------------------------------
-
-  (add-to-list 'custom-theme-load-path "~/.spacemacs.d/private/zelin-theme")
-  (setq ns-use-srgb-colorspace nil)
-
-  (if (display-graphic-p)
-      (progn
-        ;; if graphic
-        (load-theme 'zelin-dark-02-gui t))
-    ;; else
-    (load-theme 'zelin-dark-02-terminal t))
-
-  ;;----------------------------------------------------------
-  ;; python layer supplement
-  ;;----------------------------------------------------------
-
-  ;; Python virtualenv mode:
-  (venv-initialize-interactive-shells)
-  (venv-initialize-eshell)
-  (setq venv-location
-        (expand-file-name "~/virtualenvs/"))
-  ;; enable autopep8 formatting on save
-  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
-  ;; elpy
-  (elpy-enable)
-
-  ;;----------------------------------------------------------
-  ;; key-bindings supplement
-  ;;----------------------------------------------------------
-
-  ;; key-chord
-  ;; Max time delay between two key presses to be considered a key chord
-  (setq key-chord-two-keys-delay 0.2)
-  (key-chord-define evil-insert-state-map "ii" 'evil-normal-state)
-  (key-chord-define evil-replace-state-map "ii" 'evil-normal-state)
-  (key-chord-define evil-motion-state-map "ii" 'evil-normal-state)
-  (key-chord-mode t)
-
-  ;; general
-  (general-evil-setup t)
-  ;; define emacs leader key
-  (general-define-key
-   :states '(normal visual emacs)
-   :prefix "SPC"
-   "bk" '(kill-buffer-and-window :which-key "kill-buffer-and-window")
-   "ein" '(ein:notebooklist-login :which-key "ein:notebooklist-login")
-   "td" '(org-todo :which-key "org-tod")
-   "o" '(evil-window-next :which-key "evil-window-next")
-   "1" '(delete-other-windows :which-key "delete-other-windows"))
-
-  ;; define my leader key
-  (general-define-key
-   :states '(normal)
-   :prefix ","
-   "p" '(run-python :which-key "run-python")
-   "cc" '(python-shell-send-buffer :which-key "python-shell-send-buffer")
-   "C-c" '(elpy-shell-send-region-or-buffer :which-key "elpy-shell-send-")
-   "ml" '(markdown-live-preview-mode :which-key "markdown-live-preview-mode")
-   "i" '(yas-insert-snippet :which-key "yas-insert-snippet"))
-
-  ;; flyspell configuration
-  (setq flyspell-issue-message-flag nil)
-  (flyspell-prog-mode t)
-
-  ;;----------------------------------------------------------
-  ;; org layer supplement
-  ;;----------------------------------------------------------
-
-  ;; fix org error caused by built-in version and melpa version
-  (org-reload)
-  ;; org startup not folded
-  (setq org-inhibit-startup-visibility-stuff t)
-  ;; pandoc-mode
-  (add-hook 'markdown-mode-hook 'pandoc-mode)
-  (add-hook 'org-mode-hook 'pandoc-mode)
-  ;; ob-ipython
-
-  ;;----------------------------------------------------------
-  ;; latex layer supplement
-  ;;----------------------------------------------------------
-
-  ;; preview
-  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
-  ;; build command
-  (latex :variables latex-build-command "LaTeX")
-  ;; auto fill
-  (latex :variables latex-enable-auto-fill t)
-  ;; enable folding
-  (latex :variables latex-enable-folding t)
-
-  ;;----------------------------------------------------------
-  ;; auto-completion layer supplement
-  ;;----------------------------------------------------------
-  (setq-default dotspacemacs-configuration-layers
-                '((auto-completion :variables
-                                   auto-completion-enable-help-tooltip t))
-                '((auto-completion :variables
-                                   auto-completion-enable-sort-by-usage t)))
-
-  ;;--------------------------------------------------------
-  ;;********************************************************
-  ;;--------------------------------------------------------
-  '(version-control :variables
-                    version-control-diff-tool 'diff-hl)
-  '(version-control :variables
-                    version-control-global-margin t)
-
+    (require 'core-completion)  ;; completion layer
+    (require 'core-global)           ;; package collections for global mode 
+    (require 'core-key-bindings)     ;; key-bindings
+    ;(require 'core-mode-line)        ;; mode-line
   ;;--------------------------------------------------------
   ;;********************************************************
   ;;--------------------------------------------------------
@@ -495,7 +364,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
+    (ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f dash s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
