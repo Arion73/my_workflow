@@ -13,7 +13,6 @@
 ;; evil-mode
 (use-package evil
   :ensure t
-  :defer t
   :config
   (evil-mode 1))
 
@@ -56,7 +55,6 @@
 (use-package evil-lion
   :ensure t
   :after (evil)
-  :hook (evil-mode-hook)
   :config
   (evil-define-key '(normal visual) prog-mode-map
     (kbd "gl") 'evil-lion-left
