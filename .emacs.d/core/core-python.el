@@ -79,8 +79,9 @@
 			       (python-shell-send-buffer t))
 	      (kbd "C-c C-c") (lambda()
 				(interactive)
-				(elpy-shell-send-region-or-buffer t))
-	      )))
+				(elpy-shell-send-region-or-buffer t)))
+	    (which-key-add-key-based-replacements "SPC p" "python-shell")
+	    (which-key-add-key-based-replacements "SPC c" "run")))
 
 
 ;; py-autopep8
