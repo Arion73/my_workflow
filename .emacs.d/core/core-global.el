@@ -46,7 +46,7 @@
 (use-package flycheck
   :ensure t
   :config
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
+  (global-flycheck-mode t))
 
 ;; highlight version changes on the fringe.
 (use-package diff-hl
@@ -59,9 +59,7 @@
 (use-package pandoc-mode
   :ensure t
   :defer t
-  :config
-  (add-hook 'markdown-mode-hook 'pandoc-mode)
-  (add-hook 'org-mode-hook 'pandoc-mode))
+  :hook (markdown-mode-hook org-mode-hook))
 
 
 (provide 'core-global)
