@@ -34,6 +34,8 @@
 	    ;;don't prompt me to confirm everytime I want to evaluate a block
 	    (setq org-confirm-babel-evaluate nil)
 
+	    (which-key-add-key-based-replacements "SPC o" "org")
+	    (which-key-add-key-based-replacements "SPC s" "code-to-session")
 	    (evil-define-key '(normal visual motion) org-mode-map
 	      (kbd "SPC ss") 'org-babel-switch-to-session-with-code)
 	    (evil-define-key '(normal visual motion) org-src-mode-map
