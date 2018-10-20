@@ -62,8 +62,7 @@
   (kbd "SPC bk") 'kill-buffer-and-window
   (kbd "SPC bm") 'kill-all-buffers
   (kbd "SPC bR") 'rename-buffer-and-file
-  (kbd "SPC eb") 'eval-buffer
-  (kbd "SPC ein") 'ein:notebooklist-login
+  (kbd "SPC be") 'eval-buffer
   (kbd "SPC yi") 'yas-insert-snippet
   (kbd "SPC ff") 'counsel-find-file
   (kbd "SPC qq") 'save-buffers-kill-emacs
@@ -75,11 +74,23 @@
   (kbd "SPC hdk") 'describe-key
   (kbd "SPC hdv") 'describe-variable
   (kbd "SPC hdm") 'describe-mode
+  (kbd "SPC ps") 'projectile-switch-project
   (kbd "SPC td") 'org-todo
   (kbd "SPC Ts") 'counsel-load-theme
-  (kbd "SPC o") 'evil-window-next
+  (kbd "SPC wn") 'evil-window-next
   )
 
+(which-key-add-key-based-replacements "SPC b" "buffer")
+(which-key-add-key-based-replacements "SPC f" "file")
+(which-key-add-key-based-replacements "SPC g" "magit")
+(which-key-add-key-based-replacements "SPC h" "help")
+(which-key-add-key-based-replacements "SPC hd" "describe")
+(which-key-add-key-based-replacements "SPC p" "project")
+(which-key-add-key-based-replacements "SPC q" "exit")
+(which-key-add-key-based-replacements "SPC t" "toggle")
+(which-key-add-key-based-replacements "SPC T" "theme")
+(which-key-add-key-based-replacements "SPC w" "window")
+(which-key-add-key-based-replacements "SPC y" "yasnippet")
 
 (provide 'core-key-bindings)
 ;;; core-key-bindings.el ends here
