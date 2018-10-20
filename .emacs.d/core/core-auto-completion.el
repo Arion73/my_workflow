@@ -59,13 +59,17 @@
   :ensure t
   :defer t
   :hook (after-init-hook)
-  :diminish ""
+  :diminish (which-key-mode . "")
   :init
   (which-key-mode)
   :config
-  (which-key-setup-side-window-right-bottom)
-  (setq which-key-sort-order 'which-key-key-order-alpha)
-  )
+  (which-key-setup-side-window-bottom)
+  (which-key-setup-minibuffer)
+  (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold)
+  (setq which-key-idle-delay 0.01
+	which-key-idle-secondary-delay 0.01
+	which-key-echo-keystrokes 0.005)
+  (setq which-key-sort-order 'which-key-key-order-alpha))
 
 ;; yasnippet
 (use-package yasnippet
@@ -75,8 +79,8 @@
   :diminish ""
   :config
     (setq yas-snippet-dirs
-	    '("~/.spacemacs.d/private/snippets"      ;; personal snippets
-	      "~/.spacemacs.d/elpa/yasnippet-snippets-20180714.1322/snippets"))
+	    '("~/.emacs.d/private/snippets/"      ;; personal snippets
+	      "~/.emacs.d/elpa/yasnippet-snippets-20180909.1015/snippets/"))
     (define-key yas-minor-mode-map (kbd "<tab>") nil)
     (yas-global-mode 1))
 
