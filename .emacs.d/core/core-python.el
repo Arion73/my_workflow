@@ -22,10 +22,7 @@
     ;; I do not like displaying highlight-indentation as default
     (add-hook 'elpy-mode-hook (lambda() (highlight-indentation-mode -1)))
     ;; delete flymake, instead, here I use flycheck
-    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-    (elpy-mode t)
-    (elpy-enable)
-    )
+    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 
 ;; Python virtualenv mode:
 (use-package virtualenvwrapper
@@ -57,15 +54,22 @@
   :config
   (pyvenv-mode t))
 
-;; indent-tabs
 (add-hook 'python-mode-hook
 	  (lambda()
+	    ;; indent-tabs
 	    (setq tab-width 4)
 	    (setq python-indent-guess-indent-offset t
 		  python-indent-guess-indent-offset-verbose nil)
 
 	    ;; set python-shell-interpreter
 	    (setq python-shell-interpreter "python3")
+            ;; https://github.com/gregsexton/ob-ipython/issues/89
+	    (setq python-shell-prompt-detect-failure-warning nil)
+	    ;; https://github.com/gregsexton/ob-ipython/issues/28
+	    (setq python-shell-completion-native-enable nil)
+	    ;; suppress warnings about python-shell-interpreter doesn't seem to support readline
+	    (setq python-shell-completion-native-disabled-interpreters '("python3"))
+
 
 	    ;; key-bindings
 	    (evil-define-key '(normal visual motion) python-mode-map
@@ -78,8 +82,6 @@
 				(elpy-shell-send-region-or-buffer t))
 	      )))
 
-;; suppress warnings about python-shell-interpreter doesn't seem to support readline
-(setq python-shell-completion-native-disabled-interpreters '("python3"))
 
 ;; py-autopep8
 (use-package py-autopep8
