@@ -19,7 +19,7 @@
 	    (setq org-export-with-sub-superscripts (quote {}))
 
 	    (setq org-src-fontify-natively t
-                  org-src-preserve-indentation nil
+                  org-src-preserve-indentation t
                   org-src-tab-acts-natively t)
 
 	    ;; inline display image
@@ -33,6 +33,12 @@
 
 	    ;;don't prompt me to confirm everytime I want to evaluate a block
 	    (setq org-confirm-babel-evaluate nil)
+
+	    (evil-define-key '(normal visual motion) org-mode-map
+	      (kbd "SPC ss") 'org-babel-switch-to-session-with-code)
+	    (evil-define-key '(normal visual motion) org-src-mode-map
+	      (kbd "SPC se") 'org-edit-src-exit
+	      (kbd "SPC sa") 'org-edit-src-abort)
 
 	    ;; publishing Org-mode files
 	    (setq org-publish-project-alist
@@ -119,7 +125,6 @@
 (use-package ob-async
   :ensure t
   :hook (org-mode-hook)
-  :defer t
   :config
   (ob-async))
 
