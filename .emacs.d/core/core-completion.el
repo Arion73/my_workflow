@@ -63,8 +63,15 @@
   :ensure t
   :config
   (setq company-dabbrev-downcase 0
-	company-idle-delay 0.5
-	company-show-numbers t)
+	company-idle-delay 0)
+  ;;(setq company-show-numbers t)
+
+  (define-key company-active-map (kbd "<tab>") #'company-complete-common-or-cycle)
+  (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
+  ;; Company appears to override the above keymap based on company-auto-complete-chars.
+  ;; Turning it off ensures we have full control.
+  ;(setq company-auto-complete-chars nil)
+
   (add-hook 'after-init-hook 'global-company-mode))
 
 ;; company quickhelp
@@ -120,35 +127,7 @@
 (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 
 
-;;; Based on:
-;;; - https://github.com/company-mode/company-mode/issues/530#issuecomment-226566961
-;;; - https://emacs.stackexchange.com/a/13290/12534
-;;; - http://stackoverflow.com/a/22863701/3538165
-;;;
-;;; See also:
-;;; - https://emacs.stackexchange.com/a/24800/12534
-;;; - https://emacs.stackexchange.com/q/27459/12534
-
-;; <return> is for windowed Emacs; RET is for terminal Emacs
-(dolist (key '("<return>" "RET"))
-  ;; Here we are using an advanced feature of define-key that lets
-  ;; us pass an "extended menu item" instead of an interactive
-  ;; function. Doing this allows RET to regain its usual
-  ;; functionality when the user has not explicitly interacted with
-  ;; Company.
-  (define-key company-active-map (kbd key)
-    `(menu-item nil company-complete
-                :filter ,(lambda (cmd)
-                           (when (company-explicit-action-p)
-                             cmd)))))
-
-(define-key company-active-map (kbd "<tab>") #'company-complete-common-or-cycle)
-(define-key company-active-map (kbd "<backtab>") 'company-select-previous)
-;; Company appears to override the above keymap based on company-auto-complete-chars.
-;; Turning it off ensures we have full control.
-;(setq company-auto-complete-chars nil)
-
-
+;; hippie-expand
 (setq hippie-expand-try-functions-list
       '(try-expand-dabbrev
 	try-expand-dabbrev-all-buffers
