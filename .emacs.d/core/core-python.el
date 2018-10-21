@@ -70,18 +70,18 @@
 	    ;; suppress warnings about python-shell-interpreter doesn't seem to support readline
 	    (setq python-shell-completion-native-disabled-interpreters '("python3"))
 
-
 	    ;; key-bindings
 	    (evil-define-key '(normal visual motion) python-mode-map
-	      (kbd "SPC py") 'run-python
-	      (kbd "SPC cc") (lambda()
+	      (kbd "SPC i") 'run-python
+	      (kbd "SPC c") (lambda()
 			       (interactive)
 			       (python-shell-send-buffer t))
 	      (kbd "C-c C-c") (lambda()
 				(interactive)
 				(elpy-shell-send-region-or-buffer t)))
-	    (which-key-add-key-based-replacements "SPC p" "python-shell")
-	    (which-key-add-key-based-replacements "SPC c" "run")))
+
+	    (which-key-add-key-based-replacements "SPC i" "run-python-shell-interpreter ")
+	    (which-key-add-key-based-replacements "SPC c" "python-shell-send-buffer")))
 
 
 ;; py-autopep8
