@@ -10,10 +10,12 @@
 
 ;;; Code:
 
+(add-hook 'org-mode-hook 'org-indent-mode)
 (add-hook 'org-mode-hook
-	  (lambda ()                                          
+	  (lambda ()
 	    ;; org-indent-mode
-	    (setq org-startup-indented t)                     
+	    (setq org-startup-indented t
+		  org-adapt-indentation t)
 
 	    ;; set underscore as _, subscript as _{}.
 	    (setq org-export-with-sub-superscripts (quote {}))
@@ -34,13 +36,18 @@
 	    ;;don't prompt me to confirm everytime I want to evaluate a block
 	    (setq org-confirm-babel-evaluate nil)
 
-	    (which-key-add-key-based-replacements "SPC o" "org")
-	    (which-key-add-key-based-replacements "SPC s" "code-to-session")
 	    (evil-define-key '(normal visual motion) org-mode-map
-	      (kbd "SPC ss") 'org-babel-switch-to-session-with-code)
+	      (kbd "SPC ss") 'org-babel-switch-to-session-with-code
+	      (kbd "SPC td") 'org-todo
+	      (kbd "SPC tl") 'org-toggle-link-display)
 	    (evil-define-key '(normal visual motion) org-src-mode-map
 	      (kbd "SPC se") 'org-edit-src-exit
 	      (kbd "SPC sa") 'org-edit-src-abort)
+
+	    (which-key-add-key-based-replacements "SPC o" "org")
+	    (which-key-add-key-based-replacements "SPC t" "toggle")
+	    (which-key-add-key-based-replacements "SPC to" "org-toggle-export-to")
+	    (which-key-add-key-based-replacements "SPC s" "code-to-session")
 
 	    ;; publishing Org-mode files
 	    (setq org-publish-project-alist
@@ -76,13 +83,11 @@
 
 ;; org-bullets
 (use-package org-bullets
-  :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 ;; org-present
 (use-package org-present
-  :ensure t
   :hook (org-mode-hook)
   :config
   (eval-after-load "org-present"
@@ -102,12 +107,10 @@
 
 ;; org-download --- Insertion of images
 (use-package org-download
-  :ensure t
   :hook (org-mode-hook))
 
 ;; org-projectile
 (use-package org-projectile
-  :ensure t
   :hook (org-mode-hook)
   :config
   (progn
@@ -118,14 +121,12 @@
 
 ;; ob-ipython
 (use-package ob-ipython
-  :ensure t
   :hook (org-mode-hook)
   :config
   (add-to-list 'company-backends 'company-ob-ipython))
 
 ;; ob-async --- execute org-babel src blocks asynchronously
 (use-package ob-async
-  :ensure t
   :hook (org-mode-hook)
   :config
   (ob-async))
