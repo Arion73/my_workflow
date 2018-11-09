@@ -48,7 +48,6 @@
           (set-buffer-modified-p nil))))))
 
 
-
 (require 'evil)
 ;; global key bindings
 (evil-define-key '(normal visual motion) global-map
@@ -74,8 +73,9 @@
   (kbd "SPC hdk") 'describe-key
   (kbd "SPC hdv") 'describe-variable
   (kbd "SPC hdm") 'describe-mode
+  (kbd "SPC pa") 'projectile-add-known-project
   (kbd "SPC ps") 'projectile-switch-project
-  (kbd "SPC td") 'org-todo
+  (kbd "SPC pf") 'projectile-find-file
   (kbd "SPC Ts") 'counsel-load-theme
   (kbd "SPC wn") 'evil-window-next
   )
@@ -91,6 +91,14 @@
 (which-key-add-key-based-replacements "SPC T" "theme")
 (which-key-add-key-based-replacements "SPC w" "window")
 (which-key-add-key-based-replacements "SPC y" "yasnippet")
+
+(evil-define-key '(insert) global-map
+  (kbd "C-e") 'move-end-of-line
+  (kbd "C-a") 'move-beginning-of-line)
+
+(which-key-add-key-based-replacements "C-c !" "flycheck")
+(which-key-add-key-based-replacements "C-c &" "yasnippet")
+
 
 (provide 'core-key-bindings)
 ;;; core-key-bindings.el ends here
