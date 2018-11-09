@@ -12,40 +12,37 @@
 
 ;; evil-mode
 (use-package evil
-  :ensure t
   :config
   (evil-mode 1))
 
 ;; key-chord
 (use-package key-chord
-  :ensure t
   :after evil
   :diminish ""
   :config
   ;; Max time delay between two key presses to be considered a key chord
   (setq key-chord-two-keys-delay 0.1)
-  (key-chord-define evil-insert-state-map "ii" 'evil-normal-state)
-  (key-chord-define evil-replace-state-map "ii" 'evil-normal-state)
-  (key-chord-define evil-motion-state-map "ii" 'evil-normal-state)
+  (key-chord-define evil-insert-state-map  "jk" 'evil-normal-state)
+  (key-chord-define evil-replace-state-map "jk" 'evil-normal-state)
+  (key-chord-define evil-motion-state-map  "jk" 'evil-normal-state)
+  (key-chord-define evil-visual-state-map  "jk" 'evil-normal-state)
+  (key-chord-define evil-emacs-state-map   "jk" 'evil-normal-state)
   (key-chord-mode t))
 
 
 (use-package evil-surround
-  :ensure t
   :hook (evil-mode-hook)
   :after (evil)
   :config
   (global-evil-surround-mode))
 
 (use-package evil-indent-textobject
-  :ensure t
   :hook (evil-mode-hook)
   :after (evil))
 
 
 ;; evil-matchit --- jump between blocks
 (use-package evil-matchit
-  :ensure t
   :hook (evil-mode-hook)
   :after (evil)
   :config
@@ -53,7 +50,6 @@
 
 ;;evil-lion
 (use-package evil-lion
-  :ensure t
   :after (evil)
   :config
   (evil-define-key '(normal visual) prog-mode-map
