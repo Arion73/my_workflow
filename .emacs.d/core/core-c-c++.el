@@ -12,7 +12,7 @@
 
 
 ;; diaster
-(add-to-list 'load-path "~/.emacs.d/private/disaster-master")
+(add-to-list 'load-path (concat my-emacs-directory "private/disaster-master"))
 (require 'disaster)
 
 ;; functions of runing c/c++ program and  key bindings
