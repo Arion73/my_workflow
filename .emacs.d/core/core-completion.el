@@ -13,7 +13,7 @@
 
 ;; which-key
 (use-package which-key
-  :ensure t
+  :defer t
   :diminish (which-key-mode . "")
   :init
   (which-key-mode)
@@ -30,7 +30,7 @@
 
 ;; ivy
 (use-package ivy
-  :ensure
+  :defer t
   :diminish ""
   :config
   (ivy-mode t)
@@ -44,7 +44,6 @@
 
 ;; counsel
 (use-package counsel
-  :ensure t
   :after (ivy)
   :diminish ""
   :config
@@ -52,7 +51,7 @@
 
 ;; smex
 (use-package smex
-  :ensure t
+  :defer t
   :diminish ""
   :config
   (smex-initialize))
@@ -60,7 +59,6 @@
 
 ;; company
 (use-package company
-  :ensure t
   :config
   (setq company-dabbrev-downcase 0
 	company-idle-delay 0)
@@ -76,7 +74,6 @@
 
 ;; company quickhelp
 (use-package company-quickhelp
-  :ensure t
   :after (company)
   :config
   (setq company-quickhelp-delay nil)
@@ -87,7 +84,6 @@
 
 ;; company-statistics
 (use-package company-statistics
-  :ensure t
   :after (company)
   :config
   (add-hook 'after-init-hook 'company-statistics-mode))
@@ -95,20 +91,18 @@
 
 ;; yasnippet
 (use-package yasnippet
-  :ensure t
   :defer t
   :hook (after-init-hook)
   :diminish ""
   :config
     (setq yas-snippet-dirs
 	    '("~/.emacs.d/private/snippets/"      ;; personal snippets
-	      "~/.emacs.d/elpa/yasnippet-snippets-20180909.1015/snippets/"))
+	      "~/.emacs.d/elpa/yasnippet-snippets-20181107.2203/snippets/"))
     (define-key yas-minor-mode-map (kbd "TAB") nil)
     (yas-global-mode 1))
 
 ;; yasnippet-snippets
 (use-package yasnippet-snippets
-  :ensure t
   :defer t
   :after (yasnippet))
 
@@ -119,6 +113,7 @@
   "Enable yasnippet for all backends.")
 
 (defun company-mode/backend-with-yas (backend)
+  "Add yasnippet to company backend.  BACKEND: completion backend."
   (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
       backend
     (append (if (consp backend) backend (list backend))
