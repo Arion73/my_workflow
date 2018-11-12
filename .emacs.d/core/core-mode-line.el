@@ -141,13 +141,13 @@
 (defun custom-modeline-major-mode ()
   "Display icon for major mode."
   (propertize
-   (concat " " (propertize (all-the-icons-icon-for-mode major-mode :height 0.8 :v-adjust 0.0)
+   (concat " " (propertize (all-the-icons-icon-for-mode major-mode :height 0.7 :v-adjust 0.1)
 			   'help-echo (format "%s" major-mode)) " ")))
 
 
 ;; flycheck status
 (defun custom-modeline-flycheck-status-term ()
-  "Display icons for flycheck in mode line."
+  "Flycheck status for terminal mode line."
   (require 'flycheck)
   (pcase flycheck-last-status-change
     (`finished (if flycheck-current-errors
@@ -202,19 +202,23 @@
 					      'face 'error))
 			      " "
 			      (if (> (or no-warnings 0) 0)
-				  (propertize (format "%s%s " (all-the-icons-faicon "bell-o" :v-adjust 0.0) (or no-warnings 0))
-					      'face '(warning)))
-			      )
+				  (concat
+				   (propertize (format "%s" (all-the-icons-faicon "bell" :v-adjust 0.1))
+					       'face '(warning :height 0.7))
+				   (propertize (format "%s " (or no-warnings 0))
+					       'face 'warning))))
+
 		       'help-echo (format "Flycheck: %s errors, %s warnings" (or no-errors 0) (or no-warnings 0))
 		       'mouse-face '(:box 1)
 		       'local-map (make-mode-line-mouse-map
 				   'mouse-1 (lambda () (interactive) (flycheck-list-errors)))))
+
 		 (propertize (format " %s " (all-the-icons-faicon "check-circle" :v-adjust 0.0))
 			     'face 'success)))
 
-    (`not-checked (propertize (concat " " (all-the-icons-faicon "hourglass-half" :v-adjust 0.0) " Not Checked")
+    (`not-checked (propertize (concat " " (all-the-icons-faicon "hourglass-half" :v-adjust 0.1) " Not Checked")
 			      'face '(:height 0.8)))
-    (`running (propertize (format " %s " (all-the-icons-faicon "refresh" :v-adjust 0.0))
+    (`running (propertize (concat " " (all-the-icons-faicon "refresh" :v-adjust 0.0) " ")
 			  'face 'success))
     (`errored (propertize (format " %s %s " (all-the-icons-faicon "times-circle-o" :v-adjust 0.0) "Error")
 			  'face 'error
@@ -222,10 +226,10 @@
 			  'mouse-face '(:box 1)
 			  'local-map (make-mode-line-mouse-map
 				      'mouse-1 (lambda () (interactive) (flycheck-list-errors)))))
-    (`no-checker (propertize (format " %s %s " (all-the-icons-faicon "minus-circle" :v-adjust 0.0) "No Checker"
+    (`no-checker (propertize (format " %s %s " (all-the-icons-faicon "minus-circle" :height 0.8 :v-adjust 0.1) "No Checker"
 				     'face 'warning)))
     (`interrupted (propertize (format " %s %s " (all-the-icons-faicon "ban" :v-adjust 0.0)) "Interrupted"))
-    (`suspicious (propertize (format " %s " (all-the-icons-faicon "question-circle-o" :v-adjust 0.0))
+    (`suspicious (propertize (concat " " (all-the-icons-faicon "question-circle-o" :v-adjust 0.0) " ")
 			     'face 'warning))))
 
 
@@ -247,21 +251,6 @@
      (propertize " "))))
 
 
-
-;; packages upgrade
-(defun custom-modeline-package-updates ()
-  "Show number of packages needed to upgrade in mode line."
-  (let* ((num (length (package-menu--find-upgrades))))
-    (when (> num 0)
-      (propertize
-       (concat
-        (propertize (format " %s" (all-the-icons-faicon "archive" :v-adjust 0.0)))
-        (propertize (format "%d " num)
-                    'face '(:height 0.9)))
-       'face 'success
-       'help-echo (format "%d Packages need to be upgraded." num)))))
-
-
 ;; coding system
 (defun custom-modeline-coding-system ()
   "Custom coding system for mode line."
@@ -273,6 +262,20 @@
 		'mouse-face '(:box 1)
 		'local-map (make-mode-line-mouse-map
 			    'mouse-1 (lambda () (interactive) (describe-coding-system buffer-file-coding-system))))))
+
+
+;; packages upgrade
+(defun custom-modeline-package-updates ()
+  "Show number of packages needed to upgrade in mode line."
+  (let* ((num (length (package-menu--find-upgrades))))
+    (when (> num 0)
+      (propertize
+       (concat
+        (propertize (format " %s" (all-the-icons-faicon "upload" :v-adjust 0.1))
+		    'face '(success :height 0.8))
+        (propertize (format "%d " num)
+		    'face '(success)))
+       'help-echo (format "%d Packages need to be upgraded." num)))))
 
 
 ;; left separator
@@ -288,154 +291,104 @@
 	      'face '(:foreground "#FFC820" :height 1.2)))
 
 
-
 ;; function to align left space and right space
 (defun mode-line-render (left right)
   "Return a string of 'window-width' length containg Left and Right aligned respectively.  LEFT: left side.  RIGHT: right side."
   (let* ((available-width (- (window-width) (length left) 2)))
-    (format (format "%%s %%%ds " available-width) left right)))
+    (format (format "%%s %%%ds" available-width) left right)))
 
 
+(setq-default mode-line-format
+	      '((:eval
+		 (mode-line-render
+		  ;;left
+		  (format-mode-line
+		   (list
+		    ;; window number
+		    (custom-modeline-window-number)
 
-(defun my-mode-line-term ()
-    "My mode line format for terminal."
-    (setq-default mode-line-format
-		  (list
-		   '(:eval (mode-line-render
-			    ;;left
-			    (format-mode-line
-			     (list
-			      ;; window number
-			      '(:eval (custom-modeline-window-number))
+		    ;; evil tag
+		    evil-mode-line-tag
 
-			      ;; evil tag
-			      evil-mode-line-tag
+		    ;; buffer modified
+		    (if (display-graphic-p)
+			(list
+			 ;; buffer modified
+			 (custom-modeline-modified)
+			 ;; buffer size
+			 (propertize " %I " 'face 'my-normal-face)
+			 ;; right separator
+			 (custom-modeline-right-separator))
+		      (list
+		       " "
+		       ;; buffer modified
+		       mode-line-modified
+		       ;; buffer size
+		       " %I "))
 
-			      " "
-			      ;; encoding system
-			      mode-line-mule-info
-			      ;; buffer modified
-			      mode-line-modified
-			      mode-line-remote
-			      mode-line-client
+		      ;; client
+		      mode-line-client
 
-			      ;; buffer size
-			      " %I "
+		      ;; project name
+		      (custom-modeline-projectile)
 
-			      ;; project name
-			      '(:eval (custom-modeline-projectile))
+		      ;; buffer directory
+		      (custom-modeline-directory)
 
-			      ;; buffer directory
-			      '(:eval (custom-modeline-directory))
+		      ;; left separator
+		      (if (display-graphic-p)
+			  (custom-modeline-left-separator))
 
-			      ;; buffer name
-			      '(:eval (propertize " %b " 'face 'my-normal-face))
+		      ;; buffer name
+		      '(:eval (propertize " %b " 'face 'my-normal-face))
 
-			      ;; major mode
-			      '(:eval (propertize " %m"))
+		      ;; right separator
+		      (if (display-graphic-p)
+			  (custom-modeline-right-separator))
 
-			      ;; mode-line-process
-			      '(:eval (if mode-line-process (propertize ":%s")))
-			      " "
+		      ;; major mode icon
+		      (if (display-graphic-p)
+			  (condition-case nil
+			      (custom-modeline-major-mode)
+			    (error (propertize " %m"))))
 
-			      ;; flycheck
-			      ;(flycheck-mode-line-status-text)
-			      '(:eval (custom-modeline-flycheck-status-term))
-			      " "
+		      ;; mode-line-process
+		      (if mode-line-process (propertize ": %s "))
 
-			      ;; git info
-			      '(:eval (when (stringp vc-mode)
-					(propertize (concat vc-mode " "))))
-			      ))
+		      ;; flycheck
+		      (if (display-graphic-p)
+			  (custom-modeline-flycheck-status-gui)
+		       ;(flycheck-mode-line-status-text)
+			(custom-modeline-flycheck-status-term))
 
-			    ;; right
-			    (format-mode-line
-			     (list
-			      mode-line-misc-info
-			      ;; line number, column number and percent of buffer above bottom of window
-			      "  %02l:%02c | %p%% "
-			      )))))))
+		      ;; git info
+		      (when (stringp vc-mode)
+			(if (display-graphic-p)
+			    (custom-modeline-vc-gui)
+			  (propertize (concat " " vc-mode " "))))
 
-
-
-(defun my-mode-line-gui ()
-    "My mode line format for GUI."
-    (setq-default mode-line-format
-		  (list
-		   '(:eval (mode-line-render
-			    ;;left
-			    (format-mode-line
-			     (list
-			      ;; window number
-			      '(:eval (custom-modeline-window-number))
-
-			      ;; evil tag
-			      evil-mode-line-tag
-
-			      ;; buffer modified
-			      '(:eval (custom-modeline-modified))
-			      ;; buffer size
-			      '(:eval (propertize " %I " 'face 'my-normal-face))
-			      ;; right separator
-			      '(:eval (custom-modeline-right-separator))
-
-			      ;; client
-			      mode-line-client
-
-			      ;; project name
-			      '(:eval (custom-modeline-projectile))
-
-			      ;; buffer directory
-			      '(:eval (custom-modeline-directory))
-
-			      ;; left separator
-			      '(:eval (custom-modeline-left-separator))
-			      ;; buffer name
-			      '(:eval (propertize " %b " 'face 'my-normal-face))
-			      ;; right separator
-			      '(:eval (custom-modeline-right-separator))
-
-			      ;; major mode icon
-			      '(:eval (custom-modeline-major-mode))
-			      ;; major mode
-			      ;'(:eval (propertize " %m"))
-
-			      ;; mode-line-process
-			      '(:eval (if mode-line-process (propertize ":%s ")))
-
-			      ;; flycheck
-			      '(:eval (custom-modeline-flycheck-status-gui))
-
-			      ;; git info
-			      '(:eval (when (stringp vc-mode)
-					(custom-modeline-vc-gui)))
-
-			      ;; package needed to upgrade
-			      '(:eval (custom-modeline-package-updates))))
-
-			    ;; right
-			    (format-mode-line
-			     (list
-
-			      mode-line-misc-info
-
-			      ;; coding system
-			      '(:eval (custom-modeline-coding-system))
-
-			      ;; left separator
-			      '(:eval (custom-modeline-left-separator))
-			      ;; line number, column number and percent of buffer above bottom of window
-			      '(:eval (propertize " %02l:%02c | %p%%  "
-						  'face 'my-normal-face))
-			      ;; right separator
-			      '(:eval (custom-modeline-right-separator))
-
-			      )))))))
+		      ;; package needed to upgrade
+		      (custom-modeline-package-updates)))
 
 
-(if (display-graphic-p)
-    (my-mode-line-gui)
-  (my-mode-line-term))
+		  ;; right
+		  (format-mode-line
+		   (list
+		    mode-line-misc-info
+
+		    ;; coding system
+		    (custom-modeline-coding-system)
+
+		    ;; left separator
+		    (if (display-graphic-p)
+			(custom-modeline-left-separator))
+
+		    ;; line number, column number and percent of buffer above bottom of window
+		    (propertize " %02l:%02c | %p%%  " 'face 'my-normal-face)
+
+		    ;; right separator
+		    (if (display-graphic-p)
+			(custom-modeline-right-separator))))))))
 
 
 
