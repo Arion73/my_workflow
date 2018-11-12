@@ -120,8 +120,8 @@
 
 (use-package all-the-icons-ivy
   :config
-  (all-the-icons-ivy-setup))
-
+  (if (display-graphic-p)
+      (all-the-icons-ivy-setup)))
 
 
 (provide 'core-global)
