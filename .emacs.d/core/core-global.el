@@ -38,8 +38,10 @@
   :config
   (global-highlight-parentheses-mode))
 
+
 ;; view large file
 (use-package vlf :defer t)
+
 
 ;; flycheck --- syntax checking
 (use-package flycheck
@@ -51,16 +53,24 @@
   (kbd "SPC fl") 'flycheck-list-errors)
 
 
+;; magit
+(use-package magit
+  :defer t
+  :config
+  (setq magit-refresh-status-buffer nil))
+
 ;; highlight version changes on the fringe.
 (use-package diff-hl
   :defer t
   :config
   (global-diff-hl-mode t))
 
+
 ;; pandoc-mode
 (use-package pandoc-mode
   :defer t
   :hook (markdown-mode-hook org-mode-hook))
+
 
 ;; dired-sidebar
 (use-package dired-sidebar
@@ -98,7 +108,6 @@
 (evil-define-key '(normal visual motion) global-map
   (kbd "SPC tb") 'sidebar-toggle)
 
-
 (use-package all-the-icons
   :config
   (setq inhibit-compacting-font-caches t))
@@ -108,7 +117,6 @@
   :config
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
-
 (defun dired-mode-setup ()
   "Fix font problem for icons of sidebar."
   (dired-hide-details-mode 1)
@@ -116,7 +124,6 @@
   (font-lock-mode 0))
 
 (add-hook 'dired-mode-hook 'dired-mode-setup)
-
 
 (use-package all-the-icons-ivy
   :config
