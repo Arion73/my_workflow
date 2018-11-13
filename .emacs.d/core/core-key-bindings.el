@@ -69,10 +69,10 @@
   (kbd "SPC fr") 'counsel-recentf
   (kbd "SPC fD") 'delete-current-buffer-and-file
   (kbd "SPC gs") 'magit-status
-  (kbd "SPC hdf") 'describe-function
-  (kbd "SPC hdk") 'describe-key
-  (kbd "SPC hdv") 'describe-variable
-  (kbd "SPC hdm") 'describe-mode
+  (kbd "SPC hf") 'describe-function
+  (kbd "SPC hk") 'describe-key
+  (kbd "SPC hv") 'describe-variable
+  (kbd "SPC hm") 'describe-mode
   (kbd "SPC pa") 'projectile-add-known-project
   (kbd "SPC ps") 'projectile-switch-project
   (kbd "SPC pf") 'projectile-find-file
@@ -84,7 +84,6 @@
 (which-key-add-key-based-replacements "SPC f" "file")
 (which-key-add-key-based-replacements "SPC g" "magit")
 (which-key-add-key-based-replacements "SPC h" "help")
-(which-key-add-key-based-replacements "SPC hd" "describe")
 (which-key-add-key-based-replacements "SPC p" "project")
 (which-key-add-key-based-replacements "SPC q" "exit")
 (which-key-add-key-based-replacements "SPC t" "toggle")

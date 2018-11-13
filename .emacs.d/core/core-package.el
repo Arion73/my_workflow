@@ -28,19 +28,17 @@
   (package-install 'use-package))
 
 (eval-when-compile
-  (require 'use-package))
+  (require 'use-package)
+  (setq use-package-always-ensure t))
 
 ;; count how many packages loaded, and how much time spent
 (setq use-package-compute-statistics t)
 
 ;; ensure system binaries exist alongside package declations
-(use-package use-package-ensure-system-package
-  :ensure t
-  :defer t)
+(use-package use-package-ensure-system-package :defer t)
 
 ;; update packages automatically
 (use-package auto-package-update
-  :ensure t
   :defer t
   :config
   ;; set to update every 30 days
@@ -54,9 +52,7 @@
   (auto-package-update-maybe))
 
 ;; test emacs startup time
-(use-package esup
-  :ensure t
-  :defer t)
+(use-package esup :defer t)
 
 (provide 'core-package)
 ;;; core-package.el ends here

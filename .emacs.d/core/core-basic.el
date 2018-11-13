@@ -37,13 +37,16 @@
 		(global-set-key [mouse-4] 'scroll-down-line)
 		(global-set-key [mouse-5] 'scroll-up-line)
 		;; set cursor scrolling speed
-		(setq mouse-wheel-progressive-speed nil)
+		(setq mouse-wheel-scroll-amount '(1)
+		      mouse-wheel-progressive-speed nil)
 		;; set cursor scrolling speed
 		(setq scroll-margin 1
-		scroll-conservatively 0
-		scroll-up-aggressively 0.01
-		scroll-down-aggressively 0.01))
+		      scroll-conservatively 101
+		      scroll-up-aggressively 0.01
+		      scroll-down-aggressively 0.01))
 
+	    ;; fix cursor lag problem
+	    (setq auto-window-vscroll nil)
 
 	    ;; automatically save sessions
 	    (setq desktop-buffers-not-to-save

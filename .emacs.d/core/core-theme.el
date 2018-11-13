@@ -11,7 +11,7 @@
 ;;; Code:
 
 ;; load my own theme path
-(add-to-list 'custom-theme-load-path "~/.emacs.d/private/zelin-theme")
+(add-to-list 'custom-theme-load-path (concat my-emacs-directory "private/zelin-theme"))
 
 (setq ns-use-srgb-colorspace nil)
 

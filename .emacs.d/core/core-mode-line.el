@@ -107,17 +107,6 @@
 			      'mouse-1 (lambda () (interactive) (read-only-mode 1)))))))
 
 
-;; projectile
-(defun custom-modeline-projectile ()
-  "Display project name."
-  (if projectile-mode
-      (when (ignore-errors (projectile-project-root))
-	(propertize (concat " " (projectile-project-name) " |")
-		    'mouse-face '(:box 1)
-		    'local-map (make-mode-line-mouse-map
-				'mouse-1 (lambda () (interactive) (projectile-switch-project)))))))
-
-
 ;; directory
 (defun custom-modeline-directory ()
   "Display shorten directory of max-length in mode line."
@@ -318,7 +307,8 @@
 			 ;; buffer size
 			 (propertize " %I " 'face 'my-normal-face)
 			 ;; right separator
-			 (custom-modeline-right-separator))
+			 ;(custom-modeline-right-separator)
+			 )
 		      (list
 		       " "
 		       ;; buffer modified
@@ -329,28 +319,24 @@
 		      ;; client
 		      mode-line-client
 
-		      ;; project name
-		      (custom-modeline-projectile)
-
 		      ;; buffer directory
 		      (custom-modeline-directory)
 
 		      ;; left separator
-		      (if (display-graphic-p)
-			  (custom-modeline-left-separator))
+		      ;(if (display-graphic-p) (custom-modeline-left-separator))
 
 		      ;; buffer name
-		      '(:eval (propertize " %b " 'face 'my-normal-face))
+		      (propertize " %b " 'face 'my-normal-face)
 
 		      ;; right separator
-		      (if (display-graphic-p)
-			  (custom-modeline-right-separator))
+		      ;(if (display-graphic-p) (custom-modeline-right-separator))
 
 		      ;; major mode icon
 		      (if (display-graphic-p)
 			  (condition-case nil
 			      (custom-modeline-major-mode)
-			    (error (propertize " %m"))))
+			    (error (propertize " %m")))
+			(propertize " %m"))
 
 		      ;; mode-line-process
 		      (if mode-line-process (propertize ": %s "))
@@ -358,7 +344,7 @@
 		      ;; flycheck
 		      (if (display-graphic-p)
 			  (custom-modeline-flycheck-status-gui)
-		       ;(flycheck-mode-line-status-text)
+		       ;(flycheck-mode-line-status-text))
 			(custom-modeline-flycheck-status-term))
 
 		      ;; git info
@@ -380,16 +366,15 @@
 		    (custom-modeline-coding-system)
 
 		    ;; left separator
-		    (if (display-graphic-p)
-			(custom-modeline-left-separator))
+		    ;(if (display-graphic-p) (custom-modeline-left-separator))
 
 		    ;; line number, column number and percent of buffer above bottom of window
 		    (propertize " %02l:%02c | %p%%  " 'face 'my-normal-face)
 
 		    ;; right separator
-		    (if (display-graphic-p)
-			(custom-modeline-right-separator))))))))
+		    ;(if (display-graphic-p) (custom-modeline-right-separator))
 
+		    ))))))
 
 
 (provide 'core-mode-line)

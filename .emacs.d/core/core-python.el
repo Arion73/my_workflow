@@ -13,20 +13,19 @@
 
 ;; elpy
 (use-package elpy
-  :ensure t
   :defer t
   :mode ("\\.py\\'" . python-mode)
   :hook (python-mode-hook)
   :config
     ;; highlight-indentation is a dependency package.
     ;; I do not like displaying highlight-indentation as default
-    (add-hook 'elpy-mode-hook (lambda() (highlight-indentation-mode -1)))
+    ;(add-hook 'elpy-mode-hook (lambda() (highlight-indentation-mode -1)))
+    (set-face-background 'highlight-indentation-face "#333333")
     ;; delete flymake, instead, here I use flycheck
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 
 ;; Python virtualenv mode:
 (use-package virtualenvwrapper
-  :ensure t
   :hook (python-mode-hook)
   :config
   (venv-initialize-interactive-shells)
@@ -36,7 +35,6 @@
 
 ;; anaconda-mode
 (use-package anaconda-mode
-  :ensure t
   :defer t
   :config
   (add-hook 'python-mode-hook 'anaconda-mode)
@@ -44,12 +42,10 @@
 
 ;; nose --- test runner
 (use-package nose
-  :ensure t
   :hook (python-mode-hook))
 
 ;; pyenv-mode
 (use-package pyvenv
-  :ensure t
   :hook (python-mode-hook)
   :config
   (pyvenv-mode t))
@@ -86,7 +82,6 @@
 
 ;; py-autopep8
 (use-package py-autopep8
-  :ensure t
   :hook (python-mode-hook)
   :config
   (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
