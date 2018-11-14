@@ -68,15 +68,14 @@
 
 	    ;; key-bindings
 	    (evil-define-key '(normal visual motion) python-mode-map
-	      (kbd "SPC i") 'run-python
 	      (kbd "SPC c") (lambda()
 			       (interactive)
+			       (run-python)
 			       (python-shell-send-buffer t))
 	      (kbd "C-c C-c") (lambda()
 				(interactive)
 				(elpy-shell-send-region-or-buffer t)))
 
-	    (which-key-add-key-based-replacements "SPC i" "run-python-shell-interpreter ")
 	    (which-key-add-key-based-replacements "SPC c" "python-shell-send-buffer")))
 
 
