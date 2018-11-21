@@ -137,7 +137,10 @@
 
 
 	    ;; set terminal emacs clipboard
-	    (setq select-enable-clipboard t)))
+	    (setq select-enable-clipboard t)
+
+	    ;; set shell name
+	    (setq explicit-shell-file-name "/bin/bash")))
 
 
 
