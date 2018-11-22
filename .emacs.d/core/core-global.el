@@ -63,7 +63,9 @@
 (use-package diff-hl
   :defer t
   :config
-  (global-diff-hl-mode t))
+  (add-hook after-init-hook
+	    (lambda ()
+	      (global-diff-hl-mode t))))
 
 
 ;; pandoc-mode
