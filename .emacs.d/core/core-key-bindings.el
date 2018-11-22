@@ -48,6 +48,23 @@
           (set-buffer-modified-p nil))))))
 
 
+;; kill other buffer and window
+(defun kill-other-buffer-and-window ()
+  "Kill other buffer and window."
+  (interactive)
+  (other-window 1)
+  (kill-buffer-and-window))
+
+
+;; split window right and select next buffer
+(defun next-buffer-right ()
+  "Split window right and select next buffer."
+  (interactive)
+  (split-window-right)
+  (other-window 1)
+  (switch-to-next-buffer))
+
+
 (require 'evil)
 ;; global key bindings
 (evil-define-key '(normal visual motion) global-map
@@ -55,13 +72,18 @@
   (kbd "SPC TAB") 'switch-to-prev-buffer
   (kbd "SPC !") 'shell-command
   (kbd "SPC '") 'shell
+  (kbd "SPC 0") 'delete-window
   (kbd "SPC 1") 'delete-other-windows
+  (kbd "SPC 2") 'split-window-below
+  (kbd "SPC 3") 'split-window-right
   (kbd "SPC bb") 'ivy-switch-buffer
   (kbd "SPC bd") 'kill-buffer
   (kbd "SPC bk") 'kill-buffer-and-window
+  (kbd "SPC bo") 'kill-other-buffer-and-window
   (kbd "SPC bm") 'kill-all-buffers
   (kbd "SPC bR") 'rename-buffer-and-file
   (kbd "SPC be") 'eval-buffer
+  (kbd "SPC bv") 'next-buffer-right
   (kbd "SPC yi") 'yas-insert-snippet
   (kbd "SPC ff") 'counsel-find-file
   (kbd "SPC qq") 'save-buffers-kill-emacs
