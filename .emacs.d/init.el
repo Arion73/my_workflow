@@ -51,11 +51,11 @@
 (require 'core-latex)            ;; latex layer
 (require 'core-pdf)              ;; pdf layer
 
-(add-to-list 'load-path (concat my-emacs-directory "private"))
-(require 'private-collections)   ;; private packages
-
 (require 'core-key-bindings)     ;; key-bindings
 (require 'core-mode-line)        ;; mode-line
+
+(add-to-list 'load-path (concat my-emacs-directory "private"))
+(require 'private-collections)   ;; private packages
 )  ;; let ends here
 ;;
 ;;==========================================================
@@ -74,9 +74,13 @@
  '(custom-safe-themes
    (quote
     ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "04bff26d45b0ac4e64295eb5c73585e051a7d12cea771e54bb234d94a2ff59f8" "7b839cbaaf0f7da876cab50d745e65ee6a07a5c03edc8ae90defd33ab1af88ce" default)))
+ '(fci-rule-color "#62686E")
+ '(jdee-db-active-breakpoint-face-colors (cons "#1c1f24" "#51afef"))
+ '(jdee-db-requested-breakpoint-face-colors (cons "#1c1f24" "#7bc275"))
+ '(jdee-db-spec-breakpoint-face-colors (cons "#1c1f24" "#484854"))
  '(package-selected-packages
    (quote
-    (all-the-icons-ivy all-the-icons-dired all-the-icons ibuffer-sidebar dired-sidebar company-quickhelp impatient-mode company-math org2ctex ob-async htmlize h2o all-the-icon evil-lion highlight-parentheses diff-hl esup exec-path-from-shell pandoc-mode company-auctex auctex-latexmk ob-ipython org-projectile org-download org-present org-bullets markdown-preview-mode markdown-mode nose anaconda-mode virtualenvwrapper key-chord general window-numbering company-statistics rainbow-delimiters which-key smex counsel osx-clipboard evil-matchit evil-indent-textobject evil-surround evil-leader evil yasnippet-snippets use-package py-autopep8 flycheck elpy)))
+    (magit all-the-icons-ivy all-the-icons-dired all-the-icons ibuffer-sidebar dired-sidebar company-quickhelp impatient-mode company-math org2ctex ob-async htmlize h2o all-the-icon evil-lion highlight-parentheses diff-hl esup exec-path-from-shell pandoc-mode company-auctex auctex-latexmk ob-ipython org-projectile org-download org-present org-bullets markdown-preview-mode markdown-mode nose anaconda-mode virtualenvwrapper key-chord general window-numbering company-statistics rainbow-delimiters which-key smex counsel osx-clipboard evil-matchit evil-indent-textobject evil-surround evil-leader evil yasnippet-snippets use-package py-autopep8 flycheck elpy)))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
  '(shell-pop-full-span t)
  '(shell-pop-shell-type
@@ -87,7 +91,29 @@
  '(shell-pop-term-shell "/bin/bash")
  '(shell-pop-universal-key "C-c C-t")
  '(shell-pop-window-position "bottom")
- '(shell-pop-window-size 50))
+ '(shell-pop-window-size 50)
+ '(vc-annotate-background "#242730")
+ '(vc-annotate-color-map
+   (list
+    (cons 20 "#7bc275")
+    (cons 40 "#a6c677")
+    (cons 60 "#d1ca79")
+    (cons 80 "#FCCE7B")
+    (cons 100 "#f4b96e")
+    (cons 120 "#eda461")
+    (cons 140 "#e69055")
+    (cons 160 "#db8981")
+    (cons 180 "#d082ae")
+    (cons 200 "#C57BDB")
+    (cons 220 "#d874b0")
+    (cons 240 "#eb6d86")
+    (cons 260 "#ff665c")
+    (cons 280 "#d15e59")
+    (cons 300 "#a35758")
+    (cons 320 "#754f56")
+    (cons 340 "#62686E")
+    (cons 360 "#62686E")))
+ '(vc-annotate-very-old-color nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
