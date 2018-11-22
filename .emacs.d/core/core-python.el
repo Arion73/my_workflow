@@ -71,10 +71,24 @@
 	      (kbd "SPC c") (lambda()
 			       (interactive)
 			       (run-python)
-			       (python-shell-send-buffer t))
+			       (python-shell-send-buffer t)
+			       (if (not (get-buffer-window "*Python*" 'visible))
+				   (progn
+				     (split-window-below)
+				     (if (<= (* 2 (window-height)) (frame-height))
+					 (enlarge-window 3))
+				     (other-window 1)
+				     (switch-to-buffer "*Python*"))))
 	      (kbd "C-c C-c") (lambda()
 				(interactive)
-				(elpy-shell-send-region-or-buffer t)))
+				(elpy-shell-send-region-or-buffer t)
+				(if (not (get-buffer-window "*Python*" 'visible))
+				    (progn
+				      (split-window-below)
+				      (if (<= (* 2 (window-height)) (frame-height))
+					  (enlarge-window 3))
+				      (other-window 1)
+				      (switch-to-buffer "*Python*")))))
 
 	    (which-key-add-key-based-replacements "SPC c" "python-shell-send-buffer")))
 
