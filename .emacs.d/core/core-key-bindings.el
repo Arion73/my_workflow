@@ -65,6 +65,36 @@
   (switch-to-next-buffer))
 
 
+;; ansi-term
+(defvar counter 0)
+(defun my-ansi-term ()
+  "My ansi-term."
+  (interactive)
+  (setq counter (+ counter 1))
+  (let* ((default-directory (file-name-directory (buffer-file-name)))
+	 (title "ansi-term")
+	 ;(title (concat "ansi-term" (number-to-string counter)))
+	 (buf-title (concat "*" title "*"))
+	 ;(base-title "*ansi-term*")
+	 ;(new-buf-title (concat base-title "<" (number-to-string counter) ">"))
+	 )
+    (set-buffer (make-term title explicit-shell-file-name))
+    (term-mode)
+    (term-char-mode)
+    (if (not (get-buffer-window buf-title 'visible))
+	(progn
+	  (split-window-below)
+	  (if (<= (* 2 (window-height)) (frame-height))
+	      (enlarge-window 2))
+	  (other-window 1)
+	  (switch-to-buffer buf-title)
+	  ;(rename-buffer new-buf-title)
+	  )
+      (other-window 1)
+      ;(rename-buffer new-buf-title)
+      )))
+
+
 (require 'evil)
 ;; global key bindings
 (evil-define-key '(normal visual motion) global-map
@@ -72,6 +102,7 @@
   (kbd "SPC TAB") 'switch-to-prev-buffer
   (kbd "SPC !") 'shell-command
   (kbd "SPC '") 'shell
+  (kbd "SPC /") 'my-ansi-term
   (kbd "SPC 0") 'delete-window
   (kbd "SPC 1") 'delete-other-windows
   (kbd "SPC 2") 'split-window-below
@@ -99,6 +130,8 @@
   (kbd "SPC ps") 'projectile-switch-project
   (kbd "SPC pf") 'projectile-find-file
   (kbd "SPC Ts") 'counsel-load-theme
+  (kbd "SPC wb") 'browse-web
+  (kbd "SPC we") 'eww-browse-with-external-browser
   (kbd "SPC wn") 'evil-window-next
   )
 
