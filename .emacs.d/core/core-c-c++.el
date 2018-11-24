@@ -12,7 +12,7 @@
 
 
 ;; diaster
-(add-to-list 'load-path (concat my-emacs-directory "private/disaster-master"))
+(add-to-list 'load-path (concat my-emacs-directory "private/disaster-master/"))
 (require 'disaster)
 
 ;; functions of runing c/c++ program and  key bindings
@@ -53,11 +53,11 @@
 (add-hook 'c-mode-hook
 	  (lambda ()
 	    (evil-define-key '(normal visual motion) c-mode-map
-	      (kbd "SPC c") 'c-run)))
+	      (kbd "SPC C") 'c-run)))
 (add-hook 'c++-mode-hook
 	  (lambda ()
 	    (evil-define-key '(normal visual motion) c++-mode-map
-	      (kbd "SPC c") 'cpp-run)))
+	      (kbd "SPC C") 'cpp-run)))
 
 (setq compilation-ask-about-save nil)
 
@@ -66,6 +66,40 @@
               (unless (string= str "finished\n")
                 (push-mark)
                 (next-error)))))
+
+
+;; my run C function and keybindings
+(defun my-run-c ()
+  "My run C program function and keybindings."
+  (interactive)
+  (save-buffer)
+  (let* ((default-directory (file-name-directory (buffer-file-name)))
+	(file-name (file-name-nondirectory buffer-file-name))
+	(execution-name (file-name-sans-extension file-name))
+	(base-title "Terminal-C")
+	(term-name "*Terminal-C*"))
+    (set-buffer (make-term base-title explicit-shell-file-name))
+    (term-mode)
+    (term-char-mode)
+    (comint-send-string term-name (concat "gcc -o " execution-name " " file-name "\n"))
+    (comint-send-string term-name (concat "./" execution-name "\n"))
+    (if (not (get-buffer-window term-name 'visible))
+	(progn
+	  (split-window-below)
+	  (if (<= (* 2 (window-height)) (frame-height))
+	      (enlarge-window 3))
+	  (other-window 1)
+	  (switch-to-buffer term-name))
+      (other-window 1))))
+
+(add-hook 'c-mode-hook
+	  (lambda ()
+	    (evil-define-key '(normal visual motion) c-mode-map
+	      (kbd "SPC c") 'my-run-c)))
+(add-hook 'c++-mode-hook
+	  (lambda ()
+	    (evil-define-key '(normal visual motion) c++-mode-map
+	      (kbd "SPC c") 'my-run-c)))
 
 
 (provide 'core-c-c++)
