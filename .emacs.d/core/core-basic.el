@@ -173,6 +173,14 @@
 	    (add-hook 'before-save-hook 'delete-trailing-whitespace)))
 
 
+(defun set-no-process-query-on-exit ()
+  "Prevent prompting a confirmation when closing buffer."
+  (let ((proc (get-buffer-process (current-buffer))))
+    (when (processp proc)
+      (set-process-query-on-exit-flag proc nil))))
+
+(add-hook 'term-exec-hook 'set-no-process-query-on-exit)
+
 
 ;; server
 (require 'server)
