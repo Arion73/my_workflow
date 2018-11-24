@@ -70,6 +70,7 @@
 	    (evil-define-key '(normal visual motion) python-mode-map
 	      (kbd "SPC c") (lambda()
 			       (interactive)
+			       (save-buffer)
 			       (run-python)
 			       (python-shell-send-buffer t)
 			       (if (not (get-buffer-window "*Python*" 'visible))
@@ -78,9 +79,11 @@
 				     (if (<= (* 2 (window-height)) (frame-height))
 					 (enlarge-window 3))
 				     (other-window 1)
-				     (switch-to-buffer "*Python*"))))
-	      (kbd "C-c C-c") (lambda()
+				     (switch-to-buffer "*Python*"))
+				 (other-window 1)))
+	      (kbd "SPC C") (lambda()
 				(interactive)
+				(save-buffer)
 				(elpy-shell-send-region-or-buffer t)
 				(if (not (get-buffer-window "*Python*" 'visible))
 				    (progn
@@ -88,7 +91,8 @@
 				      (if (<= (* 2 (window-height)) (frame-height))
 					  (enlarge-window 3))
 				      (other-window 1)
-				      (switch-to-buffer "*Python*")))))
+				      (switch-to-buffer "*Python*"))
+				  (other-window 1))))
 
 	    (which-key-add-key-based-replacements "SPC c" "python-shell-send-buffer")))
 
