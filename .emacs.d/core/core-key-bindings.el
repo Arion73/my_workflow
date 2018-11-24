@@ -97,54 +97,53 @@
 
 (require 'evil)
 ;; global key bindings
-(evil-define-key '(normal visual motion) global-map
+(evil-define-key  '(normal visual motion) global-map
   (kbd "SPC SPC") 'counsel-M-x
   (kbd "SPC TAB") 'switch-to-prev-buffer
-  (kbd "SPC !") 'shell-command
-  (kbd "SPC '") 'shell
-  (kbd "SPC /") 'my-ansi-term
-  (kbd "SPC 0") 'delete-window
-  (kbd "SPC 1") 'delete-other-windows
-  (kbd "SPC 2") 'split-window-below
-  (kbd "SPC 3") 'split-window-right
-  (kbd "SPC bb") 'ivy-switch-buffer
-  (kbd "SPC bd") 'kill-buffer
-  (kbd "SPC bk") 'kill-buffer-and-window
-  (kbd "SPC bo") 'kill-other-buffer-and-window
-  (kbd "SPC bm") 'kill-all-buffers
-  (kbd "SPC bR") 'rename-buffer-and-file
-  (kbd "SPC be") 'eval-buffer
-  (kbd "SPC bv") 'next-buffer-right
-  (kbd "SPC yi") 'yas-insert-snippet
-  (kbd "SPC ff") 'counsel-find-file
-  (kbd "SPC qq") 'save-buffers-kill-emacs
-  (kbd "SPC fs") 'save-buffer
-  (kbd "SPC fr") 'counsel-recentf
-  (kbd "SPC fD") 'delete-current-buffer-and-file
-  (kbd "SPC gs") 'magit-status
-  (kbd "SPC hf") 'describe-function
-  (kbd "SPC hk") 'describe-key
-  (kbd "SPC hv") 'describe-variable
-  (kbd "SPC hm") 'describe-mode
-  (kbd "SPC pa") 'projectile-add-known-project
-  (kbd "SPC ps") 'projectile-switch-project
-  (kbd "SPC pf") 'projectile-find-file
-  (kbd "SPC Ts") 'counsel-load-theme
-  (kbd "SPC wb") 'browse-web
-  (kbd "SPC we") 'eww-browse-with-external-browser
-  (kbd "SPC wn") 'evil-window-next
+  (kbd "SPC !")   'shell-command
+  (kbd "SPC '")   'shell
+  (kbd "SPC /")   'my-ansi-term
+  (kbd "SPC 0")   'delete-window
+  (kbd "SPC 1")   'delete-other-windows
+  (kbd "SPC 2")   'split-window-below
+  (kbd "SPC 3")   'split-window-right
+  (kbd "SPC b")   'ivy-switch-buffer
+  (kbd "SPC d")   'kill-buffer
+  (kbd "SPC D")   'delete-current-buffer-and-file
+  (kbd "SPC f")   'counsel-find-file
+  (kbd "SPC k")   'kill-buffer-and-window
+  (kbd "SPC K")   'kill-other-buffer-and-window
+  (kbd "SPC m")   'kill-all-buffers
+  (kbd "SPC r")   'counsel-recentf
+  (kbd "SPC R")   'rename-buffer-and-file
+  (kbd "SPC s")   'save-buffer
+  (kbd "SPC e")   'eval-buffer
+  (kbd "SPC v")   'next-buffer-right
+  (kbd "SPC i")   'yas-insert-snippet
+  (kbd "SPC Q")   'save-buffers-kill-emacs
+  (kbd "SPC gs")  'magit-status
+  (kbd "SPC hf")  'describe-function
+  (kbd "SPC hk")  'describe-key
+  (kbd "SPC hv")  'describe-variable
+  (kbd "SPC hm")  'describe-mode
+  (kbd "SPC pa")  'projectile-add-known-project
+  (kbd "SPC ps")  'projectile-switch-project
+  (kbd "SPC pf")  'projectile-find-file
+  (kbd "SPC T")   'counsel-load-theme
+  (kbd "SPC wb")  'browse-web
+  (kbd "SPC we")  'eww-browse-with-external-browser
+  (kbd "SPC wn")  'evil-window-next
   )
 
-(which-key-add-key-based-replacements "SPC b" "buffer")
-(which-key-add-key-based-replacements "SPC f" "file")
+(which-key-add-key-based-replacements "SPC /" "ansi-term")
+(which-key-add-key-based-replacements "SPC b" "buffer-list")
 (which-key-add-key-based-replacements "SPC g" "magit")
 (which-key-add-key-based-replacements "SPC h" "help")
 (which-key-add-key-based-replacements "SPC p" "project")
-(which-key-add-key-based-replacements "SPC q" "exit")
+(which-key-add-key-based-replacements "SPC Q" "exit")
 (which-key-add-key-based-replacements "SPC t" "toggle")
-(which-key-add-key-based-replacements "SPC T" "theme")
-(which-key-add-key-based-replacements "SPC w" "window")
-(which-key-add-key-based-replacements "SPC y" "yasnippet")
+(which-key-add-key-based-replacements "SPC T" "load-theme")
+(which-key-add-key-based-replacements "SPC w" "web")
 
 (evil-define-key '(insert) global-map
   (kbd "C-e") 'move-end-of-line
