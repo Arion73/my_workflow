@@ -57,7 +57,7 @@
 
 
 ;; split window right and select next buffer
-(defun next-buffer-right ()
+(defun open-next-buffer-right ()
   "Split window right and select next buffer."
   (interactive)
   (split-window-right)
@@ -95,6 +95,7 @@
       )))
 
 
+
 (require 'evil)
 ;; global key bindings
 (evil-define-key  '(normal visual motion) global-map
@@ -110,17 +111,17 @@
   (kbd "SPC b")   'ivy-switch-buffer
   (kbd "SPC d")   'kill-buffer
   (kbd "SPC D")   'delete-current-buffer-and-file
-  (kbd "SPC f")   'counsel-find-file
   (kbd "SPC k")   'kill-buffer-and-window
   (kbd "SPC K")   'kill-other-buffer-and-window
   (kbd "SPC m")   'kill-all-buffers
   (kbd "SPC r")   'counsel-recentf
   (kbd "SPC R")   'rename-buffer-and-file
-  (kbd "SPC s")   'save-buffer
   (kbd "SPC e")   'eval-buffer
-  (kbd "SPC v")   'next-buffer-right
+  (kbd "SPC v")   'open-next-buffer-right
   (kbd "SPC i")   'yas-insert-snippet
   (kbd "SPC Q")   'save-buffers-kill-emacs
+  (kbd "SPC ff")  'counsel-find-file
+  (kbd "SPC fs")  'save-buffer
   (kbd "SPC gs")  'magit-status
   (kbd "SPC hf")  'describe-function
   (kbd "SPC hk")  'describe-key
@@ -137,6 +138,7 @@
 
 (which-key-add-key-based-replacements "SPC /" "ansi-term")
 (which-key-add-key-based-replacements "SPC b" "buffer-list")
+(which-key-add-key-based-replacements "SPC f" "file")
 (which-key-add-key-based-replacements "SPC g" "magit")
 (which-key-add-key-based-replacements "SPC h" "help")
 (which-key-add-key-based-replacements "SPC p" "project")

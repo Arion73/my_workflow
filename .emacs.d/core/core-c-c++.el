@@ -20,30 +20,26 @@
 
 (defun cpp-generate-makefile ()
   (interactive)
-  (let* ((n-buffer (buffer-file-name))
-         (n-file (file-name-nondirectory n-buffer))
-         (n-target (file-name-sans-extension n-file))
-         (n-makefile (concat
-                       (file-name-directory n-buffer)
-                       "Makefile")))
-    (if (file-exists-p n-makefile)
+  (let* ((buffer-name (buffer-file-name))
+         (file-name (file-name-nondirectory buffer-name))
+         (target-name (file-name-sans-extension file-name))
+         (make-file (concat (file-name-directory buffer-name) "Makefile")))
+    (if (file-exists-p make-file)
         (when (called-interactively-p 'any)
           (message "Makefile already exists"))
-      (with-current-buffer (find-file-noselect n-makefile)
+      (with-current-buffer (find-file-noselect make-file)
         (insert
-         (concat n-target ": " n-file
-                 (format "\n\t%s -o $@ $^"
-                   cpp-generate-compiler)
-                 "\n\nclean: \n\trm -f " n-target
-                 "\n\nrun: " n-target "\n\t ./" n-target
+         (concat target-name ": " file-name
+                 (format "\n\t%s -o $@ $^" cpp-generate-compiler)
+                 "\n\nclean: \n\trm -f " target-name
+                 "\n\nrun: " target-name "\n\t ./" target-name
                  "\n\n.PHONY: clean run\n"))
         (save-buffer)))))
 
 (defun cpp-run ()
   (interactive)
-  (save-buffer)
   (cpp-generate-makefile)
-  (compile "make run"))
+  (compile "make run" t))
 
 (defun c-run ()
   (interactive)
@@ -78,16 +74,19 @@
 	(execution-name (file-name-sans-extension file-name))
 	(base-title "Terminal-C")
 	(term-name "*Terminal-C*"))
-    (set-buffer (make-term base-title explicit-shell-file-name))
-    (term-mode)
-    (term-char-mode)
-    (comint-send-string term-name (concat "gcc -o " execution-name " " file-name "\n"))
+    (if (not (string-match-p (regexp-quote term-name) (format "%s" (buffer-list))))
+	(progn
+	  (set-buffer (make-term base-title explicit-shell-file-name))
+	  (term-mode)
+	  (term-char-mode)))
+    (comint-send-string term-name "clear\n")
+    (comint-send-string term-name (concat "gcc -g -o " execution-name " " file-name "\n"))
     (comint-send-string term-name (concat "./" execution-name "\n"))
     (if (not (get-buffer-window term-name 'visible))
 	(progn
 	  (split-window-below)
-	  (if (<= (* 2 (window-height)) (frame-height))
-	      (enlarge-window 3))
+	 ;; (if (<= (* 2 (window-height)) (frame-height))
+	 ;;     (enlarge-window 3))
 	  (other-window 1)
 	  (switch-to-buffer term-name))
       (other-window 1))))

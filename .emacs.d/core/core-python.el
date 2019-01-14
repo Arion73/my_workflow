@@ -71,13 +71,14 @@
 	      (kbd "SPC c") (lambda()
 			       (interactive)
 			       (save-buffer)
-			       (run-python)
+			       (if (not (string-match-p (regexp-quote "*Python*") (format "%s" (buffer-list))))
+				   (run-python))
 			       (python-shell-send-buffer t)
 			       (if (not (get-buffer-window "*Python*" 'visible))
 				   (progn
 				     (split-window-below)
-				     (if (<= (* 2 (window-height)) (frame-height))
-					 (enlarge-window 3))
+				    ;; (if (<= (* 2 (window-height)) (frame-height))
+				    ;;	 (enlarge-window 3))
 				     (other-window 1)
 				     (switch-to-buffer "*Python*"))
 				 (other-window 1)))
@@ -88,13 +89,14 @@
 				(if (not (get-buffer-window "*Python*" 'visible))
 				    (progn
 				      (split-window-below)
-				      (if (<= (* 2 (window-height)) (frame-height))
-					  (enlarge-window 3))
+				     ;; (if (<= (* 2 (window-height)) (frame-height))
+				     ;;	  (enlarge-window 3))
 				      (other-window 1)
 				      (switch-to-buffer "*Python*"))
 				  (other-window 1))))
 
-	    (which-key-add-key-based-replacements "SPC c" "python-shell-send-buffer")))
+	    (which-key-add-key-based-replacements "SPC c" "python-shell-run")
+	    (which-key-add-key-based-replacements "SPC C" "elpy-shell-run")))
 
 
 ;; py-autopep8

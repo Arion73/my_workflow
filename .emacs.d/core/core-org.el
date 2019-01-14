@@ -128,8 +128,7 @@
 ;; ob-async --- execute org-babel src blocks asynchronously
 (use-package ob-async
   :hook (org-mode-hook)
-  :config
-  (ob-async))
+  :commands (ob-async))
 
 
 (provide 'core-org)

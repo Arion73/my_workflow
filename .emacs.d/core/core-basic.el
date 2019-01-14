@@ -180,6 +180,9 @@
       (set-process-query-on-exit-flag proc nil))))
 
 (add-hook 'term-exec-hook 'set-no-process-query-on-exit)
+(add-hook 'shell-mode-hook 'set-no-process-query-on-exit)
+(add-hook 'compilation-mode-hook 'set-no-process-query-on-exit)
+(add-hook 'inferior-python-mode-hook 'set-no-process-query-on-exit)
 
 
 ;; server

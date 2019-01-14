@@ -63,9 +63,7 @@
 (use-package diff-hl
   :defer t
   :config
-  (add-hook after-init-hook
-	    (lambda ()
-	      (global-diff-hl-mode t))))
+  (global-diff-hl-mode t))
 
 
 ;; pandoc-mode
@@ -131,6 +129,10 @@
   :config
   (if (display-graphic-p)
       (all-the-icons-ivy-setup)))
+
+
+; novel
+(use-package writeroom-mode)
 
 
 (provide 'core-global)
