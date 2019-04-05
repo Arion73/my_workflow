@@ -205,8 +205,9 @@
 		 (propertize (format " %s " (all-the-icons-faicon "check-circle" :v-adjust 0.0))
 			     'face 'success)))
 
-    (`not-checked (propertize (concat " " (all-the-icons-faicon "hourglass-half" :v-adjust 0.1) " Not Checked")
-			      'face '(:height 0.8)))
+    (`not-checked (propertize (concat " " (all-the-icons-faicon "hourglass-half" :v-adjust 0.1) " ")
+			      'face '(:height 0.8)
+			      'help-echo "Not Checked"))
     (`running (propertize (concat " " (all-the-icons-faicon "refresh" :v-adjust 0.0) " ")
 			  'face 'success))
     (`errored (propertize (format " %s %s " (all-the-icons-faicon "times-circle-o" :v-adjust 0.0) "Error")
@@ -215,8 +216,9 @@
 			  'mouse-face '(:box 1)
 			  'local-map (make-mode-line-mouse-map
 				      'mouse-1 (lambda () (interactive) (flycheck-list-errors)))))
-    (`no-checker (propertize (format " %s %s " (all-the-icons-faicon "minus-circle" :height 0.8 :v-adjust 0.1) "No Checker"
-				     'face 'warning)))
+    (`no-checker (propertize (format " %s " (all-the-icons-faicon "minus-circle" :height 0.8 :v-adjust 0.1)
+				     'face 'font-lock-comment-face)
+			     'help-echo "No Checker"))
     (`interrupted (propertize (format " %s %s " (all-the-icons-faicon "ban" :v-adjust 0.0)) "Interrupted"))
     (`suspicious (propertize (concat " " (all-the-icons-faicon "question-circle-o" :v-adjust 0.0) " ")
 			     'face 'warning))))
@@ -306,15 +308,14 @@
 			 (custom-modeline-modified)
 			 ;; buffer size
 			 (propertize " %I " 'face 'my-normal-face)
+			 ;; coding system
+			 (custom-modeline-coding-system)
+			 ;; line number, column number and percent of buffer above bottom of window
+			 (propertize " %02l:%02c | %p%%  " 'face 'my-normal-face)
+
 			 ;; right separator
 			 ;(custom-modeline-right-separator)
-			 )
-		      (list
-		       " "
-		       ;; buffer modified
-		       mode-line-modified
-		       ;; buffer size
-		       " %I "))
+			 ))
 
 		      ;; client
 		      mode-line-client
@@ -354,7 +355,9 @@
 			  (propertize (concat " " vc-mode " "))))
 
 		      ;; package needed to upgrade
-		      (custom-modeline-package-updates)))
+		      (custom-modeline-package-updates)
+
+		      ))
 
 
 		  ;; right
@@ -362,14 +365,11 @@
 		   (list
 		    mode-line-misc-info
 
-		    ;; coding system
-		    (custom-modeline-coding-system)
-
 		    ;; left separator
 		    ;(if (display-graphic-p) (custom-modeline-left-separator))
 
 		    ;; line number, column number and percent of buffer above bottom of window
-		    (propertize " %02l:%02c | %p%%  " 'face 'my-normal-face)
+		    ;;(propertize " %02l:%02c | %p%%  " 'face 'my-normal-face)
 
 		    ;; right separator
 		    ;(if (display-graphic-p) (custom-modeline-right-separator))
