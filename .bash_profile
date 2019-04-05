@@ -6,6 +6,9 @@ export CLICOLOR=1
 # set mysql
 PATH=$PATH:/usr/local/mysql/bin
 
+# Homebrew git path
+export PATH="/usr/local/bin:$PATH"
+
 # set python virtualenv
 # avoid installing packages into the system python env if not activate virtualenv
 export PIP_REQUIRE_VIRTUALENV=true
@@ -18,15 +21,14 @@ source /usr/local/bin/virtualenvwrapper.sh
 
 # set Emacs Flyspell Lang
 export LANG=en_US.UTF-8
-
 ## startup emacs server
-alias em='emacs --daemon'
-## startup spacemacs
-alias spacemacs='emacs -q -l ~/.spacemacs.d/init.el'
-## startup spacemacs server
-alias sm='emacs --daemon -q -l ~/.spacemacs.d/init.el'
+alias emacs='emacs --daemon'
 ## startup emacs or spacemacs client
-alias cm='emacsclient -c '' "$@"'
+alias emacsclient='emacsclient -c '' "$@"'
+## startup spacemacs
+# alias spacemacs='emacs -q -l ~/.spacemacs.d/init.el'
+## startup spacemacs server
+# alias sm='emacs --daemon -q -l ~/.spacemacs.d/init.el'
 
 ## pyenv
 export PYENV_ROOT="$HOME/.pyenv"
