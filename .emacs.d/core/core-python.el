@@ -20,7 +20,6 @@
     ;; highlight-indentation is a dependency package.
     ;; I do not like displaying highlight-indentation as default
     ;(add-hook 'elpy-mode-hook (lambda() (highlight-indentation-mode -1)))
-    (set-face-background 'highlight-indentation-face "#333333")
     ;; delete flymake, instead, here I use flycheck
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 
@@ -84,7 +83,10 @@
 	      (kbd "SPC C") (lambda()
 				(interactive)
 				(save-buffer)
-				(elpy-shell-send-region-or-buffer t)
+				(if (elpy-mode)
+				    (elpy-shell-send-region-or-buffer t)
+				  (elpy-mode t)
+				  (elpy-shell-send-region-or-buffer t))
 				(if (not (get-buffer-window "*Python*" 'visible))
 				    (progn
 				      (split-window-below)
