@@ -21,14 +21,6 @@ source /usr/local/bin/virtualenvwrapper.sh
 
 # set Emacs Flyspell Lang
 export LANG=en_US.UTF-8
-## startup emacs server
-alias emacs='emacs --daemon'
-## startup emacs or spacemacs client
-alias emacsclient='emacsclient -c '' "$@"'
-## startup spacemacs
-# alias spacemacs='emacs -q -l ~/.spacemacs.d/init.el'
-## startup spacemacs server
-# alias sm='emacs --daemon -q -l ~/.spacemacs.d/init.el'
 
 ## pyenv
 export PYENV_ROOT="$HOME/.pyenv"
