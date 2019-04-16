@@ -19,7 +19,7 @@
 
 ;; Don't show menu-bar, scroll-bar, tool-bar in GUI Emacs
 (menu-bar-mode 0)
-(scroll-bar-mode 0)
+(scroll-bar-mode 0) ;; emacs 27.0 does not have scroll-bar-mode
 (tool-bar-mode 0)
 
 

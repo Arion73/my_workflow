@@ -365,6 +365,10 @@
 		   (list
 		    mode-line-misc-info
 
+		    ;; virtualenvwrapper
+		    (if (stringp venv-current-name)
+			(propertize (concat "[" venv-current-name "]")))
+
 		    ;; left separator
 		    ;(if (display-graphic-p) (custom-modeline-left-separator))
 

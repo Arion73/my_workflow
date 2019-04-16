@@ -24,14 +24,19 @@
     ;; delete flymake, instead, here I use flycheck
     (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)))
 
+;; pyenv-mode --- used by elpy
+(use-package pyvenv
+  :hook (python-mode-hook)
+  :config
+  (pyvenv-mode t))
+
 ;; Python virtualenv mode:
 (use-package virtualenvwrapper
   :hook (python-mode-hook)
   :config
   (venv-initialize-interactive-shells)
   (venv-initialize-eshell)
-  (setq venv-location
-        (expand-file-name "~/.virtualenvs/")))
+  (setq venv-location "~/.virtualenvs/"))
 
 ;; anaconda-mode
 (use-package anaconda-mode
@@ -43,12 +48,6 @@
 ;; nose --- test runner
 (use-package nose
   :hook (python-mode-hook))
-
-;; pyenv-mode
-(use-package pyvenv
-  :hook (python-mode-hook)
-  :config
-  (pyvenv-mode t))
 
 (add-hook 'python-mode-hook
 	  (lambda()
@@ -96,7 +95,10 @@
 				  (other-window 1))))
 
 	    (which-key-add-key-based-replacements "SPC c" "python-shell-run")
-	    (which-key-add-key-based-replacements "SPC C" "elpy-shell-run")))
+	    (which-key-add-key-based-replacements "SPC C" "elpy-shell-run"))
+
+	  ;; activate vortualenv when stratup python-mode
+	  (venv-workon "python3.7"))
 
 
 ;; py-autopep8
