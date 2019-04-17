@@ -143,10 +143,13 @@
 	    ;; set terminal emacs clipboard
 	    (setq select-enable-clipboard t)
 
+
 	    ;; set shell name
-	    (setq explicit-shell-file-name "/bin/bash")))
+	    (setq explicit-shell-file-name "/bin/bash")
+	    ))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; better whitespace mode setting
 (defun better-whitespace ()
@@ -175,6 +178,7 @@
 	    ;; delete trailing whitespace
 	    (add-hook 'before-save-hook 'delete-trailing-whitespace)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun set-no-process-query-on-exit ()
   "Prevent prompting a confirmation when closing buffer."
@@ -187,6 +191,7 @@
 (add-hook 'compilation-mode-hook 'set-no-process-query-on-exit)
 (add-hook 'inferior-python-mode-hook 'set-no-process-query-on-exit)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; autosave buffer settings
 (add-hook 'after-init-hook
@@ -207,7 +212,33 @@
 	    (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
 	    ))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; close emacs gui window without kill emacs server
+(defadvice handle-delete-frame (around my-handle-delete-frame-advice activate)
+  "Hide Emacs instead of closing the last frame."
+  (switch-to-buffer "*scratch*")
+  (save-some-buffers t)
+  (let ((frame   (posn-window (event-start event)))
+        (numfrs  (length (frame-list))))
+    (if (> numfrs 1)
+      ad-do-it
+      (do-applescript "tell application \"System Events\" to tell process \"Emacs\" to set visible to false"))))
+
+(defun hide-emacs()
+  "Hide Emacs."
+  (interactive)
+  (switch-to-buffer "*scratch*")
+  (save-some-buffers t)
+  (condition-case nil (delete-frame)
+    (error
+     (do-applescript "tell application \"System Events\" to tell process \"Emacs\" to set visible to false")))
+  )
+
+;; 开机启动后自动隐藏emacs
+(add-hook 'after-init-hook 'hide-emacs)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (provide 'core-basic)
 ;;; core-basic.el ends here
