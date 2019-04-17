@@ -17,6 +17,14 @@
 	    (setq org-startup-indented t
 		  org-adapt-indentation t)
 
+	    ;; 中文换行
+	    (setq truncate-lines nil)
+
+	    ;; Clocking work time
+	    (setq org-clock-persist 'history)
+	    (org-clock-persistence-insinuate)
+
+
 	    ;; set underscore as _, subscript as _{}.
 	    (setq org-export-with-sub-superscripts (quote {}))
 
