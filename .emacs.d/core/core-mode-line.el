@@ -315,7 +315,12 @@
 
 			 ;; right separator
 			 ;(custom-modeline-right-separator)
-			 ))
+			 )
+		      (list
+		       ;; buffer state
+		       (propertize " %*" 'face 'my-normal-face)
+		       ;; buffer size
+		       (propertize " %I " 'face 'my-normal-face)))
 
 		      ;; client
 		      mode-line-client
@@ -366,8 +371,9 @@
 		    mode-line-misc-info
 
 		    ;; virtualenvwrapper
-		    (if (stringp venv-current-name)
-			(propertize (concat "[" venv-current-name "]")))
+		    (when (eq major-mode 'python-mode)
+		      (if (stringp venv-current-name)
+			  (propertize (format " %s " venv-current-name))))
 
 		    ;; left separator
 		    ;(if (display-graphic-p) (custom-modeline-left-separator))
