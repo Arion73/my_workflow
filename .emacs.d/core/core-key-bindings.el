@@ -127,6 +127,8 @@
   (kbd "SPC hk")  'describe-key
   (kbd "SPC hv")  'describe-variable
   (kbd "SPC hm")  'describe-mode
+  (kbd "SPC n")   'previous-buffer
+  (kbd "SPC N")   'next-buffer
   (kbd "SPC pa")  'projectile-add-known-project
   (kbd "SPC ps")  'projectile-switch-project
   (kbd "SPC pf")  'projectile-find-file
