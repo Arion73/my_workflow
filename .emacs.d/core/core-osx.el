@@ -32,14 +32,6 @@
   (osx-clipboard-mode t))
 
 
-;; ensure environment variables inside Emacs look the same in the shell
-(use-package exec-path-from-shell
-  :if (eq system-type 'darwin)
-  :defer t
-  :config
-  (exec-path-from-shell-initialize))
-
-
 
 (provide 'core-osx)
 ;;; core-osx.el ends here
