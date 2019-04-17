@@ -119,6 +119,7 @@
   (kbd "SPC e")   'eval-buffer
   (kbd "SPC v")   'open-next-buffer-right
   (kbd "SPC i")   'yas-insert-snippet
+  (kbd "SPC q")   'hide-emacs  ;; hide-emacs defined in core-basic.el
   (kbd "SPC Q")   'save-buffers-kill-emacs
   (kbd "SPC ff")  'counsel-find-file
   (kbd "SPC fs")  'save-buffer
@@ -144,17 +145,18 @@
 (which-key-add-key-based-replacements "SPC g" "magit")
 (which-key-add-key-based-replacements "SPC h" "help")
 (which-key-add-key-based-replacements "SPC p" "project")
+(which-key-add-key-based-replacements "SPC q" "hide-emacs")
 (which-key-add-key-based-replacements "SPC Q" "exit")
 (which-key-add-key-based-replacements "SPC t" "toggle")
 (which-key-add-key-based-replacements "SPC T" "load-theme")
 (which-key-add-key-based-replacements "SPC w" "web")
+(which-key-add-key-based-replacements "C-c !" "flycheck")
+(which-key-add-key-based-replacements "C-c &" "yasnippet")
 
 (evil-define-key '(insert) global-map
   (kbd "C-e") 'move-end-of-line
   (kbd "C-a") 'move-beginning-of-line)
 
-(which-key-add-key-based-replacements "C-c !" "flycheck")
-(which-key-add-key-based-replacements "C-c &" "yasnippet")
 
 
 (provide 'core-key-bindings)
