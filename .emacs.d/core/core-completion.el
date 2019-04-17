@@ -91,7 +91,6 @@
 
 ;; yasnippet
 (use-package yasnippet
-  :defer t
   :hook (after-init-hook)
   :diminish ""
   :config
@@ -99,7 +98,7 @@
 	    '("~/.emacs.d/private/snippets/"      ;; personal snippets
 	      "~/.emacs.d/elpa/yasnippet-snippets-20181107.2203/snippets/"))
     (define-key yas-minor-mode-map (kbd "TAB") nil)
-    (yas-global-mode 1))
+    (yas-global-mode t))
 
 ;; yasnippet-snippets
 (use-package yasnippet-snippets
