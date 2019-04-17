@@ -12,6 +12,10 @@
 ;;; Code:
 
 
+;; server
+(require 'server)
+(unless (server-running-p) (server-start))
+
 ;; Don't display startup messages
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
@@ -19,7 +23,8 @@
 
 ;; Don't show menu-bar, scroll-bar, tool-bar in GUI Emacs
 (menu-bar-mode 0)
-(scroll-bar-mode 0) ;; emacs 27.0 does not have scroll-bar-mode
+;; emacs 27.0 does not have scroll-bar-mode
+(scroll-bar-mode 0)
 (tool-bar-mode 0)
 
 
@@ -28,7 +33,6 @@
 
 	    ;; forbid warning sound when scroll out screen
 	    (setq ring-bell-function 'ignore)
-
 
 	    ;; set mouse scroll in terminal
 	    (unless window-system
@@ -161,7 +165,6 @@
         (message "whitespace-mode-small-on")))
   (whitespace-mode 1))
 
-
 (add-hook 'after-init-hook
 	  (lambda ()
 	    ;; show trailing whitespace by whitespace mode
@@ -185,9 +188,24 @@
 (add-hook 'inferior-python-mode-hook 'set-no-process-query-on-exit)
 
 
-;; server
-(require 'server)
-(unless (server-running-p) (server-start))
+;; autosave buffer settings
+(add-hook 'after-init-hook
+	  (lambda ()
+	    (auto-save-visited-mode t)
+	    (setq-default auto-save-visited-interval 15)
+
+	    (defadvice switch-to-buffer (before save-buffer-now activate)
+	      "Save buffer when switch to other buffer."
+	      (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
+
+	    (defadvice other-window (before other-window-now activate)
+	      "Save buffer when switch to other window."
+	      (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
+
+	    ;; save buffer on frame focus loss.
+	    ;(add-hook 'focus-out-hook 'save-buffer)
+	    (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
+	    ))
 
 
 
