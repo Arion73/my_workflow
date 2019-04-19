@@ -132,6 +132,8 @@
 
 
 	    ;; flyspell mode
+	    (setq ispell-local-dictionary "en")
+	    (setq ispell-dictionary "en")
 	    (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 	    (add-hook 'text-mode-hook 'flyspell-prog-mode)
 
@@ -207,20 +209,24 @@
 ;; autosave buffer settings
 (add-hook 'after-init-hook
 	  (lambda ()
+	    (setq-default auto-save-visited-interval 30)
 	    (auto-save-visited-mode t)
-	    (setq-default auto-save-visited-interval 15)
+
+	    ;; save buffer when switch to other buffer or other window, however
+	    ;; this behavior would cause SPACE before next word easily deleted
+	    ;; after buffer saved.
 
 	    (defadvice switch-to-buffer (before save-buffer-now activate)
 	      "Save buffer when switch to other buffer."
 	      (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
 
-	    (defadvice other-window (before other-window-now activate)
-	      "Save buffer when switch to other window."
-	      (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
+	    ;(defadvice other-window (before other-window-now activate)
+	    ;  "Save buffer when switch to other window."
+	    ;  (when (and buffer-file-name (buffer-modified-p)) (save-buffer)))
 
 	    ;; save buffer on frame focus loss.
-	    ;(add-hook 'focus-out-hook 'save-buffer)
-	    (add-hook 'focus-out-hook (lambda () (save-some-buffers t)))
+	    ;(add-hook 'focus-out-hook 'save-buffer) ; save current buffer
+	    ;(add-hook 'focus-out-hook (lambda () (save-some-buffers t))) ; save all buffers
 	    ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
