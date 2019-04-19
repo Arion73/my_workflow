@@ -29,6 +29,16 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
+## Go env
+export GOROOT=/usr/local/Cellar/go/1.12.4/libexec
+export GOPATH=$HOME/documents/myproject/GO
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
+## Java path
+export JAVA_HOME=$(/usr/libexec/java_home)
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+
 
 cd $PROJECT
 workon python3.7
