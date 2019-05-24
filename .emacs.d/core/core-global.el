@@ -14,7 +14,6 @@
 
 ;; rainbow-delimiters
 (use-package rainbow-delimiters
-  :defer t
   :diminish ""
   :config
   (custom-set-faces
@@ -28,7 +27,8 @@
    '(rainbow-delimiters-depth-8-face ((t (:foreground "brown"))))
    '(rainbow-delimiters-unmatched-face ((t (:background "maroon")))))
   (set-face-attribute 'rainbow-delimiters-unmatched-face nil :strike-through t)
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+  (rainbow-delimiters-mode t))
 
 
 ;; highlight-parentheses
@@ -47,16 +47,16 @@
 (use-package flycheck
   :defer t
   :config
+  ;; fix problem of go vet error
+  (let ((govet (flycheck-checker-get 'go-vet 'command)))
+    (when (equal (cadr govet) "tool")
+      (setf (cdr govet) (cddr govet))))
+
   (global-flycheck-mode t))
 
 (evil-define-key '(normal visual motion) global-map
   (kbd "SPC fl") 'flycheck-list-errors)
 
-;; add mypy for python type hint checking to flycheck
-(add-to-list 'load-path (concat my-emacs-directory "private/emacs-flycheck-mypy-master/"))
-(require 'flycheck-mypy)
-(flycheck-add-next-checker 'python-flake8 'python-mypy)
-(add-hook 'python-mode-hook 'flycheck-mode)
 
 ;; magit
 (use-package magit
@@ -64,9 +64,9 @@
   :config
   (setq magit-refresh-status-buffer nil))
 
+
 ;; highlight version changes on the fringe.
 (use-package diff-hl
-  :defer t
   :config
   (global-diff-hl-mode t))
 
@@ -93,6 +93,7 @@
   ;(setq dired-sidebar-theme 'vscode)
   (setq dired-sidebar-use-term-integration t)
   (setq dired-sidebar-use-custom-font t))
+
 
 ;; ibuffer-sidebar
 (use-package ibuffer-sidebar
@@ -138,6 +139,16 @@
 
 ; novel
 (use-package writeroom-mode)
+
+
+;; realgud --- debugger
+(use-package realgud
+  :defer t
+  :config
+  ;; for python pdb
+  (setq realgud:pdb-command-name "python -m pdb")
+  )
+
 
 
 (provide 'core-global)

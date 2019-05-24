@@ -13,7 +13,6 @@
 
 ;; markdown-mode
 (use-package markdown-mode
-  :ensure t
   :commands (markdown-mode gfm-mode markdown-live-preview-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
@@ -23,7 +22,6 @@
 
 ;; markdown preview
 (use-package markdown-preview-mode
-  :ensure t
   :hook (markdown-mode-hook))
 
 

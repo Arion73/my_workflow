@@ -56,7 +56,7 @@
           (message "Removed %s from %s" (symbol-name fun) (symbol-name hook)))
       (add-hook hook fun nil 'buffer-local)
       (message "Added %s to %s" (symbol-name fun) (symbol-name hook)))))
- 
+
 (defun org-theme ()
   "Select css file."
   (interactive)
@@ -64,7 +64,7 @@
          (css-choices (directory-files cssdir nil ".css$"))
          (css (completing-read "theme: " css-choices nil t)))
     (concat cssdir css)))
- 
+
 (defun set-org-html-style (&optional backend)
   "Insert css into html if backend is html.
 BACKEND: html."

@@ -31,7 +31,7 @@ fi
 
 ## Go env
 export GOROOT=/usr/local/Cellar/go/1.12.4/libexec
-export GOPATH=$HOME/documents/myproject/GO
+export GOPATH=$HOME/documents/myproject/go
 export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 ## Java path

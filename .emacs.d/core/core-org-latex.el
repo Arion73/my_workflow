@@ -13,7 +13,6 @@
 
 ;; org2ctex --- for Chinese
 (use-package org2ctex
-  :ensure t
   :hook (org-mode-hook)
   :defer t
   :config

@@ -15,6 +15,24 @@
 (add-to-list 'load-path (concat my-emacs-directory "private/disaster-master/"))
 (require 'disaster)
 
+
+;; google-c-style
+;(use-package google-c-style
+;  :defer t
+;  :hook (c-mode-hook)
+;  :commands
+;  (google-set-c-style)
+;  (add-hook 'c-mode-common-hook 'google-set-c-style)
+;  (add-hook 'c-mode-common-hook 'google-make-newline-indent)
+;  )
+
+(add-to-list 'load-path (concat my-emacs-directory "private/"))
+(require 'google-c-style)
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+(add-hook 'c-mode-common-hook 'google-make-newline-indent)
+
+
+
 ;; functions of runing c/c++ program and  key bindings
 (defvar cpp-generate-compiler "g++ -g -O2 -std=c++0x")
 

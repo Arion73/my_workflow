@@ -132,8 +132,10 @@
 
 
 	    ;; flyspell mode
-	    (setq ispell-local-dictionary "en")
-	    (setq ispell-dictionary "en")
+	    (eval-after-load "ispell"
+	      (progn
+		(setq ispell-dictionary "american"
+		      ispell-silently-savep t)))
 	    (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 	    (add-hook 'text-mode-hook 'flyspell-prog-mode)
 
@@ -156,8 +158,10 @@
 ;; ensure environment variables inside Emacs look the same in the shell
 (use-package exec-path-from-shell
   :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
+  (add-hook 'after-init-hook
+	    (lambda()
+	      (when (memq window-system '(mac ns x))
+		(exec-path-from-shell-initialize)))))
 
 ;; Another method is to specify emacs_bash_profile.sh as the emacs shell env and
 ;; call it in ~/.bashrc

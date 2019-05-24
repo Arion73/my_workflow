@@ -29,7 +29,7 @@
   :defer t
   :diminish ""
   :config
-  (osx-clipboard-mode t))
+  (osx-clipboard-mode +1))
 
 
 

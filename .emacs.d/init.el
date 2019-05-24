@@ -18,7 +18,7 @@
 
 ;; Make startup faster by redcing the frequency of garbage collection.
 ;; The default is 800000 bytes.
-(setq gc-cons-threshold 30000000)
+(setq gc-cons-threshold 50000000)
 ;; Make gc pauses faster by setting back to the default value.
 (add-hook 'after-init-hook #'(lambda()
 			       (setq gc-cons-threshold 800000)))
@@ -40,16 +40,18 @@
 (when (memq window-system '(mac ns))
   (require 'core-osx))           ;; MacOSX specific configurations
 
-(require 'core-python)           ;; python layer
-(require 'core-c-c++)            ;; C/C++ layer
-(require 'core-html)             ;; HTML layer
-
 (require 'core-org)              ;; org layer
 (require 'core-org-html)         ;; org layer
 (require 'core-org-latex)        ;; org layer
 (require 'core-markdown)         ;; markdown layer
 (require 'core-latex)            ;; latex layer
 (require 'core-pdf)              ;; pdf layer
+
+(require 'core-python)           ;; python layer
+(require 'core-go)               ;; go layer
+(require 'core-java)             ;; java layer
+(require 'core-c-c++)            ;; C/C++ layer
+(require 'core-html)             ;; HTML layer
 
 (require 'core-key-bindings)     ;; key-bindings
 (require 'core-mode-line)        ;; mode-line
@@ -80,7 +82,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#1c1f24" "#484854"))
  '(package-selected-packages
    (quote
-    (magit all-the-icons-ivy all-the-icons-dired all-the-icons ibuffer-sidebar dired-sidebar company-quickhelp impatient-mode company-math org2ctex ob-async htmlize h2o all-the-icon evil-lion highlight-parentheses diff-hl esup exec-path-from-shell pandoc-mode company-auctex auctex-latexmk ob-ipython org-projectile org-download org-present org-bullets markdown-preview-mode markdown-mode nose anaconda-mode virtualenvwrapper key-chord general window-numbering company-statistics rainbow-delimiters which-key smex counsel osx-clipboard evil-matchit evil-indent-textobject evil-surround evil-leader evil yasnippet-snippets use-package py-autopep8 flycheck elpy)))
+    (google-c-style lv python-django flycheck-golangci-lint lsp-java lsp-ui company-lsp lsp-mode realgud autodisass-java-bytecode meghanada go-eldoc go-mode web-mode writeroom-mode magit all-the-icons-ivy all-the-icons-dired all-the-icons ibuffer-sidebar dired-sidebar company-quickhelp impatient-mode company-math org2ctex ob-async htmlize h2o all-the-icon evil-lion highlight-parentheses diff-hl esup exec-path-from-shell pandoc-mode company-auctex auctex-latexmk ob-ipython org-projectile org-download org-present org-bullets markdown-preview-mode markdown-mode nose anaconda-mode virtualenvwrapper key-chord general window-numbering company-statistics rainbow-delimiters which-key smex counsel osx-clipboard evil-matchit evil-indent-textobject evil-surround evil-leader evil yasnippet-snippets use-package py-autopep8 flycheck elpy)))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
  '(shell-pop-full-span t)
  '(shell-pop-shell-type

@@ -91,18 +91,18 @@
 
 ;; yasnippet
 (use-package yasnippet
-  :hook (after-init-hook)
   :diminish ""
   :config
-    (setq yas-snippet-dirs
-	    '("~/.emacs.d/private/snippets/"      ;; personal snippets
-	      "~/.emacs.d/elpa/yasnippet-snippets-20181107.2203/snippets/"))
-    (define-key yas-minor-mode-map (kbd "TAB") nil)
-    (yas-global-mode t))
+  (setq yas-snippet-dirs
+	'("~/.emacs.d/private/snippets/"      ;; personal snippets
+	  ;; yasnippet-go
+	  "~/.emacs.d/private/yasnippet-go-master/"
+	  "~/.emacs.d/elpa/yasnippet-snippets-20190422.1416/snippets/"))
+  (define-key yas-minor-mode-map (kbd "TAB") nil)
+  (yas-global-mode t))
 
 ;; yasnippet-snippets
 (use-package yasnippet-snippets
-  :defer t
   :after (yasnippet))
 
 
