@@ -48,6 +48,13 @@
 (use-package nose
   :hook (python-mode-hook))
 
+;; goto-definition
+(defun goto-def-or-rgrep ()
+  "Go to definition of thing at point or do an rgrep in project if that fails."
+  (interactive)
+  (condition-case nil (elpy-goto-definition-other-window)
+    (error (elpy-rgrep-symbol (thing-at-point 'symbol)))))
+
 (add-hook 'python-mode-hook
 	  (lambda()
 	    ;; indent-tabs
@@ -96,6 +103,15 @@
 				      (switch-to-buffer "*Python*"))
 				  (other-window 1))))
 
+	    (evil-define-key '(normal visual motion) python-mode-map
+	      (kbd "gd") (lambda ()
+			   (interactive)
+			   (if (elpy-mode)
+			       (goto-def-or-rgrep)
+			     (elpy-mode t)
+			     (goto-def-or-rgrep))))
+
+	    (which-key-add-key-based-replacements "gd" "goto-definition")
 	    (which-key-add-key-based-replacements "SPC c" "python-shell-run")
 	    (which-key-add-key-based-replacements "SPC C" "elpy-shell-run"))
 
@@ -108,6 +124,28 @@
   :hook (python-mode-hook)
   :config
   (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
+
+
+;; add mypy for python type hint checking to flycheck.
+;; mypy can do more than flake8
+(add-to-list 'load-path (concat my-emacs-directory "private/emacs-flycheck-mypy-master/"))
+(require 'flycheck-mypy)
+(flycheck-add-next-checker 'python-flake8 'python-mypy)
+(add-hook 'python-mode-hook 'flycheck-mode)
+
+
+;; python-django --- for managing Django projects
+(use-package python-django
+  :defer t)
+
+
+;; django-mode
+(use-package django-mode
+  :defer t
+  :config
+  (yas/load-directory "~/.emacs.d/elpa/django-mode/snippets")
+  (add-to-list 'auto-mode-alist '("\\.djhtml$" . django-html-mode)))
+
 
 
 (provide 'core-python)
