@@ -84,6 +84,7 @@
 			 '((emacs-lisp . t)
 			   (python     . t)
 			   (ipython    . t)
+			   (java       . t)
 			   (C          . t)
 			   (shell      . t)
 			   (org        . t)))
