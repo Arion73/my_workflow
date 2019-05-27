@@ -10,12 +10,17 @@
 
 ;;; Code:
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; kill all buffers
 (defun kill-all-buffers ()
   "Kill all buffers."
   (interactive)
   (dolist (cur (buffer-list))
     (kill-buffer cur)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; delete current buffer and file
 (defun delete-current-buffer-and-file()
@@ -30,6 +35,8 @@
 	(delete-file filename)
 	(kill-buffer buffer)
 	(message "File '%s' successfully removed." filename)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; rename buffer and file
 (defun rename-buffer-and-file (new-name)
@@ -47,6 +54,7 @@
           (set-visited-file-name new-name)
           (set-buffer-modified-p nil))))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; kill other buffer and window
 (defun kill-other-buffer-and-window ()
@@ -55,6 +63,7 @@
   (other-window 1)
   (kill-buffer-and-window))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; split window right and select next buffer
 (defun open-next-buffer-right ()
@@ -64,6 +73,13 @@
   (other-window 1)
   (switch-to-next-buffer))
 
+(defun windows-vertical-to-horizontal ()
+  "Convert windows layout from vertical to horizontal."
+  (interactive)
+  (delete-window)
+  (open-next-buffer-right))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; ansi-term
 (defvar counter 0)
@@ -94,7 +110,7 @@
       ;(rename-buffer new-buf-title)
       )))
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'evil)
 ;; global key bindings
@@ -108,6 +124,7 @@
   (kbd "SPC 1")   'delete-other-windows
   (kbd "SPC 2")   'split-window-below
   (kbd "SPC 3")   'split-window-right
+  (kbd "SPC 4")   'windows-vertical-to-horizontal
   (kbd "SPC b")   'ivy-switch-buffer
   (kbd "SPC d")   'kill-buffer
   (kbd "SPC D")   'delete-current-buffer-and-file

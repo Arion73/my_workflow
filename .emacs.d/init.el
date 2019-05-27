@@ -14,31 +14,49 @@
 ;; MY CONFIGURATIONS
 ;;==========================================================
 
+;; Init time start
+(defvar my-emacs-start-time (current-time))
+
 (let ((file-name-handler-alist nil))
 
 ;; Make startup faster by redcing the frequency of garbage collection.
 ;; The default is 800000 bytes.
 (setq gc-cons-threshold 50000000)
-;; Make gc pauses faster by setting back to the default value.
-(add-hook 'after-init-hook #'(lambda()
-			       (setq gc-cons-threshold 800000)))
 
-;; emacs directory of configurations files
-(defconst my-emacs-directory (concat (getenv "HOME") "/.emacs.d/"))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; OS specific settings --- make experience consistency on different OS.
+;; Set directory of my Emacs configurations files
+(cond ((memq system-type '(darwin))
+       ;; if you are using mac OSX.
+      (message "* Emacs is running on mac OSX. *")
+      (defconst my-emacs-directory (concat (getenv "HOME") "/.emacs.d/")))
+
+      ((memq system-type '(gnu/linux gnu/kfreebsd))
+       ;; if you are using Linx.
+       (message "* Emacs is running on Linux. *")
+       (defconst my-emacs-directory (concat (getenv "HOME") "/.emacs.d/")))
+
+      ((memq system-type '(windows-nt ms-dos))
+       ;; if you are using Windows.
+       (message "* Emacs is running on Windows system. *"))
+
+      (t (message "* Emacs is running on Unknown system. *")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; directory of my core configuration files
 (add-to-list 'load-path (concat my-emacs-directory "core"))
 ;; Note: Keep core-package at the top
 (require 'core-package)          ;; package management layer
 (require 'core-basic)            ;; basic Emacs configurations
+(require 'core-os)               ;; MacOSX specific configurations
+
 (require 'core-evil)             ;; evil layer
 (require 'core-theme)            ;; load theme
 
 (require 'core-completion)       ;; completion layer
 (require 'core-global)           ;; package collections for global mode
 
-(when (memq window-system '(mac ns))
-  (require 'core-osx))           ;; MacOSX specific configurations
 
 (require 'core-org)              ;; org layer
 (require 'core-org-html)         ;; org layer
@@ -59,7 +77,15 @@
 (add-to-list 'load-path (concat my-emacs-directory "private"))
 (require 'private-collections)   ;; private packages
 )  ;; let ends here
-;;
+
+(add-hook 'after-init-hook
+            (lambda ()
+	      (let ((loading-time (float-time (time-subtract (current-time) my-emacs-start-time))))
+		(message "* Emacs initialized in %.2fs with %d packages loaded *" loading-time (length package-activated-list)))
+
+	      ;; Make gc pauses faster by setting back to the default value.
+	      (setq gc-cons-threshold 800000)))
+
 ;;==========================================================
 ;; PACKAGE.EL AUTOMATICALLY PRODUCED CONFIGURATIONS
 ;;==========================================================
@@ -82,7 +108,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#1c1f24" "#484854"))
  '(package-selected-packages
    (quote
-    (google-c-style lv python-django flycheck-golangci-lint lsp-java lsp-ui company-lsp lsp-mode realgud autodisass-java-bytecode meghanada go-eldoc go-mode web-mode writeroom-mode magit all-the-icons-ivy all-the-icons-dired all-the-icons ibuffer-sidebar dired-sidebar company-quickhelp impatient-mode company-math org2ctex ob-async htmlize h2o all-the-icon evil-lion highlight-parentheses diff-hl esup exec-path-from-shell pandoc-mode company-auctex auctex-latexmk ob-ipython org-projectile org-download org-present org-bullets markdown-preview-mode markdown-mode nose anaconda-mode virtualenvwrapper key-chord general window-numbering company-statistics rainbow-delimiters which-key smex counsel osx-clipboard evil-matchit evil-indent-textobject evil-surround evil-leader evil yasnippet-snippets use-package py-autopep8 flycheck elpy)))
+    (google-c-style lv python-django flycheck-golangci-lint lsp-java lsp-ui company-lsp lsp-mode realgud autodisass-java-bytecode meghanada go-eldoc go-mode web-mode magit all-the-icons-ivy all-the-icons-dired all-the-icons ibuffer-sidebar dired-sidebar company-quickhelp impatient-mode company-math org2ctex ob-async htmlize h2o all-the-icon evil-lion highlight-parentheses diff-hl esup exec-path-from-shell pandoc-mode company-auctex auctex-latexmk ob-ipython org-projectile org-download org-present org-bullets markdown-preview-mode markdown-mode nose anaconda-mode virtualenvwrapper key-chord general window-numbering company-statistics rainbow-delimiters which-key smex counsel osx-clipboard evil-matchit evil-indent-textobject evil-surround evil-leader evil yasnippet-snippets use-package py-autopep8 flycheck elpy)))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
  '(shell-pop-full-span t)
  '(shell-pop-shell-type
@@ -121,7 +147,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "red"))))
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "orange"))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "yellow"))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "green"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "gray"))))
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "violet"))))
+ '(rainbow-delimiters-depth-7-face ((t (:foreground "purple"))))
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "brown"))))
+ '(rainbow-delimiters-unmatched-face ((t (:background "maroon")))))
 
 ;;==========================================================
 (provide 'init)

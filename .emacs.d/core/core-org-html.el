@@ -42,7 +42,7 @@
 
 
 ;; my css files
-(defvar org-css-dir "~/.emacs.d/private/org-css/")
+(defvar org-css-dir (concat my-emacs-directory "private/org-css/"))
 
 ;; Select css file for html
 (defun toggle-org-custom-inline-style ()

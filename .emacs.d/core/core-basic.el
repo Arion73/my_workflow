@@ -16,7 +16,7 @@
 (require 'server)
 (unless (server-running-p) (server-start))
 
-;; Don't display startup messages
+;; Remove Emacs default startup messages
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
 
@@ -100,7 +100,7 @@
 
 
 	    ;; set font
-	    (set-frame-font "Source Code Pro-15")
+	    (set-frame-font "Source Code Pro-16")
 
 
 	    ;; set tab behavior
@@ -147,24 +147,7 @@
 	    ;; set terminal emacs clipboard
 	    (setq select-enable-clipboard t)
 
-
-	    ;; set shell name
-	    (setq explicit-shell-file-name "/bin/bash")
 	    ))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; ensure environment variables inside Emacs look the same in the shell
-(use-package exec-path-from-shell
-  :config
-  (add-hook 'after-init-hook
-	    (lambda()
-	      (when (memq window-system '(mac ns x))
-		(exec-path-from-shell-initialize)))))
-
-;; Another method is to specify emacs_bash_profile.sh as the emacs shell env and
-;; call it in ~/.bashrc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -235,7 +218,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; close emacs gui window without kill emacs server
+;; close emacs gui window without killing emacs server using cursor
 (defadvice handle-delete-frame (around my-handle-delete-frame-advice activate)
   "Hide Emacs instead of closing the last frame."
   (switch-to-buffer "*scratch*")
@@ -249,7 +232,7 @@
 (defun hide-emacs()
   "Hide Emacs."
   (interactive)
-  (switch-to-buffer "*scratch*")
+  (switch-to-buffer "*Messages*")
   (save-some-buffers t)
   (condition-case nil (delete-frame)
     (error

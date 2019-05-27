@@ -91,13 +91,15 @@
 
 ;; yasnippet
 (use-package yasnippet
+  :defer t
   :diminish ""
   :config
-  (setq yas-snippet-dirs
-	'("~/.emacs.d/private/snippets/"      ;; personal snippets
-	  ;; yasnippet-go
-	  "~/.emacs.d/private/yasnippet-go-master/"
-	  "~/.emacs.d/elpa/yasnippet-snippets-20190422.1416/snippets/"))
+  (when (memq system-type '(darwin gnu/linux gnu/kfreebsd))
+    (setq yas-snippet-dirs
+	  '("~/.emacs.d/private/snippets/"      ;; personal snippets
+	    ;; yasnippet-go
+	    "~/.emacs.d/private/yasnippet-go-master/"
+	    "~/.emacs.d/elpa/yasnippet-snippets-20190422.1416/snippets/")))
   (define-key yas-minor-mode-map (kbd "TAB") nil)
   (yas-global-mode t))
 

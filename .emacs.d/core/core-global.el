@@ -42,6 +42,7 @@
 ;; view large file
 (use-package vlf :defer t)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; flycheck --- syntax checking
 (use-package flycheck
@@ -57,6 +58,7 @@
 (evil-define-key '(normal visual motion) global-map
   (kbd "SPC fl") 'flycheck-list-errors)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; magit
 (use-package magit
@@ -76,6 +78,7 @@
   :defer t
   :hook (markdown-mode-hook org-mode-hook))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; dired-sidebar
 (use-package dired-sidebar
@@ -114,6 +117,8 @@
 (evil-define-key '(normal visual motion) global-map
   (kbd "SPC tb") 'sidebar-toggle)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package all-the-icons
   :config
   (setq inhibit-compacting-font-caches t))
@@ -136,10 +141,7 @@
   (if (display-graphic-p)
       (all-the-icons-ivy-setup)))
 
-
-; novel
-(use-package writeroom-mode)
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; realgud --- debugger
 (use-package realgud
@@ -149,7 +151,24 @@
   (setq realgud:pdb-command-name "python -m pdb")
   )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; openwith --- open files with external applications
+(use-package openwith
+  :defer t
+  :config
+  (when (require 'openwith nil 'noerror)
+    (setq openwith-associations
+	  (list
+	   (list (openwith-make-extension-regexp
+		  '("mpg" "mpeg"  "mp4"
+		    "avi" "wmv" "wav" "mov" "flv"
+		    "ogm" "ogg" "mkv"))
+		 "mpv"
+		 '(file))
+	   ))
+    (openwith-mode 1)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'core-global)
 ;;; core-global.el ends here

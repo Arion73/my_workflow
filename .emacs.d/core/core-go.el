@@ -12,7 +12,8 @@
 
 
 ;; go-mode --- go major mode
-(use-package go-mode)
+(use-package go-mode
+  :defer t)
 
 
 ;; go-eldoc --- shows type information for variable, functions, and current
@@ -30,17 +31,20 @@
   (setq flycheck-golangci-lint-enable-all t))
 
 
-;; go-errcheck --- invoke errcheck from within Emacs
-(add-to-list 'load-path (concat my-emacs-directory "private/go-errcheck.el-master/"))
-(require 'go-errcheck)
+(add-hook 'after-init-hook
+	  (lambda ()
+	    ;; go-errcheck --- invoke errcheck from within Emacs
+	    (add-to-list 'load-path (concat my-emacs-directory "private/go-errcheck.el-master/"))
+	    (require 'go-errcheck)
 
-
-;; company-go --- completion used with company
-(add-to-list 'load-path (concat my-emacs-directory "private/"))
-(require 'company-go)
-(add-hook 'go-mode-hook (lambda ()
-                          (set (make-local-variable 'company-backends) '(company-go))
-                          (company-mode)))
+	    ;; company-go --- completion used with company
+	    (add-to-list 'load-path (concat my-emacs-directory "private/"))
+	    (require 'company-go)
+	    (add-hook 'go-mode-hook
+		      (lambda ()
+			(set (make-local-variable 'company-backends) '(company-go))
+			(company-mode)))
+	    ))
 
 
 (add-hook 'go-mode-hook 'company-mode)

@@ -10,24 +10,20 @@
 
 ;;; Code:
 
-;; load my own theme path
+;; load my own themes path
 (add-to-list 'custom-theme-load-path (concat my-emacs-directory "private/zelin-theme"))
-
-(setq ns-use-srgb-colorspace nil)
-
-;; load theme for gui and terminal respectivelay
-(if (display-graphic-p)
-    (progn
-      ;; if graphic
-      (load-theme 'zelin-dark-02-gui t))
-  ;; else
-  (load-theme 'zelin-dark-02-terminal t))
+;;; load theme for gui and terminal respectivelay
+;(if (display-graphic-p)
+;    ;; if graphic
+;    (load-theme 'zelin-dark-02-gui t)
+;  ;; else
+;  (load-theme 'zelin-dark-02-terminal t))
 
 
 ;; set background to be transparent
-(global-set-key (kbd "C-c C-t") 'loop-alpha)  ;; short-cut key
+(global-set-key (kbd "C-c C-t") 'transparent-background)  ;; short-cut key
 (setq alpha-list '((85 55) (100 100)))
-(defun loop-alpha ()
+(defun transparent-background ()
   (interactive)
   (let ((h (car alpha-list)))
     ((lambda (a ab)

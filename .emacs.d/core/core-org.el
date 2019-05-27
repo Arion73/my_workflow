@@ -24,6 +24,8 @@
 	    (setq org-clock-persist 'history)
 	    (org-clock-persistence-insinuate)
 
+	    ;; <RET> insert-mode时打开光标所在链接, 但因此无法插入换行
+	    ;;(setq org-return-follows-link t)
 
 	    ;; set underscore as _, subscript as _{}.
 	    (setq org-export-with-sub-superscripts (quote {}))
@@ -124,7 +126,7 @@
   :config
   (progn
     (setq org-projectile-projects-file
-          "/Users/zwwang/Documents/myproject/mynotebook/todo.org")
+          "~/Documents/myproject/mynotebook/main.org")
     (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
     (push (org-projectile-project-todo-entry) org-capture-templates)))
 

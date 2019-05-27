@@ -55,69 +55,6 @@
   (condition-case nil (elpy-goto-definition-other-window)
     (error (elpy-rgrep-symbol (thing-at-point 'symbol)))))
 
-(add-hook 'python-mode-hook
-	  (lambda()
-	    ;; indent-tabs
-	    (setq tab-width 4)
-	    (setq python-indent-guess-indent-offset t
-		  python-indent-guess-indent-offset-verbose nil)
-
-	    ;; set python-shell-interpreter
-	    (setq python-shell-interpreter "python3")
-            ;; https://github.com/gregsexton/ob-ipython/issues/89
-	    (setq python-shell-prompt-detect-failure-warning nil)
-	    ;; https://github.com/gregsexton/ob-ipython/issues/28
-	    (setq python-shell-completion-native-enable nil)
-	    ;; suppress warnings about python-shell-interpreter doesn't seem to support readline
-	    (setq python-shell-completion-native-disabled-interpreters '("python3"))
-
-	    ;; key-bindings
-	    (evil-define-key '(normal visual motion) python-mode-map
-	      (kbd "SPC c") (lambda()
-			       (interactive)
-			       (save-buffer)
-			       (if (not (string-match-p (regexp-quote "*Python*") (format "%s" (buffer-list))))
-				   (run-python))
-			       (python-shell-send-buffer t)
-			       (if (not (get-buffer-window "*Python*" 'visible))
-				   (progn
-				     (split-window-below)
-				    ;; (if (<= (* 2 (window-height)) (frame-height))
-				    ;;	 (enlarge-window 3))
-				     (other-window 1)
-				     (switch-to-buffer "*Python*"))
-				 (other-window 1)))
-	      (kbd "SPC C") (lambda()
-				(interactive)
-				(save-buffer)
-				(if (elpy-mode)
-				    (elpy-shell-send-region-or-buffer t)
-				  (elpy-mode t)
-				  (elpy-shell-send-region-or-buffer t))
-				(if (not (get-buffer-window "*Python*" 'visible))
-				    (progn
-				      (split-window-below)
-				     ;; (if (<= (* 2 (window-height)) (frame-height))
-				     ;;	  (enlarge-window 3))
-				      (other-window 1)
-				      (switch-to-buffer "*Python*"))
-				  (other-window 1))))
-
-	    (evil-define-key '(normal visual motion) python-mode-map
-	      (kbd "gd") (lambda ()
-			   (interactive)
-			   (if (elpy-mode)
-			       (goto-def-or-rgrep)
-			     (elpy-mode t)
-			     (goto-def-or-rgrep))))
-
-	    (which-key-add-key-based-replacements "gd" "goto-definition")
-	    (which-key-add-key-based-replacements "SPC c" "python-shell-run")
-	    (which-key-add-key-based-replacements "SPC C" "elpy-shell-run"))
-
-	  ;; activate vortualenv when stratup python-mode
-	  (venv-workon "python3.7"))
-
 
 ;; py-autopep8
 (use-package py-autopep8
@@ -126,12 +63,78 @@
   (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save))
 
 
-;; add mypy for python type hint checking to flycheck.
-;; mypy can do more than flake8
-(add-to-list 'load-path (concat my-emacs-directory "private/emacs-flycheck-mypy-master/"))
-(require 'flycheck-mypy)
-(flycheck-add-next-checker 'python-flake8 'python-mypy)
-(add-hook 'python-mode-hook 'flycheck-mode)
+(add-hook 'after-init-hook
+	  (lambda ()
+	    ;; add mypy for python type hint checking to flycheck.
+	    ;; mypy can do more than flake8
+	    (add-to-list 'load-path (concat my-emacs-directory "private/emacs-flycheck-mypy-master/"))
+	    (require 'flycheck-mypy)
+	    (flycheck-add-next-checker 'python-flake8 'python-mypy)
+	    (add-hook 'python-mode-hook 'flycheck-mode)
+
+	    (add-hook 'python-mode-hook
+		    (lambda()
+			;; indent-tabs
+			(setq tab-width 4)
+			(setq python-indent-guess-indent-offset t
+			    python-indent-guess-indent-offset-verbose nil)
+
+			;; set python-shell-interpreter
+			(setq python-shell-interpreter "python3")
+			;; https://github.com/gregsexton/ob-ipython/issues/89
+			(setq python-shell-prompt-detect-failure-warning nil)
+			;; https://github.com/gregsexton/ob-ipython/issues/28
+			(setq python-shell-completion-native-enable nil)
+			;; suppress warnings about python-shell-interpreter doesn't seem to support readline
+			(setq python-shell-completion-native-disabled-interpreters '("python3"))
+
+			;; key-bindings
+			(evil-define-key '(normal visual motion) python-mode-map
+			(kbd "SPC c") (lambda()
+					(interactive)
+					(save-buffer)
+					(if (not (string-match-p (regexp-quote "*Python*") (format "%s" (buffer-list))))
+					    (run-python))
+					(python-shell-send-buffer t)
+					(if (not (get-buffer-window "*Python*" 'visible))
+					    (progn
+						(split-window-below)
+						;; (if (<= (* 2 (window-height)) (frame-height))
+						;;	 (enlarge-window 3))
+						(other-window 1)
+						(switch-to-buffer "*Python*"))
+					    (other-window 1)))
+			(kbd "SPC C") (lambda()
+					    (interactive)
+					    (save-buffer)
+					    (if (elpy-mode)
+						(elpy-shell-send-region-or-buffer t)
+					    (elpy-mode t)
+					    (elpy-shell-send-region-or-buffer t))
+					    (if (not (get-buffer-window "*Python*" 'visible))
+						(progn
+						(split-window-below)
+						;; (if (<= (* 2 (window-height)) (frame-height))
+						;;	  (enlarge-window 3))
+						(other-window 1)
+						(switch-to-buffer "*Python*"))
+					    (other-window 1))))
+
+			(evil-define-key '(normal visual motion) python-mode-map
+			(kbd "gd") (lambda ()
+				    (interactive)
+				    (if (elpy-mode)
+					(goto-def-or-rgrep)
+					(elpy-mode t)
+					(goto-def-or-rgrep))))
+
+			(which-key-add-key-based-replacements "gd" "goto-definition")
+			(which-key-add-key-based-replacements "SPC c" "python-shell-run")
+			(which-key-add-key-based-replacements "SPC C" "elpy-shell-run"))
+
+		    ;; activate virtualenv when stratup python-mode
+		    (venv-workon "python3.7"))
+	    ))
 
 
 ;; python-django --- for managing Django projects

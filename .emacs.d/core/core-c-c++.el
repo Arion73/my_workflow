@@ -11,11 +11,6 @@
 ;;; Code:
 
 
-;; diaster
-(add-to-list 'load-path (concat my-emacs-directory "private/disaster-master/"))
-(require 'disaster)
-
-
 ;; google-c-style
 ;(use-package google-c-style
 ;  :defer t
@@ -26,11 +21,17 @@
 ;  (add-hook 'c-mode-common-hook 'google-make-newline-indent)
 ;  )
 
-(add-to-list 'load-path (concat my-emacs-directory "private/"))
-(require 'google-c-style)
-(add-hook 'c-mode-common-hook 'google-set-c-style)
-(add-hook 'c-mode-common-hook 'google-make-newline-indent)
+(add-hook 'after-init-hook
+	  (lambda ()
+	    ;; diaster
+	    (add-to-list 'load-path (concat my-emacs-directory "private/disaster-master/"))
+	    (require 'disaster)
 
+	    ;; google-c-style
+	    (add-to-list 'load-path (concat my-emacs-directory "private/"))
+            (require 'google-c-style)
+            (add-hook 'c-mode-common-hook 'google-set-c-style)
+            (add-hook 'c-mode-common-hook 'google-make-newline-indent)))
 
 
 ;; functions of runing c/c++ program and  key bindings
