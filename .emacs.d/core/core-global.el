@@ -66,12 +66,29 @@
   :config
   (setq magit-refresh-status-buffer nil))
 
-
 ;; highlight version changes on the fringe.
 (use-package diff-hl
   :config
   (global-diff-hl-mode t))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; docker --- Supports docker containers, images, volumes, networks,
+;; docker-machine and docker-compose.
+(use-package docker
+  :defer t
+  :bind ("C-c d" . docker)
+  ;:custom (docker-image-run-arguments '("-i" "-t" "--rm"))
+  )
+
+;; dockerfile --- handling dockerfiles
+(use-package dockerfile-mode
+  :defer t
+  :config
+  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+  (put 'dockerfile-image-name 'safe-local-variable #'stringp))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; pandoc-mode
 (use-package pandoc-mode

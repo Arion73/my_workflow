@@ -33,11 +33,10 @@
 
   ;; ensure environment variables inside Emacs look the same in the shell for OSX
   (use-package exec-path-from-shell
-    :defer t
     :config
-    (setq exec-path-from-shell-check-startup-files nil)
-    (setq exec-path-from-shell-arguments '("-l" ))
-    (exec-path-from-shell-initialize))
+    (add-hook 'after-init-hook
+	      (lambda ()
+		(exec-path-from-shell-initialize))))
   ;; Another method is to specify emacs_bash_profile.sh as the emacs shell env and
   ;; call it in ~/.bashrc
     )
@@ -46,11 +45,8 @@
 
 ;; Linux specific settings
 
-(when (memq system-type '(gnu/linux gnu/kfreebsd))
-  ;; eaf, now only support Linux.
-  (add-to-list 'load-path (concat my-emacs-directory "private/emacs-application-framework-master/"))
-  (require 'eaf)
-  )
+;(when (memq system-type '(gnu/linux gnu/kfreebsd))
+;  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

@@ -147,6 +147,12 @@
 	    ;; set terminal emacs clipboard
 	    (setq select-enable-clipboard t)
 
+
+	    ;; change max number of recent buffers
+	    (setq recentf-max-menu-items 50)
+	    (setq recentf-max-saved-items 50)
+
+
 	    ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -239,8 +245,9 @@
      (do-applescript "tell application \"System Events\" to tell process \"Emacs\" to set visible to false")))
   )
 
-;; 开机启动后自动隐藏emacs
-(add-hook 'after-init-hook 'hide-emacs)
+;; GUI时开机启动后自动隐藏emacs
+(when (display-graphic-p)
+  (add-hook 'after-init-hook 'hide-emacs))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

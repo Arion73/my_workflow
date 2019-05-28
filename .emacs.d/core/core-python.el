@@ -29,13 +29,16 @@
   :config
   (pyvenv-mode t))
 
-;; Python virtualenv mode:
-(use-package virtualenvwrapper
-  :hook (python-mode-hook)
-  :config
-  (venv-initialize-interactive-shells)
-  (venv-initialize-eshell)
-  (setq venv-location "~/.virtualenvs/"))
+;; When I use docker linux container, there is no virtualenv installed.
+(when (memq system-type '(darwin))
+  ;; Python virtualenv mode
+  (use-package virtualenvwrapper
+    :hook (python-mode-hook)
+    :config
+    (venv-initialize-interactive-shells)
+    (venv-initialize-eshell)
+    (setq venv-location "~/.virtualenvs/"))
+  )
 
 ;; anaconda-mode
 (use-package anaconda-mode
@@ -132,8 +135,11 @@
 			(which-key-add-key-based-replacements "SPC c" "python-shell-run")
 			(which-key-add-key-based-replacements "SPC C" "elpy-shell-run"))
 
-		    ;; activate virtualenv when stratup python-mode
-		    (venv-workon "python3.7"))
+		    (when (memq system-type '(darwin))
+		      ;; activate virtualenv when stratup python-mode
+		      (venv-workon "python3.7"))
+
+		    )
 	    ))
 
 
