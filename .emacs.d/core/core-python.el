@@ -68,11 +68,12 @@
 
 (add-hook 'after-init-hook
 	  (lambda ()
-	    ;; add mypy for python type hint checking to flycheck.
-	    ;; mypy can do more than flake8
-	    (add-to-list 'load-path (concat my-emacs-directory "private/emacs-flycheck-mypy-master/"))
-	    (require 'flycheck-mypy)
-	    (flycheck-add-next-checker 'python-flake8 'python-mypy)
+	    ;; ;; add mypy for python type hint checking to flycheck.
+	    ;; ;; mypy can do more than flake8
+	    ;; (add-to-list 'load-path (concat my-emacs-directory "private/emacs-flycheck-mypy-master/"))
+	    ;; (require 'flycheck-mypy)
+	    ;; (flycheck-add-next-checker 'python-flake8 'python-mypy)
+	    ;; (flycheck-add-next-checker 'python-flake8)
 	    (add-hook 'python-mode-hook 'flycheck-mode)
 
 	    (add-hook 'python-mode-hook
