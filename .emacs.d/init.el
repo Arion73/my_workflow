@@ -57,7 +57,6 @@
 (require 'core-completion)       ;; completion layer
 (require 'core-global)           ;; package collections for global mode
 
-
 (require 'core-org)              ;; org layer
 (require 'core-org-html)         ;; org layer
 (require 'core-org-latex)        ;; org layer
@@ -72,7 +71,7 @@
 (require 'core-html)             ;; HTML layer
 
 (require 'core-key-bindings)     ;; key-bindings
-(require 'core-mode-line)        ;; mode-line
+(require 'core-gui)              ;; gui settings
 
 (add-to-list 'load-path (concat my-emacs-directory "private"))
 (require 'private-collections)   ;; private packages
@@ -106,10 +105,13 @@
  '(jdee-db-active-breakpoint-face-colors (cons "#1c1f24" "#51afef"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#1c1f24" "#7bc275"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#1c1f24" "#484854"))
+ '(objed-cursor-color "#ff6c6b")
  '(package-selected-packages
    (quote
-    (google-c-style lv python-django flycheck-golangci-lint lsp-java lsp-ui company-lsp lsp-mode realgud autodisass-java-bytecode meghanada go-eldoc go-mode web-mode magit all-the-icons-ivy all-the-icons-dired all-the-icons ibuffer-sidebar dired-sidebar company-quickhelp impatient-mode company-math org2ctex ob-async htmlize h2o all-the-icon evil-lion highlight-parentheses diff-hl esup exec-path-from-shell pandoc-mode company-auctex auctex-latexmk ob-ipython org-projectile org-download org-present org-bullets markdown-preview-mode markdown-mode nose anaconda-mode virtualenvwrapper key-chord general window-numbering company-statistics rainbow-delimiters which-key smex counsel osx-clipboard evil-matchit evil-indent-textobject evil-surround evil-leader evil yasnippet-snippets use-package py-autopep8 flycheck elpy)))
+    (doom-themes doom-modeline reveal-in-osx-finder reveal-in-finder dockerfile-mode dockerfile docker google-c-style lv python-django flycheck-golangci-lint lsp-java lsp-ui company-lsp lsp-mode realgud autodisass-java-bytecode meghanada go-eldoc go-mode web-mode magit all-the-icons-ivy all-the-icons-dired all-the-icons ibuffer-sidebar dired-sidebar company-quickhelp impatient-mode company-math org2ctex ob-async htmlize h2o all-the-icon evil-lion highlight-parentheses diff-hl esup exec-path-from-shell pandoc-mode company-auctex auctex-latexmk ob-ipython org-projectile org-download org-present org-bullets markdown-preview-mode markdown-mode nose anaconda-mode virtualenvwrapper key-chord general company-statistics rainbow-delimiters which-key smex counsel osx-clipboard evil-matchit evil-indent-textobject evil-surround evil-leader evil yasnippet-snippets use-package py-autopep8 flycheck elpy)))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
+ '(rustic-ansi-faces
+   ["#282c34" "#ff6c6b" "#98be65" "#ECBE7B" "#51afef" "#c678dd" "#46D9FF" "#bbc2cf"])
  '(shell-pop-full-span t)
  '(shell-pop-shell-type
    (quote
