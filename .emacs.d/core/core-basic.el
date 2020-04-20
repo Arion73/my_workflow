@@ -23,9 +23,9 @@
 
 ;; Don't show menu-bar, scroll-bar, tool-bar in GUI Emacs
 (menu-bar-mode 0)
+(tool-bar-mode 0)
 ;; emacs 27.0 does not have scroll-bar-mode
 (scroll-bar-mode 0)
-(tool-bar-mode 0)
 
 
 (add-hook 'after-init-hook
@@ -59,8 +59,8 @@
 				"\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
 				"\\)$"))
 	    (setq desktop-path (list my-emacs-directory))
-	    (desktop-save-mode t)
-	    (desktop-read)
+	    ;; (desktop-save-mode t)
+	    ;; (desktop-read)
 
 
 	    ;; display line numbers
@@ -90,13 +90,13 @@
 
 
 	    ;; forbid cursor blinking
-	    (blink-cursor-mode 0)
+	    ;;(blink-cursor-mode 0)
 
 
 	    ;; ido-mode
-	    (setq ido-enable-fex-matching t)
-	    (setq ido-everywhere t)
-	    (ido-mode 1)
+	    ;;(setq ido-enable-fex-matching t)
+	    ;;(setq ido-everywhere t)
+	    ;;(ido-mode 1)
 
 
 	    ;; set font
@@ -227,29 +227,37 @@
 ;; close emacs gui window without killing emacs server using cursor
 (defadvice handle-delete-frame (around my-handle-delete-frame-advice activate)
   "Hide Emacs instead of closing the last frame."
-  (switch-to-buffer "*scratch*")
   (save-some-buffers t)
+  ;(switch-to-buffer "*scratch*")
   (let ((frame   (posn-window (event-start event)))
         (numfrs  (length (frame-list))))
     (if (> numfrs 1)
       ad-do-it
       (do-applescript "tell application \"System Events\" to tell process \"Emacs\" to set visible to false"))))
 
-(defun hide-emacs()
-  "Hide Emacs."
-  (interactive)
-  (switch-to-buffer "*Messages*")
-  (save-some-buffers t)
-  (condition-case nil (delete-frame)
-    (error
-     (do-applescript "tell application \"System Events\" to tell process \"Emacs\" to set visible to false")))
-  )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; GUI时开机启动后自动隐藏emacs
-(when (display-graphic-p)
-  (add-hook 'after-init-hook 'hide-emacs))
+
+;;(defun hide-emacs()
+  ;;"Hide Emacs."
+  ;;(interactive)
+  ;;(save-some-buffers t)
+  ;;(switch-to-buffer "*scratch*")
+  ;;(condition-case nil (delete-frame)
+    ;;(error
+     ;;(do-applescript "tell application \"System Events\" to tell process \"Emacs\" to set visible to false"))))
+
+;;(when (display-graphic-p)
+;;  (add-hook 'after-init-hook 'hide-emacs))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+
+
 
 (provide 'core-basic)
 ;;; core-basic.el ends here

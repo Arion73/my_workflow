@@ -13,6 +13,7 @@
 ;; evil-mode
 (use-package evil
   :config
+  ;;(setq evil-default-state 'emacs)
   (evil-mode 1))
 
 ;; key-chord

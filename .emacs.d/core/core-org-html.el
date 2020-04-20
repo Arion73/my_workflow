@@ -38,7 +38,9 @@
 	    (evil-define-key '(normal visual motion) org-mode-map
 	      (kbd "SPC toh") 'toggle-org-html-export-on-save)
 	    (evil-define-key '(normal visual motion) org-mode-map
-	      (kbd "SPC oh") 'org-export-and-move-html)))
+	      (kbd "SPC oh") 'org-export-and-move-html)
+	    (evil-define-key '(normal visual motion) org-mode-map
+	      (kbd "SPC ov") 'org-html-export-to-html)))
 
 
 ;; my css files

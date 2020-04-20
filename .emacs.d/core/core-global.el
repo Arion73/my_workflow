@@ -11,6 +11,7 @@
 
 ;;; Code:
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; rainbow-delimiters
 (use-package rainbow-delimiters
@@ -42,7 +43,7 @@
 ;; view large file
 (use-package vlf :defer t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; flycheck --- syntax checking
 (use-package flycheck
@@ -58,7 +59,7 @@
 (evil-define-key '(normal visual motion) global-map
   (kbd "SPC fl") 'flycheck-list-errors)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; magit
 (use-package magit
@@ -71,7 +72,7 @@
   :config
   (global-diff-hl-mode t))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; docker --- Supports docker containers, images, volumes, networks,
 ;; docker-machine and docker-compose.
@@ -88,77 +89,14 @@
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
   (put 'dockerfile-image-name 'safe-local-variable #'stringp))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; pandoc-mode
 (use-package pandoc-mode
   :defer t
   :hook (markdown-mode-hook org-mode-hook))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; dired-sidebar
-(use-package dired-sidebar
-  :defer t
-  :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
-  :commands (dired-sidebar-toggle-sidebar)
-  :init
-  (add-hook 'dired-sidebar-mode-hook
-            (lambda ()
-              (unless (file-remote-p default-directory)
-                (auto-revert-mode))))
-  :config
-  (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
-  (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
-  ;(setq dired-sidebar-theme 'vscode)
-  (setq dired-sidebar-use-term-integration t)
-  (setq dired-sidebar-use-custom-font t))
-
-
-;; ibuffer-sidebar
-(use-package ibuffer-sidebar
-  :defer t
-  :after (dired-sidebar)
-  :commands (ibuffer-sidebar-toggle-sidebar)
-  :config
-  (setq ibuffer-sidebar-use-custom-font t)
-  (setq ibuffer-sidebar-face `(:family "Helvetica" :height 150)))
-
-(defun sidebar-toggle ()
-  "Toggle both `dired-sidebar' and `ibuffer-sidebar'."
-  (interactive)
-  (ibuffer-sidebar-toggle-sidebar))
-
-(evil-define-key '(normal visual motion) global-map
-  (kbd "SPC ts") 'dired-sidebar-toggle-sidebar)
-(evil-define-key '(normal visual motion) global-map
-  (kbd "SPC tb") 'sidebar-toggle)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(use-package all-the-icons
-  :config
-  (setq inhibit-compacting-font-caches t))
-
-(use-package all-the-icons-dired
-  :defer t
-  :config
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
-
-(defun dired-mode-setup ()
-  "Fix font problem for icons of sidebar."
-  (dired-hide-details-mode 1)
-  (local-set-key (kbd "TAB") 'dired-subtree-cycle)
-  (font-lock-mode 0))
-
-(add-hook 'dired-mode-hook 'dired-mode-setup)
-
-(use-package all-the-icons-ivy
-  :config
-  (if (display-graphic-p)
-      (all-the-icons-ivy-setup)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; realgud --- debugger
 (use-package realgud
@@ -168,7 +106,7 @@
   (setq realgud:pdb-command-name "python -m pdb")
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; openwith --- open files with external applications
 (use-package openwith
@@ -186,6 +124,6 @@
 	   ))
     (openwith-mode 1)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'core-global)
 ;;; core-global.el ends here

@@ -39,6 +39,12 @@
 		(exec-path-from-shell-initialize))))
   ;; Another method is to specify emacs_bash_profile.sh as the emacs shell env and
   ;; call it in ~/.bashrc
+
+
+  ;; show file in Finder
+  (use-package reveal-in-osx-finder
+    :defer t
+    :diminish "")
     )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

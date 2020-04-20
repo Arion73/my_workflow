@@ -22,7 +22,7 @@
 (add-hook 'org-mode-hook
 	  (lambda ()
 	    (setq org-latex-logfiles-extensions (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out" "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk" "blg" "brf" "fls" "entoc" "ps" "spl" "bbl" "tex" "org~" "html~" "pdf~")))
-
+	    (setq org-latex-image-default-width "400")
 	    (evil-define-key '(normal visual motion) org-mode-map
 	      (kbd "SPC op") 'org-export-and-move-pdf)
 	    ))

@@ -11,7 +11,7 @@
 ;;; Code:
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; kill all buffers
 (defun kill-all-buffers ()
@@ -20,7 +20,7 @@
   (dolist (cur (buffer-list))
     (kill-buffer cur)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; delete current buffer and file
 (defun delete-current-buffer-and-file()
@@ -36,7 +36,7 @@
 	(kill-buffer buffer)
 	(message "File '%s' successfully removed." filename)))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; rename buffer and file
 (defun rename-buffer-and-file (new-name)
@@ -54,7 +54,7 @@
           (set-visited-file-name new-name)
           (set-buffer-modified-p nil))))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; kill other buffer and window
 (defun kill-other-buffer-and-window ()
@@ -63,7 +63,7 @@
   (other-window 1)
   (kill-buffer-and-window))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; split window right and select next buffer
 (defun open-next-buffer-right ()
@@ -79,7 +79,7 @@
   (delete-window)
   (open-next-buffer-right))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; ansi-term
 (defvar counter 0)
@@ -110,7 +110,7 @@
       ;(rename-buffer new-buf-title)
       )))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'evil)
 ;; global key bindings
@@ -139,6 +139,7 @@
   (kbd "SPC q")   'hide-emacs  ;; hide-emacs defined in core-basic.el
   (kbd "SPC Q")   'save-buffers-kill-emacs
   (kbd "SPC ff")  'counsel-find-file
+  (kbd "SPC fi")  'reveal-in-osx-finder
   (kbd "SPC fs")  'save-buffer
   (kbd "SPC gs")  'magit-status
   (kbd "SPC hf")  'describe-function
@@ -150,10 +151,13 @@
   (kbd "SPC pa")  'projectile-add-known-project
   (kbd "SPC ps")  'projectile-switch-project
   (kbd "SPC pf")  'projectile-find-file
+  (kbd "SPC tt")  'neotree-toggle
   (kbd "SPC T")   'counsel-load-theme
   (kbd "SPC wb")  'browse-web
   (kbd "SPC we")  'eww-browse-with-external-browser
   (kbd "SPC wn")  'evil-window-next
+  (kbd "SPC y")   'counsel-yank-pop
+  (kbd "SPC ;")   'comment-line
   )
 
 (which-key-add-key-based-replacements "SPC /" "ansi-term")
@@ -167,6 +171,7 @@
 (which-key-add-key-based-replacements "SPC t" "toggle")
 (which-key-add-key-based-replacements "SPC T" "load-theme")
 (which-key-add-key-based-replacements "SPC w" "web")
+(which-key-add-key-based-replacements "SPC y" "consel-yank-pop")
 (which-key-add-key-based-replacements "C-c !" "flycheck")
 (which-key-add-key-based-replacements "C-c &" "yasnippet")
 

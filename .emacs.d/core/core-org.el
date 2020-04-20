@@ -13,6 +13,9 @@
 (add-hook 'org-mode-hook 'org-indent-mode)
 (add-hook 'org-mode-hook
 	  (lambda ()
+	    ;; Do not display section number
+	    (setq org-export-with-section-numbers nil)
+
 	    ;; org-indent-mode
 	    (setq org-startup-indented t
 		  org-adapt-indentation t)
@@ -90,6 +93,7 @@
 			   (C          . t)
 			   (shell      . t)
 			   (org        . t)))
+	    (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 	    ))
 
 ;; org-bullets

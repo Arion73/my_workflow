@@ -1,4 +1,4 @@
-;;; core-mode-line.el --- configuration for the mode-line of my emacs.
+;;; core-mode-line.el --- my own configuration for the mode-line.
 
 ;; Author: Z.Wang
 
@@ -18,10 +18,10 @@
 (setq evil-normal-state-cursor   '("#FFC820" box))
 (setq evil-insert-state-cursor   '("#5BE516" bar))
 (setq evil-visual-state-cursor   '("#EEEEEE" box))
-(setq evil-replace-state-cursor  '("#F11712" bar))
+(setq evil-replace-state-cursor  '("#F11712" box))
 (setq evil-operator-state-cursor '("#1019DE" hollow))
 (setq evil-motion-state-cursor   '("#1D9FFF" box))
-(setq evil-emacs-state-cursor    '("#B612B8" box))
+(setq evil-emacs-state-cursor    '("#5BE516" bar))
 
 
 (defface my-normal-face
@@ -55,7 +55,7 @@
   :group 'faces)
 
 (defface my-emacs-face
-  '((t (:foreground "#FFFFFF" :background "#B612B8" )))
+  '((t (:foreground "#F333333" :background "#5BE516" )))
   "evil-emacs color"
   :group 'faces)
 
@@ -216,9 +216,6 @@
 			  'mouse-face '(:box 1)
 			  'local-map (make-mode-line-mouse-map
 				      'mouse-1 (lambda () (interactive) (flycheck-list-errors)))))
-    (`no-checker (propertize (format " %s " (all-the-icons-faicon "minus-circle" :height 0.8 :v-adjust 0.1)
-				     'face 'font-lock-comment-face)
-			     'help-echo "No Checker"))
     (`interrupted (propertize (format " %s %s " (all-the-icons-faicon "ban" :v-adjust 0.0)) "Interrupted"))
     (`suspicious (propertize (concat " " (all-the-icons-faicon "question-circle-o" :v-adjust 0.0) " ")
 			     'face 'warning))))
@@ -320,7 +317,8 @@
 		       ;; buffer state
 		       (propertize " %*" 'face 'my-normal-face)
 		       ;; buffer size
-		       (propertize " %I " 'face 'my-normal-face)))
+		       (propertize " %I " 'face 'my-normal-face))
+		      )
 
 		      ;; client
 		      mode-line-client
